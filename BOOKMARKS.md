@@ -34,9 +34,25 @@
 
 # Frameworks
 
-* [Marten - .NET Transactional Document DB and Event Store on PostgreSQL](https://martendb.io/)
+[Marten](https://martendb.io/)
 
+    .NET Transactional Document DB and Event Store on PostgreSQL
 
+# Scketch Tools
+
+[Systemizer](https://github.com/honzaap/Systemizer)
+
+    A system design tool that allows you to simulate data flow of distributed systems.
+
+[Catalog](https://www.catalog.style/)
+
+    Create living style guides using Markdown or React
+
+[Kroki](https://github.com/yuzutech/kroki)
+    Creates diagrams from textual descriptions!
+
+[Blockdiag](https://github.com/blockdiag)
+    Simple diagram images generator
 
 # More
 
