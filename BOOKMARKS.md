@@ -30,15 +30,20 @@
 * [The Part-Time Parliament - Paxos Consensus (Leslie Lamport)](http://lamport.azurewebsites.net/pubs/lamport-paxos.pdf)
 * [Paxos (Martin Flower)](https://martinfowler.com/articles/patterns-of-distributed-systems/paxos.html)
 * [LMAX (Martin Flower)](https://martinfowler.com/articles/lmax.html)
-* [](https://arkwright.github.io/parallelized-decision-making.html)
-
+* [Parallelized Decision Making (arkwright@github)](https://arkwright.github.io/parallelized-decision-making.html)
+* [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
+  
 # Frameworks
 
 [Marten](https://martendb.io/)
 
     .NET Transactional Document DB and Event Store on PostgreSQL
 
-# Scketch Tools
+# DevOps
+
+[90DaysOfDevOps](https://github.com/MichaelCade/90DaysOfDevOps)
+
+# Sketch Tools
 
 [Systemizer](https://github.com/honzaap/Systemizer)
 
