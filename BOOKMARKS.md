@@ -4,6 +4,10 @@
 
     A scalable, distributed, collaborative, document-graph database, for the realtime web
 
+[Envoy](https://github.com/envoyproxy/envoy)
+
+    Cloud-native high-performance edge/middle/service proxy
+
 # Standards and Conventions
 
 * [12Factors](https://12factor.net/)
@@ -54,10 +58,16 @@
     Create living style guides using Markdown or React
 
 [Kroki](https://github.com/yuzutech/kroki)
+    
     Creates diagrams from textual descriptions!
 
 [Blockdiag](https://github.com/blockdiag)
+    
     Simple diagram images generator
+
+[Mermaid](https://github.com/mermaid-js/mermaid)
+
+    Generation of diagram and flowchart from text in a similar manner as markdown
 
 # More
 
