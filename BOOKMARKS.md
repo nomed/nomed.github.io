@@ -28,6 +28,7 @@
 * [What do you mean by "Event-Driven"? (Martin Flower)](https://martinfowler.com/articles/201701-event-driven.html)
 * [Event sourcing, CQRS, stream processing and Apache Kafka: What’s the connection?](https://www.confluent.io/blog/event-sourcing-cqrs-stream-processing-apache-kafka-whats-connection/)
 * [Event Sourcing (Robert Arkwright)](https://arkwright.github.io/event-sourcing.html)
+* [Cloud Native ( Microsoft )](https://dotnet.microsoft.com/en-us/download/e-book/cloud-native-azure/pdf)
 
 # Distributed Systems
 
