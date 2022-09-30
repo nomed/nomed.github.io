@@ -7,6 +7,10 @@
 [Envoy](https://github.com/envoyproxy/envoy)
 
     Cloud-native high-performance edge/middle/service proxy
+    
+[CockroachDB]([https://github.com/envoyproxy/envoy](https://github.com/cockroachdb/cockroach)
+
+    CockroachDB - the open source, cloud-native distributed SQL database.
 
 # Standards and Conventions
 
