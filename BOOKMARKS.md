@@ -48,6 +48,10 @@
 
     .NET Transactional Document DB and Event Store on PostgreSQL
 
+[workerd](https://github.com/cloudflare/workerd)
+
+    The JavaScript / Wasm runtime that powers Cloudflare Workers
+
 # DevOps
 
 [90DaysOfDevOps](https://github.com/MichaelCade/90DaysOfDevOps)
