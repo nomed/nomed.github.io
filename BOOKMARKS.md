@@ -82,6 +82,18 @@
 
     Generation of diagram and flowchart from text in a similar manner as markdown
 
+# CMS
+
+[Wagtail](https://github.com/wagtail/wagtail)
+    
+    A Django content management system focused on flexibility and user experience
+
+# Rec Engine
+
+[DeepRec by Alibaba](https://github.com/alibaba/DeepRec)
+
+    DeepRec is a recommendation engine based on TensorFlow.
+
 # More
 
 [Dragonfly](https://github.com/dragonflydb/dragonfly)
