@@ -94,6 +94,12 @@
 
     DeepRec is a recommendation engine based on TensorFlow.
 
+# Admin Panel
+
+[Vue vben admin](https://github.com/vbenjs/vue-vben-admin)
+
+    A modern vue admin. It is based on Vue3, vite and TypeScript. It's fast！
+
 # More
 
 [Dragonfly](https://github.com/dragonflydb/dragonfly)
