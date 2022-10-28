@@ -56,6 +56,28 @@
 
     The JavaScript / Wasm runtime that powers Cloudflare Workers
 
+# DB
+
+[Ferretdb]([A truly Open Source MongoDB alternative](https://github.com/FerretDB/FerretDB))
+
+    A truly Open Source MongoDB alternative
+    
+[Dgraph](https://github.com/dgraph-io/dgraph)
+
+    Native GraphQL Database with graph backend
+    
+[Edgedb](https://github.com/edgedb/edgedb)
+
+    A graph-relational database with declarative schema, built-in migration system, and a next-generation query language
+    
+[CockroachDB](https://github.com/cockroachdb/cockroach)
+
+    CockroachDB - the open source, cloud-native distributed SQL database.
+    
+[Cockroach Dockers](https://github.com/dbist/cockroach-docker)
+        
+    miscellaneous cockroach-docker examples
+
 # DevOps
 
 [90DaysOfDevOps](https://github.com/MichaelCade/90DaysOfDevOps)
