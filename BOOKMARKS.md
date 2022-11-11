@@ -56,9 +56,29 @@
 
     The JavaScript / Wasm runtime that powers Cloudflare Workers
 
+# Notifications
+
+[Ntfy](https://github.com/binwiederhier/ntfy)
+
+    Send push notifications to your phone or desktop using PUT/POST
+ 
+[Novu](https://github.com/novuhq/novu)
+
+    The open-source notification infrastructure for developers
+    
+# Webhooks
+
+[Convoy](https://github.com/frain-dev/convoy)
+
+    Open Source Webhooks Proxy; For both incoming & outgoing events
+    
+[Svix](https://github.com/svix/svix-webhooks)
+
+    The enterprise-ready webhooks service 🦀
+
 # DB
 
-[Ferretdb]([A truly Open Source MongoDB alternative](https://github.com/FerretDB/FerretDB))
+[Ferretdb](A truly Open Source MongoDB alternative](https://github.com/FerretDB/FerretDB)
 
     A truly Open Source MongoDB alternative
     
