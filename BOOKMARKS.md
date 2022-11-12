@@ -64,6 +64,11 @@
 
     Your ultimate Go microservices framework for the cloud-native era.
 
+[Eventhorizon](https://github.com/looplab/eventhorizon)
+
+    Event Sourcing for Go!
+
+
 # Notifications
 
 [Ntfy](https://github.com/binwiederhier/ntfy)
