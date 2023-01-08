@@ -193,3 +193,10 @@ Event Driven
 [Svix Webhooks](https://github.com/svix/svix-webhooks)
 
     The enterprise-ready webhooks service 🦀
+
+Maven
+=========================
+
+[Maven plugins for spring boot application developers](https://asyncstream.com/tutorials/maven-plugins-for-spring-boot-application-developers/)
+
+[Maven: The Complete Reference](https://books.sonatype.com/mvnref-book/reference/index.html)
