@@ -82,3 +82,28 @@
 [Zinc](https://github.com/zinclabs/zinc)
     
     ZincSearch. A lightweight alternative to elasticsearch that requires minimal resources, written in Go.
+
+# Documentation
+
+[Sphinx](https://github.com/sphinx-doc/sphinx)
+
+    Sphinx uses reStructuredText as its markup language, and many of its strengths come from the power and straightforwardness of reStructuredText and its parsing and translating suite, the Docutils.
+
+[Mkdocs Material](https://squidfunk.github.io/mkdocs-material/)
+
+    Write your documentation in Markdown and create a professional static site for your Open Source or commercial project in minutes – searchable, customizable, more than 50 languages, for all devices.
+
+[Docusaurus](https://github.com/facebook/docusaurus)
+
+    Easy to maintain open source documentation websites.
+
+[Eventcatalog](https://github.com/boyney123/eventcatalog)
+
+    Discover, Explore and Document your Event Driven Architectures powered by Markdown.
+
+Event Driven
+===================
+
+[Svix Webhooks](https://github.com/svix/svix-webhooks)
+
+    The enterprise-ready webhooks service 🦀
