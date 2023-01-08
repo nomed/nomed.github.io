@@ -7,7 +7,19 @@
 [Envoy](https://github.com/envoyproxy/envoy)
 
     Cloud-native high-performance edge/middle/service proxy
+    
+[CockroachDB](https://github.com/cockroachdb/cockroach)
 
+    CockroachDB - the open source, cloud-native distributed SQL database.
+
+[Nocodb](https://github.com/nocodb/nocodb)
+
+    🔥 🔥 🔥 Open Source Airtable Alternative
+
+[Kratos](https://github.com/go-kratos/kratos)
+
+    Your ultimate Go microservices framework for the cloud-native era.
+    
 # Standards and Conventions
 
 * [12Factors](https://12factor.net/)
@@ -28,6 +40,7 @@
 * [What do you mean by "Event-Driven"? (Martin Flower)](https://martinfowler.com/articles/201701-event-driven.html)
 * [Event sourcing, CQRS, stream processing and Apache Kafka: What’s the connection?](https://www.confluent.io/blog/event-sourcing-cqrs-stream-processing-apache-kafka-whats-connection/)
 * [Event Sourcing (Robert Arkwright)](https://arkwright.github.io/event-sourcing.html)
+* [Cloud Native ( Microsoft )](https://dotnet.microsoft.com/en-us/download/e-book/cloud-native-azure/pdf)
 
 # Distributed Systems
 
@@ -42,6 +55,61 @@
 [Marten](https://martendb.io/)
 
     .NET Transactional Document DB and Event Store on PostgreSQL
+
+[workerd](https://github.com/cloudflare/workerd)
+
+    The JavaScript / Wasm runtime that powers Cloudflare Workers
+
+[Kratos](https://github.com/go-kratos/kratos)
+
+    Your ultimate Go microservices framework for the cloud-native era.
+
+[Eventhorizon](https://github.com/looplab/eventhorizon)
+
+    Event Sourcing for Go!
+
+
+# Notifications
+
+[Ntfy](https://github.com/binwiederhier/ntfy)
+
+    Send push notifications to your phone or desktop using PUT/POST
+ 
+[Novu](https://github.com/novuhq/novu)
+
+    The open-source notification infrastructure for developers
+    
+# Webhooks
+
+[Convoy](https://github.com/frain-dev/convoy)
+
+    Open Source Webhooks Proxy; For both incoming & outgoing events
+    
+[Svix](https://github.com/svix/svix-webhooks)
+
+    The enterprise-ready webhooks service 🦀
+
+# DB
+
+[Ferretdb](A truly Open Source MongoDB alternative](https://github.com/FerretDB/FerretDB)
+
+    A truly Open Source MongoDB alternative
+    
+[Dgraph](https://github.com/dgraph-io/dgraph)
+
+    Native GraphQL Database with graph backend
+    
+[Edgedb](https://github.com/edgedb/edgedb)
+
+    A graph-relational database with declarative schema, built-in migration system, and a next-generation query language
+    
+[CockroachDB](https://github.com/cockroachdb/cockroach)
+
+    CockroachDB - the open source, cloud-native distributed SQL database.
+    
+[Cockroach Dockers](https://github.com/dbist/cockroach-docker)
+        
+    miscellaneous cockroach-docker examples
 
 # DevOps
 
@@ -68,6 +136,24 @@
 [Mermaid](https://github.com/mermaid-js/mermaid)
 
     Generation of diagram and flowchart from text in a similar manner as markdown
+
+# CMS
+
+[Wagtail](https://github.com/wagtail/wagtail)
+    
+    A Django content management system focused on flexibility and user experience
+
+# Rec Engine
+
+[DeepRec by Alibaba](https://github.com/alibaba/DeepRec)
+
+    DeepRec is a recommendation engine based on TensorFlow.
+
+# Admin Panel
+
+[Vue vben admin](https://github.com/vbenjs/vue-vben-admin)
+
+    A modern vue admin. It is based on Vue3, vite and TypeScript. It's fast！
 
 # More
 
