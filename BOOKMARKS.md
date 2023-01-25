@@ -200,3 +200,18 @@ Maven
 [Maven plugins for spring boot application developers](https://asyncstream.com/tutorials/maven-plugins-for-spring-boot-application-developers/)
 
 [Maven: The Complete Reference](https://books.sonatype.com/mvnref-book/reference/index.html)
+
+CI/CD
+==================
+
+[Renovate](https://www.mend.io/free-developer-tools/renovate/)
+
+Workflow Orchestration
+==========================
+
+[Dagster](https://github.com/dagster-io/dagster)
+[Airflow](https://github.com/apache/airflow/)
+[Luigi](https://github.com/spotify/luigi)
+[NiFi](https://github.com/apache/nifi)
+[Kedro](https://github.com/kedro-org/kedro)
+[Oozie](https://github.com/apache/oozie)
