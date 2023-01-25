@@ -209,9 +209,29 @@ CI/CD
 Workflow Orchestration
 ==========================
 
-[Dagster](https://github.com/dagster-io/dagster)
-[Airflow](https://github.com/apache/airflow/)
-[Luigi](https://github.com/spotify/luigi)
-[NiFi](https://github.com/apache/nifi)
-[Kedro](https://github.com/kedro-org/kedro)
-[Oozie](https://github.com/apache/oozie)
+* [Dagster](https://github.com/dagster-io/dagster)
+
+    An orchestration platform for the development, production, and observation of data assets.
+
+* [Airflow](https://github.com/apache/airflow/)
+
+    A platform to programmatically author, schedule, and monitor workflows
+    
+* [Luigi](https://github.com/spotify/luigi)
+
+    Luigi is a Python module that helps you build complex pipelines of batch jobs. 
+    It handles dependency resolution, workflow management, visualization etc. 
+    It also comes with Hadoop support built in.
+
+* [NiFi](https://github.com/apache/nifi)
+
+    An easy to use, powerful, and reliable system to process and distribute data.
+
+* [Kedro](https://github.com/kedro-org/kedro)
+
+    A Python framework for creating reproducible, maintainable and modular data science code.
+
+* [Oozie](https://github.com/apache/oozie)
+
+    Oozie is an extensible, scalable and reliable system to define, manage, schedule, 
+    and execute complex Hadoop workloads via web services
