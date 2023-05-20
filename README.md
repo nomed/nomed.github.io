@@ -204,7 +204,14 @@ Maven
 CI/CD
 ==================
 
-[Renovate](https://www.mend.io/free-developer-tools/renovate/)
+* [Renovate](https://www.mend.io/free-developer-tools/renovate/)
+
+Analytics
+==================
+
+* [Apache Superset](https://github.com/apache/superset/tree/master)
+
+    Data Visualization and Data Exploration Platform
 
 Workflow Orchestration
 ==========================
