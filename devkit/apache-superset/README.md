@@ -1,4 +1,4 @@
-# Apache Superset
+# Apache Superset
 
 Data Visualization and Data Exploration Platform
 
