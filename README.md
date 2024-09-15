@@ -19,7 +19,19 @@
 [Kratos](https://github.com/go-kratos/kratos)
 
     Your ultimate Go microservices framework for the cloud-native era.
-    
+# Rocksdb
+
+* [Rocksdb](https://github.com/facebook/rocksdb)
+* [Rocksdb@Kafka](https://github.com/a0x8o/kafka/blob/master/streams/src/main/java/org/apache/kafka/streams/state/internals/RocksDBStore.java)
+* [JRaft](https://github.com/sofastack/sofa-jraft/tree/master/jraft-core)
+* [MyRocks](https://github.com/facebook/mysql-5.6)
+* [RocksQueue](https://github.com/artiship/rocks-queue-java)
+* [Fossildb](https://github.com/scalableminds/fossildb)
+* [GrpcRocksbd](https://github.com/cioc/grpc-rocksdb)
+* [LogsDb](https://github.com/alirezameskin/logsdb/tree/master)
+* [RocksDBCloud](https://github.com/rockset/rocksdb-cloud)
+* [FoundationDb](https://github.com/apple/foundationdb)
+
 # Standards and Conventions
 
 * [12Factors](https://12factor.net/)
