@@ -112,6 +112,19 @@ This RFC recommends alternative 1 because it supports cross-suite filtering with
 
 Before acceptance, this vocabulary MUST be checked against the active backlogs of MCP, Projects, and Coordination. Ambiguous items MUST remain unmapped rather than receiving guessed values.
 
+### Active-backlog validation
+
+The active public backlogs were reviewed on 2026-08-02. The following is a proposed classification, not an applied Project mutation. It demonstrates that the shared fields and candidate `Area` vocabulary cover the current work without introducing component-specific columns.
+
+| Component | Active issues | Proposed `Work Type` / `Area` coverage |
+| --- | --- | --- |
+| MCP | `yukh-mcp#1`–`#13` | Epic/Gate/Feature across Governance, Security, Architecture, Contracts, Runtime, Provider, Audit, Delivery, Documentation, and Release |
+| Projects | `yukh-projects#2` | Gate / Security for repository hardening and clean-room migration controls |
+| Coordination | `yukh-coordination#1`–`#7` | Epic/Gate/Feature across Protocol, Contracts, Security, Conformance, Runtime, and Integration |
+| Shared | `nomed.github.io#3` | Gate / Governance for the suite topology decision |
+
+No active public issue requires an additional candidate `Area`. Exact per-item assignments remain reviewable bootstrap input and MUST NOT be inferred from this summary during an apply.
+
 ### Schema ownership
 
 No individual consumer repository may unilaterally expand a suite-wide field. A schema change requires:
@@ -136,6 +149,19 @@ Before creating an authoritative coordinator, evaluate whether the desired use c
 - explicit human or repository governance for acceptance.
 
 A separate coordinator is justified only if a concrete requirement needs authority not owned by those components. Any such proposal requires its own RFC and threat model covering identity, authorization, credential custody, delegation, replay, confused-deputy risk, persistence, and emergency shutdown.
+
+### Capability coverage
+
+| Need | Existing owner | Coverage |
+| --- | --- | --- |
+| Presence, claims, progress, questions, review, and handoff | Yukh Coordination | Covered by the non-authoritative protocol |
+| Portfolio priority, status, sequencing, and dates | Project 5 | Covered by the shared portfolio |
+| Capability authorization and execution | Yukh MCP | Covered only for explicitly modeled capabilities |
+| Acceptance of plans, changes, and ownership transfer | Human and repository governance | Deliberately outside automated coordination |
+| Automatic agent selection or autonomous dispatch | None | Not currently justified or specified |
+| Credential custody or delegated authority | None | Explicitly excluded from Coordination |
+
+The documented use cases therefore do not justify creating `yukh-coordinator`. Automatic selection, autonomous dispatch, or delegated authority would be a new product and security boundary, not an extension implied by the current protocol.
 
 ## Legacy migration
 
@@ -170,6 +196,25 @@ A separate coordinator is justified only if a concrete requirement needs authori
 - run dry-run first and review exact drift;
 - retain a tested rollback pin for the supported transition window.
 
+### Known consumer inventory and support window
+
+The public inventory currently includes:
+
+- `nomed/yukh-mcp`, pinned to the verified `v0.9.1` legacy line;
+- `nomed/uc-rust`, with published workflow and documentation references to the legacy Action;
+- the legacy repository's own workflows and examples.
+
+Additional private consumers are known. Their identifiers MUST remain undisclosed; their migrations still require private evidence before archival.
+
+This RFC proposes that the legacy immutable release line remain supported until all of the following are true:
+
+1. `yukh-projects` publishes a compatible immutable release with provenance and rollback evidence;
+2. every known public consumer has a reviewed migration or explicitly records an accepted exception;
+3. private-consumer migration has been verified without exposing adopter information;
+4. a minimum 90-day transition window has elapsed after the compatible successor release is announced.
+
+The 90-day minimum is a governance proposal and requires explicit acceptance; it is not activated while this RFC remains Proposed.
+
 ### Phase 5 — deprecation and archival
 
 - publish a deprecation notice and final support window in `nomed/yukh`;
@@ -202,10 +247,10 @@ Project schema additions are treated as persistent until a separately reviewed d
 
 Before this RFC can be accepted:
 
-- [ ] validate the proposed shared fields against all three active component backlogs;
+- [x] validate the proposed shared fields against all three active component backlogs;
 - [ ] accept, revise, or reject the shared `Area` vocabulary;
-- [ ] document the concrete coordination use cases and show whether the current non-authoritative protocol covers them;
-- [ ] identify known consumers of `nomed/yukh` without publishing private adopter information;
+- [x] document the concrete coordination use cases and show whether the current non-authoritative protocol covers them;
+- [x] identify known consumers of `nomed/yukh` without publishing private adopter information;
 - [ ] define the legacy support window and minimum rollback period;
 - [ ] obtain explicit human acceptance in the governing issue or pull request.
 
