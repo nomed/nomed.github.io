@@ -1,7 +1,8 @@
 # RFC-0001 — Yukh suite topology, ownership, and portfolio schema
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-02
+- **Accepted:** 2026-08-02 by `@nomed`
 - **Owner:** `@nomed`
 - **Governing issue:** [nomed.github.io#3](https://github.com/nomed/nomed.github.io/issues/3)
 - **Affected repositories:** `nomed.github.io`, `yukh`, `yukh-projects`, `yukh-mcp`, `yukh-coordination`
@@ -44,7 +45,7 @@ An MCP-specific bootstrap plan is currently suspended. Its last reviewed dry-run
 
 ## Confirmed decisions
 
-The owner has confirmed the following direction. These decisions become authoritative only if this RFC is accepted.
+The owner has confirmed the following direction. These decisions are authoritative under this accepted RFC.
 
 ### Repository topology
 
@@ -206,14 +207,14 @@ The public inventory currently includes:
 
 Additional private consumers are known. Their identifiers MUST remain undisclosed; their migrations still require private evidence before archival.
 
-This RFC proposes that the legacy immutable release line remain supported until all of the following are true:
+This RFC requires that the legacy immutable release line remain supported until all of the following are true:
 
 1. `yukh-projects` publishes a compatible immutable release with provenance and rollback evidence;
 2. every known public consumer has a reviewed migration or explicitly records an accepted exception;
 3. private-consumer migration has been verified without exposing adopter information;
 4. a minimum 90-day transition window has elapsed after the compatible successor release is announced.
 
-The 90-day minimum is a governance proposal and requires explicit acceptance; it is not activated while this RFC remains Proposed.
+The accepted minimum transition window is 90 days after the compatible successor release is announced.
 
 ### Phase 5 — deprecation and archival
 
@@ -226,7 +227,7 @@ The 90-day minimum is a governance proposal and requires explicit acceptance; it
 
 Before legacy archival, a consumer can roll back by restoring its last verified immutable `nomed/yukh` commit and returning to dry-run. A failed `yukh-projects` migration does not authorize tag movement, history rewriting, Project field deletion, or silent contract downgrade.
 
-Project schema additions are treated as persistent until a separately reviewed destructive migration is approved. This RFC therefore keeps the current bootstrap suspended until `Area` and schema ownership are accepted.
+Project schema additions are treated as persistent until a separately reviewed destructive migration is approved. The schema is now accepted, but reconciliation apply remains suspended until an exact bootstrap dry-run is reviewed and separately approved.
 
 ## Security consequences
 
@@ -243,20 +244,20 @@ Project schema additions are treated as persistent until a separately reviewed d
 - Contract or diagnostic incompatibilities require release notes and a consumer migration plan.
 - Repository names and package identifiers do not change through this RFC alone.
 
-## Acceptance gates
+## Acceptance record
 
-Before this RFC can be accepted:
+The following acceptance gates are complete:
 
 - [x] validate the proposed shared fields against all three active component backlogs;
-- [ ] accept, revise, or reject the shared `Area` vocabulary;
+- [x] accept the shared `Area` vocabulary;
 - [x] document the concrete coordination use cases and show whether the current non-authoritative protocol covers them;
 - [x] identify known consumers of `nomed/yukh` without publishing private adopter information;
-- [ ] define the legacy support window and minimum rollback period;
-- [ ] obtain explicit human acceptance in the governing issue or pull request.
+- [x] define the legacy support window and minimum rollback period;
+- [x] obtain explicit human acceptance in the governing issue or pull request.
 
-## Immediate effect while Proposed
+## Immediate effect after acceptance
 
-- Project 5 bootstrap and reconciliation apply remain suspended.
+- Project 5 reconciliation apply remains suspended pending an exact bootstrap dry-run and separate explicit approval.
 - No new `yukh-project` or `yukh-coordinator` repository is created.
 - Existing repository names and authority boundaries remain unchanged.
 - Read-only analysis and dry-runs may continue when they cannot mutate external state.
