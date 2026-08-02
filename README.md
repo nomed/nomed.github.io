@@ -7,7 +7,7 @@
 <h1 align="center">Nomed</h1>
 
 <p align="center">
-  <strong>An alter ego for building the future of governed agentic development.</strong>
+  <strong>Open infrastructure for governed agentic development.</strong>
 </p>
 
 <p align="center">
@@ -18,9 +18,9 @@
 
 ---
 
-**Nomed is my technical and intellectual alter ego.** It is the identity through which I explore, design, and build systems for a future where people and autonomous agents can work together without surrendering control, context, or trust.
+**Nomed explores and builds the operating systems of governed agentic development.** It turns a clear point of view into public protocols, bounded components, golden paths, and durable engineering records for a future where people and autonomous agents can work together without surrendering control, context, or trust.
 
-Nomed is not a company, a generic framework, or a fictional assistant. It is a point of view made operational: part identity, part laboratory, and part public engineering project.
+Nomed is a point of view made operational: a public laboratory and an open engineering project.
 
 The work starts from a concrete failure mode. Agentic development works surprisingly well inside one session, but becomes fragile across multiple agents, repositories, tools, model providers, and asynchronous handoffs. Intent disappears. Authority becomes ambiguous. Work is duplicated. Evidence and memory fragment.
 
@@ -44,7 +44,7 @@ Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) for the full posi
 
 ## Yukh — the system taking shape
 
-Yukh is the open system being built under the Nomed identity. It is a family of bounded instruments rather than a monolithic platform: each component owns one part of the control plane and exposes explicit contracts to the others.
+Yukh is the open system taking shape within this architecture. It is a family of bounded instruments rather than a monolithic platform: each component owns one part of the control plane and exposes explicit contracts to the others.
 
 <table>
   <tr>
