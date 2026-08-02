@@ -1,4 +1,0 @@
-About Me
-########
-:slug: about
-

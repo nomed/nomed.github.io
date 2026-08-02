@@ -39,3 +39,11 @@ The website summarizes project facts but does not replace component-owned techni
 - Keep proposed governance separate from implementation changes.
 - Validate the site build when source changes could affect publication.
 - State maturity and evidence honestly.
+
+## Repository hygiene
+
+- `main` contains only the current site, its tests, hosting integration, and reviewed governance records.
+- Historical material belongs only on the designated `archive/*` branch.
+- Do not add top-level directories without a documented current responsibility.
+- Do not commit generated output, scratch work, session state, exported diagrams, or tool-specific experiments.
+- Proposed governance and executable implementation use separate pull requests.

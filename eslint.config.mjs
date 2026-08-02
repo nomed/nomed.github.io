@@ -10,11 +10,6 @@ const eslintConfig = defineConfig([
     // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
-    "build/**",
-    "archive/**",
-    "devkit/**",
-    "drawio/**",
-    "excalidraw/**",
     "next-env.d.ts",
   ]),
   {
