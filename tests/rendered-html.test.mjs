@@ -46,11 +46,11 @@ test("server-renders the Nomed editorial home page", async () => {
 
 test("renders the public editorial system with truthful maturity labels", async () => {
   const routes = [
-    ["/manifesto", /Plans before mutations\./],
-    ["/projects", /Foundation bootstrap/],
-    ["/coordination", /research and design/i],
-    ["/writing/capability-not-custody", /A capability is a contract/],
-    ["/brand", /One geometry\. Distinct responsibilities\./],
+    ["/manifesto/", /Plans before mutations\./],
+    ["/projects/", /Foundation bootstrap/],
+    ["/coordination/", /research and design/i],
+    ["/writing/capability-not-custody/", /A capability is a contract/],
+    ["/brand/", /One geometry\. Distinct responsibilities\./],
   ];
 
   for (const [pathname, expected] of routes) {
