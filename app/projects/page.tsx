@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 
 const projects = [
   {
+    slug: "yukh-mcp",
     name: "Yukh MCP",
     color: "#7C3AED",
     mark: "/brand/yukh-mcp.svg",
@@ -18,6 +19,7 @@ const projects = [
     href: "https://github.com/nomed/yukh-mcp",
   },
   {
+    slug: "yukh-projects",
     name: "Yukh Projects",
     color: "#00E5FF",
     mark: "/brand/yukh-projects.svg",
@@ -27,6 +29,7 @@ const projects = [
     href: "https://github.com/nomed/yukh-projects",
   },
   {
+    slug: "yukh-coordination",
     name: "Yukh Coordination",
     color: "#CCFF00",
     mark: "/brand/yukh-coordination.svg",
@@ -47,7 +50,12 @@ export default function ProjectsPage() {
     >
       <div className="project-cards">
         {projects.map((project) => (
-          <section className="project-card" key={project.name} style={{ "--card-color": project.color } as CSSProperties}>
+          <section
+            className="project-card"
+            id={project.slug}
+            key={project.slug}
+            style={{ "--card-color": project.color } as CSSProperties}
+          >
             <img src={project.mark} alt="" />
             <p className="card-status">{project.status}</p>
             <h2>{project.name}</h2>
