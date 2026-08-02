@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 export default function YukhMcpPage() {
   return (
     <SystemDeepDive
+      component="mcp"
       index="03.1"
       label="Yukh system / MCP"
       title="Capability without custody."
@@ -27,6 +28,7 @@ export default function YukhMcpPage() {
       interactions={<p>Coordination carries claims and signals to the right participants. Projects provides durable delivery context. MCP alone crosses the execution boundary and returns evidence for both.</p>}
       direction={<p>Stabilize the capability envelope, policy decision model and evidence contract before adding provider-specific operations.</p>}
       repository="https://github.com/nomed/yukh-mcp"
+      repositoryName="Yukh MCP"
     />
   );
 }

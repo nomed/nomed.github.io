@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 export default function YukhProjectsPage() {
   return (
     <SystemDeepDive
+      component="projects"
       index="03.2"
       label="Yukh system / Projects"
       title="Declared state, reconciled in the open."
@@ -27,6 +28,7 @@ export default function YukhProjectsPage() {
       interactions={<p>Coordination announces who is acting on a plan and carries review signals. MCP can expose reconciliation as a governed capability. Projects remains the durable source of delivery truth.</p>}
       direction={<p>Complete the clean-room foundation, stabilize the declarative schema and prove idempotent reconciliation against real GitHub Projects fixtures.</p>}
       repository="https://github.com/nomed/yukh-projects"
+      repositoryName="Yukh Projects"
     />
   );
 }

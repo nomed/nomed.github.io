@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const marks = [
-  ["Nomed", "Origin / practice", "#FF3B30", "/brand/nomed.svg", "Canonical"],
+  ["Nomed", "Voice / point of view", "#FF3B30", "/brand/nomed.svg", "Canonical"],
   ["Yukh MCP", "Capability gateway", "#7C3AED", "/brand/yukh-mcp.svg", "Canonical"],
   ["Yukh Projects", "Control plane", "#00E5FF", "/brand/yukh-projects.svg", "Proposed"],
   ["Yukh Coordination", "Coordination protocol", "#CCFF00", "/brand/yukh-coordination.svg", "Proposed"],

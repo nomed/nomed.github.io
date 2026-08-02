@@ -49,7 +49,7 @@ Yukh is the open system taking shape within this architecture. It is a family of
 <table>
   <tr>
     <td align="center" width="18%">
-      <a href="https://nomed.github.io/projects/#yukh-mcp">
+      <a href="https://nomed.github.io/work/#yukh-mcp">
         <img src="./public/brand/yukh-mcp.svg" width="64" alt="Yukh MCP"><br>
         <strong>Yukh MCP</strong>
       </a>
@@ -62,7 +62,7 @@ Yukh is the open system taking shape within this architecture. It is a family of
   </tr>
   <tr>
     <td align="center">
-      <a href="https://nomed.github.io/projects/#yukh-projects">
+      <a href="https://nomed.github.io/work/#yukh-projects">
         <img src="./public/brand/yukh-projects.svg" width="64" alt="Yukh Projects"><br>
         <strong>Yukh Projects</strong>
       </a>
@@ -75,7 +75,7 @@ Yukh is the open system taking shape within this architecture. It is a family of
   </tr>
   <tr>
     <td align="center">
-      <a href="https://nomed.github.io/projects/#yukh-coordination">
+      <a href="https://nomed.github.io/work/#yukh-coordination">
         <img src="./public/brand/yukh-coordination.svg" width="64" alt="Yukh Coordination"><br>
         <strong>Yukh Coordination</strong>
       </a>
@@ -90,7 +90,7 @@ Yukh is the open system taking shape within this architecture. It is a family of
 
 The original [Yukh reconciler](https://github.com/nomed/yukh) remains available as a compatibility implementation while its reusable capabilities migrate into Yukh Projects.
 
-[Explore the project map →](https://nomed.github.io/projects/)
+[Inspect current maturity and work →](https://nomed.github.io/work/)
 
 Deep dives: [MCP](https://nomed.github.io/system/mcp/) · [Projects](https://nomed.github.io/system/projects/) · [Coordination](https://nomed.github.io/system/coordination/)
 

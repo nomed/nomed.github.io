@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 export default function YukhCoordinationPage() {
   return (
     <SystemDeepDive
+      component="coordination"
       index="03.3"
       label="Yukh system / Coordination"
       title="A shared room for work that happens in separate minds."
@@ -28,6 +29,7 @@ export default function YukhCoordinationPage() {
       interactions={<p>Projects supplies durable delivery context. MCP supplies governed capabilities and execution evidence. Coordination connects participants to those systems without becoming either one.</p>}
       direction={<p>Validate the minimum protocol across isolated sessions and model providers, then prove that claims and handoffs reduce duplicated work without introducing a central supervisor.</p>}
       repository="https://github.com/nomed/yukh-coordination"
+      repositoryName="Yukh Coordination"
     />
   );
 }

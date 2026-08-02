@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { EditorialPage } from "../components/EditorialPage";
+import { ArrowIcon } from "../components/Navigation";
 
 export const metadata: Metadata = {
   title: "The Yukh System — Nomed",
@@ -24,10 +25,10 @@ export default function SystemPage() {
       <p>Intent moves through explicit contracts: coordination makes work visible, projects makes accepted state durable, and MCP crosses the execution boundary under policy. Evidence returns through the same system.</p>
       <ul>
         {components.map(([index, name, responsibility, href]) => (
-          <li key={name}><a href={href}><strong>{index} / {name}</strong></a> — {responsibility}</li>
+          <li key={name}><a className="text-link" href={href}><strong>{index} / {name}</strong> — {responsibility} <ArrowIcon /></a></li>
         ))}
       </ul>
-      <a className="editorial-cta" href="/projects/">Inspect maturity and canonical project links →</a>
+      <a className="editorial-cta internal-cta" href="/work/">Inspect current maturity and work <ArrowIcon /></a>
     </EditorialPage>
   );
 }
