@@ -28,7 +28,7 @@ export function EditorialPage({
         <nav aria-label="Primary navigation">
           <a href="/manifesto">Manifesto</a>
           <a href="/projects">Projects</a>
-          <a href="/coordination">Coordination</a>
+          <a href="/system">System</a>
           <a href="https://github.com/nomed">GitHub ↗</a>
         </nav>
       </header>
