@@ -38,6 +38,10 @@ test("server-renders the Nomed editorial home page", async () => {
   assert.match(html, /Yukh MCP/);
   assert.match(html, /Yukh Projects/);
   assert.match(html, /Yukh Coordination/);
+  assert.match(html, /src="\/brand\/nomed\.svg"/);
+  assert.match(html, /src="\/brand\/yukh-mcp\.svg"/);
+  assert.match(html, /src="\/brand\/yukh-projects\.svg"/);
+  assert.match(html, /src="\/brand\/yukh-coordination\.svg"/);
 });
 
 test("publishes stable identity, social and project links", async () => {

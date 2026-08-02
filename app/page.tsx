@@ -1,8 +1,12 @@
+import type { CSSProperties } from "react";
+
 const projects = [
   {
     index: "01",
     name: "Yukh MCP",
     label: "Capability gateway",
+    mark: "/brand/yukh-mcp.svg",
+    color: "#7C3AED",
     description:
       "A policy-governed gateway for safe, auditable and verifiable AI operations. Capability, not custody.",
     href: "https://github.com/nomed/yukh-mcp",
@@ -11,6 +15,8 @@ const projects = [
     index: "02",
     name: "Yukh Projects",
     label: "Declarative control plane",
+    mark: "/brand/yukh-projects.svg",
+    color: "#00E5FF",
     description:
       "Consumer-neutral reconciliation for GitHub Projects, built around plans, explicit authority and idempotent outcomes.",
     href: "https://github.com/nomed/yukh-projects",
@@ -19,6 +25,8 @@ const projects = [
     index: "03",
     name: "Yukh Coordination",
     label: "Protocol in formation",
+    mark: "/brand/yukh-coordination.svg",
+    color: "#CCFF00",
     description:
       "Shared channels, questions, reviews and handoffs for people and agents working across isolated sessions.",
     href: "https://github.com/nomed/yukh-mcp",
@@ -37,7 +45,8 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="wordmark" href="#top" aria-label="Nomed, home">
-          NOMED<span aria-hidden="true">°</span>
+          <img src="/brand/nomed.svg" alt="" />
+          <span>NOMED</span>
         </a>
         <nav aria-label="Primary navigation">
           <a href="#manifesto">Manifesto</a>
@@ -115,8 +124,12 @@ export default function Home() {
               key={project.name}
               target="_blank"
               rel="noreferrer"
+              style={{ "--project-color": project.color } as CSSProperties}
             >
-              <span className="project-index">{project.index}</span>
+              <span className="project-index">
+                <img src={project.mark} alt="" />
+                {project.index}
+              </span>
               <div>
                 <span className="project-label">{project.label}</span>
                 <h2>{project.name}</h2>
@@ -166,7 +179,10 @@ export default function Home() {
       </section>
 
       <footer>
-        <a className="wordmark footer-mark" href="#top">NOMED°</a>
+        <a className="wordmark footer-mark" href="#top">
+          <img src="/brand/nomed.svg" alt="" />
+          <span>NOMED</span>
+        </a>
         <p>Open infrastructure for governed agentic development.</p>
         <p>© 2026 · Built in public</p>
       </footer>
