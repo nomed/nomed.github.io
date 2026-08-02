@@ -127,6 +127,12 @@ test("orders the homepage as position, Yukh system, work and research", async ()
   assert.deepEqual(offsets, [...offsets].sort((a, b) => a - b));
 });
 
+test("uses a paper-safe Coordination tone for small Yukh copy", async () => {
+  const css = await import("node:fs/promises").then(({ readFile }) => readFile(new URL("../app/globals.css", import.meta.url), "utf8"));
+  assert.match(css, /--coordination-ink:\s*#596b00/);
+  assert.match(css, /\.yukh-intro \.kicker\s*{\s*color:\s*var\(--coordination-ink\)/);
+});
+
 test("does not publish the former Projects route", async () => {
   const response = await render("/projects/");
   assert.equal(response.status, 404);
