@@ -90,7 +90,9 @@ Yukh is the open system taking shape within this architecture. It is a family of
 
 The original [Yukh reconciler](https://github.com/nomed/yukh) remains available as a compatibility implementation while its reusable capabilities migrate into Yukh Projects.
 
-[Explore the system map →](https://nomed.github.io/projects/) · [Read the coordination thesis →](https://nomed.github.io/coordination/)
+[Explore the project map →](https://nomed.github.io/projects/)
+
+Deep dives: [MCP](https://nomed.github.io/system/mcp/) · [Projects](https://nomed.github.io/system/projects/) · [Coordination](https://nomed.github.io/system/coordination/)
 
 ## This repository
 

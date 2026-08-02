@@ -48,7 +48,10 @@ test("renders the public editorial system with truthful maturity labels", async 
   const routes = [
     ["/manifesto/", /Plans before mutations\./],
     ["/projects/", /Foundation bootstrap/],
-    ["/coordination/", /research and design/i],
+    ["/system/", /Three boundaries\. One governed flow\./],
+    ["/system/mcp/", /Capability without custody\./],
+    ["/system/projects/", /Declared state, reconciled in the open\./],
+    ["/system/coordination/", /A shared room for work that happens in separate minds\./],
     ["/writing/capability-not-custody/", /A capability is a contract/],
     ["/brand/", /One geometry\. Distinct responsibilities\./],
   ];
@@ -83,4 +86,28 @@ test("publishes stable anchors for every current Yukh component", async () => {
   assert.match(html, /id="yukh-mcp"/);
   assert.match(html, /id="yukh-projects"/);
   assert.match(html, /id="yukh-coordination"/);
+  assert.match(html, /href="\/system\/mcp"/);
+  assert.match(html, /href="\/system\/projects"/);
+  assert.match(html, /href="\/system\/coordination"/);
+});
+
+test("every Yukh deep dive publishes the same editorial contract", async () => {
+  for (const pathname of ["/system/mcp/", "/system/projects/", "/system/coordination/"]) {
+    const response = await render(pathname);
+    const html = await response.text();
+
+    assert.equal(response.status, 200, pathname);
+    assert.match(html, /The problem/, pathname);
+    assert.match(html, /Responsibility/, pathname);
+    assert.match(html, /Authority boundary/, pathname);
+    assert.match(html, /Public contracts/, pathname);
+    assert.match(html, /How it interacts/, pathname);
+    assert.match(html, /Next direction/, pathname);
+  }
+});
+
+test("redirects the legacy coordination route permanently", async () => {
+  const response = await render("/coordination/");
+  assert.equal(response.status, 308);
+  assert.equal(response.headers.get("location"), "http://localhost/system/coordination/");
 });
