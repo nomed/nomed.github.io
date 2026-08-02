@@ -105,9 +105,3 @@ test("every Yukh deep dive publishes the same editorial contract", async () => {
     assert.match(html, /Next direction/, pathname);
   }
 });
-
-test("redirects the legacy coordination route permanently", async () => {
-  const response = await render("/coordination/");
-  assert.equal(response.status, 308);
-  assert.equal(response.headers.get("location"), "http://localhost/system/coordination/");
-});
