@@ -15,7 +15,7 @@ export default function YukhCoordinationPage() {
       lede="Sessions are isolated. Delivery is not. Coordination provides a neutral channel for ownership, questions, evidence, review and explicit handoff."
       accent="#93B800"
       status="research and design. The interaction model is a proposal, not a released protocol."
-      problem={<p>Parallel agents and people cannot see one another's transient context. Silence becomes ambiguous, work is duplicated and handoffs decay into inference.</p>}
+      problem={<p>Parallel agents and people cannot see one another&apos;s transient context. Silence becomes ambiguous, work is duplicated and handoffs decay into inference.</p>}
       responsibility={<p>Make cross-session activity legible through open presence, bounded claims, typed signals, evidence references and explicit transfer of work.</p>}
       boundary={<p>Coordination transports and records signals. It does not grant capability, accept project mutations, supervise participants or convert message delivery into authority.</p>}
       contracts={[
