@@ -27,3 +27,8 @@ Each RFC records:
 - migration phases, gates, rollback, and completion evidence.
 
 RFCs never contain credentials, private data, sensitive infrastructure identifiers, private reasoning, or copied operational logs.
+
+## Accepted records
+
+- [RFC-0001 — Yukh suite topology, ownership, and portfolio schema](RFC-0001-yukh-suite-topology-and-portfolio-schema.md)
+- [RFC-0002 — Confidential consumer migration inventory](RFC-0002-confidential-consumer-migration-inventory.md)
