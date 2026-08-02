@@ -9,7 +9,7 @@ const projects = [
     color: "#7C3AED",
     description:
       "A policy-governed gateway for safe, auditable and verifiable AI operations. Capability, not custody.",
-    href: "/coordination",
+    href: "https://github.com/nomed/yukh-mcp",
   },
   {
     index: "02",
@@ -29,15 +29,15 @@ const projects = [
     color: "#CCFF00",
     description:
       "Shared channels, questions, reviews and handoffs for people and agents working across isolated sessions.",
-    href: "https://github.com/nomed/yukh-mcp",
+    href: "https://github.com/nomed/yukh-coordination",
   },
 ];
 
 const principles = [
-  ["Capability", "not custody"],
-  ["Coordination", "not invisible orchestration"],
-  ["Evidence", "not declarations"],
-  ["Open protocols", "not captive platforms"],
+  { lead: "Capability", tail: "not custody", note: "Typed authority, scoped to a resource.", color: "#7C3AED" },
+  { lead: "Coordination", tail: "not invisible orchestration", note: "Claims, questions and handoffs stay observable.", color: "#CCFF00" },
+  { lead: "Evidence", tail: "not declarations", note: "Plans and outcomes remain independently checkable.", color: "#FF3B30" },
+  { lead: "Open protocols", tail: "not captive platforms", note: "Components integrate without owning the workflow.", color: "#00E5FF" },
 ];
 
 export default function Home() {
@@ -64,6 +64,19 @@ export default function Home() {
         <h1>
           Software is no longer written by one mind at one keyboard.
         </h1>
+        <div className="suite-map" aria-label="The Yukh suite: capabilities, projects and coordination linked by governance and evidence">
+          <div className="suite-map-rail" aria-hidden="true" />
+          <a className="suite-node suite-node-mcp" href="https://github.com/nomed/yukh-mcp">
+            <span>01 / Capability</span><strong>Yukh MCP</strong>
+          </a>
+          <div className="suite-hub"><span>Shared layer</span><strong>Governance<br />+ evidence</strong></div>
+          <a className="suite-node suite-node-projects" href="https://github.com/nomed/yukh-projects">
+            <span>02 / Control plane</span><strong>Yukh Projects</strong>
+          </a>
+          <a className="suite-node suite-node-coordination" href="https://github.com/nomed/yukh-coordination">
+            <span>03 / Protocol</span><strong>Yukh Coordination</strong>
+          </a>
+        </div>
         <div className="hero-bottom">
           <p className="lede">
             Nomed designs open infrastructure for governed agentic development—
@@ -99,17 +112,21 @@ export default function Home() {
             Nomed works in the open on the protocols and control planes this
             new practice requires.
           </p>
+          <div className="operating-loop" aria-label="The governed operating loop">
+            <span>Intent</span><i>→</i><span>Policy</span><i>→</i><span>Plan</span><i>→</i><span>Approval</span><i>→</i><span>Execute</span><i>→</i><span>Verify</span><i>→</i><span>Evidence</span>
+          </div>
         </div>
       </section>
 
       <section className="principles" aria-label="Principles">
-        {principles.map(([lead, tail], index) => (
-          <div className="principle" key={lead}>
+        {principles.map((principle, index) => (
+          <div className="principle" key={principle.lead} style={{ "--principle-color": principle.color } as CSSProperties}>
             <span className="principle-index">0{index + 1}</span>
             <p>
-              <strong>{lead}</strong>
-              <span>{tail}</span>
+              <strong>{principle.lead}</strong>
+              <span>{principle.tail}</span>
             </p>
+            <small>{principle.note}</small>
           </div>
         ))}
       </section>
