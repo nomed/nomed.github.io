@@ -16,7 +16,7 @@ const projects = [
     status: "Foundation",
     description: "A policy-governed capability gateway with a strict intent-to-evidence lifecycle.",
     truth: "Public contracts and security boundaries are being designed before operational capabilities are implemented.",
-    href: "https://github.com/nomed/yukh-mcp",
+    href: "/system/mcp",
   },
   {
     slug: "yukh-projects",
@@ -26,7 +26,7 @@ const projects = [
     status: "Foundation bootstrap",
     description: "Declarative, secure and consumer-neutral reconciliation for GitHub Projects.",
     truth: "The repository is not production-ready; functional code enters through reviewed clean-room migration.",
-    href: "https://github.com/nomed/yukh-projects",
+    href: "/system/projects",
   },
   {
     slug: "yukh-coordination",
@@ -36,7 +36,7 @@ const projects = [
     status: "Research / design",
     description: "An open coordination protocol for people and agents working across isolated sessions.",
     truth: "This is a thesis and protocol direction, not yet a released product or accepted standard.",
-    href: "/coordination",
+    href: "/system/coordination",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function ProjectsPage() {
             <h2>{project.name}</h2>
             <p>{project.description}</p>
             <p className="project-truth">{project.truth}</p>
-            <a href={project.href}>Inspect the work ↗</a>
+            <a href={project.href}>Read the system →</a>
           </section>
         ))}
       </div>
