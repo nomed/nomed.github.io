@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-async function render() {
+async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
+    new Request(`http://localhost${pathname}`, {
       headers: { accept: "text/html" },
     }),
     {
@@ -42,6 +42,22 @@ test("server-renders the Nomed editorial home page", async () => {
   assert.match(html, /src="\/brand\/yukh-mcp\.svg"/);
   assert.match(html, /src="\/brand\/yukh-projects\.svg"/);
   assert.match(html, /src="\/brand\/yukh-coordination\.svg"/);
+});
+
+test("renders the public editorial system with truthful maturity labels", async () => {
+  const routes = [
+    ["/manifesto", /Plans before mutations\./],
+    ["/projects", /Foundation bootstrap/],
+    ["/coordination", /research and design/i],
+    ["/writing/capability-not-custody", /A capability is a contract/],
+    ["/brand", /One geometry\. Distinct responsibilities\./],
+  ];
+
+  for (const [pathname, expected] of routes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    assert.match(await response.text(), expected, pathname);
+  }
 });
 
 test("publishes stable identity, social and project links", async () => {

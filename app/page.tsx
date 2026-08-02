@@ -9,7 +9,7 @@ const projects = [
     color: "#7C3AED",
     description:
       "A policy-governed gateway for safe, auditable and verifiable AI operations. Capability, not custody.",
-    href: "https://github.com/nomed/yukh-mcp",
+    href: "/coordination",
   },
   {
     index: "02",
@@ -49,9 +49,9 @@ export default function Home() {
           <span>NOMED</span>
         </a>
         <nav aria-label="Primary navigation">
-          <a href="#manifesto">Manifesto</a>
-          <a href="#work">Work</a>
-          <a href="#signal">Signal</a>
+          <a href="/manifesto">Manifesto</a>
+          <a href="/projects">Projects</a>
+          <a href="/coordination">Coordination</a>
           <a href="https://github.com/nomed">GitHub ↗</a>
         </nav>
       </header>
@@ -173,8 +173,9 @@ export default function Home() {
         <p>Working in public from Europe.</p>
         <h2>Build systems that deserve agency.</h2>
         <div>
+          <a href="/writing/capability-not-custody">Read the first field note →</a>
+          <a href="/brand">Explore the identity system →</a>
           <a href="https://github.com/nomed">Follow the work ↗</a>
-          <a href="https://github.com/nomed/yukh-mcp/issues">Join the conversation ↗</a>
         </div>
       </section>
 
