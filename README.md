@@ -75,7 +75,7 @@ Yukh is the open system taking shape within this architecture. It is a family of
   </tr>
   <tr>
     <td align="center">
-      <a href="https://nomed.github.io/coordination/">
+      <a href="https://nomed.github.io/projects/#yukh-coordination">
         <img src="./public/brand/yukh-coordination.svg" width="64" alt="Yukh Coordination"><br>
         <strong>Yukh Coordination</strong>
       </a>
