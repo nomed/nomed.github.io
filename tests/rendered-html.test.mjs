@@ -75,3 +75,12 @@ test("publishes stable identity, social and project links", async () => {
   assert.match(html, /<main>/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|react-loading-skeleton/i);
 });
+
+test("publishes stable anchors for every current Yukh component", async () => {
+  const response = await render("/projects/");
+  const html = await response.text();
+
+  assert.match(html, /id="yukh-mcp"/);
+  assert.match(html, /id="yukh-projects"/);
+  assert.match(html, /id="yukh-coordination"/);
+});
