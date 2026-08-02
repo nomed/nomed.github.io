@@ -47,11 +47,12 @@ test("server-renders the Nomed editorial home page", async () => {
 test("renders the public editorial system with truthful maturity labels", async () => {
   const routes = [
     ["/manifesto/", /Plans before mutations\./],
-    ["/projects/", /Foundation bootstrap/],
+    ["/work/", /Foundation bootstrap/],
     ["/system/", /Three boundaries\. One governed flow\./],
     ["/system/mcp/", /Capability without custody\./],
     ["/system/projects/", /Declared state, reconciled in the open\./],
     ["/system/coordination/", /A shared room for work that happens in separate minds\./],
+    ["/writing/", /Ideas tested against the work\./],
     ["/writing/capability-not-custody/", /A capability is a contract/],
     ["/brand/", /One geometry\. Distinct responsibilities\./],
   ];
@@ -63,7 +64,7 @@ test("renders the public editorial system with truthful maturity labels", async 
   }
 });
 
-test("publishes stable identity, social and project links", async () => {
+test("publishes stable identity and predictable internal navigation", async () => {
   const response = await render();
   const html = await response.text();
 
@@ -72,23 +73,29 @@ test("publishes stable identity, social and project links", async () => {
     /name="description" content="Nomed designs open infrastructure for governed agentic development:/,
   );
   assert.match(html, /property="og:image" content="https:\/\/nomed\.github\.io\/og\.png"/);
-  assert.match(html, /href="https:\/\/github\.com\/nomed\/yukh-mcp"/);
-  assert.match(html, /href="https:\/\/github\.com\/nomed\/yukh-projects"/);
+  assert.match(html, /href="\/system\/mcp\/"/);
+  assert.match(html, /href="\/system\/projects\/"/);
+  assert.match(html, /href="\/system\/coordination\/"/);
+  assert.match(html, /href="\/work\/"/);
+  assert.match(html, /href="\/writing\/"/);
   assert.match(html, /<nav aria-label="Primary navigation">/);
   assert.match(html, /<main>/);
+  assert.doesNotMatch(html, /↗|→|↓/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|react-loading-skeleton/i);
 });
 
-test("publishes stable anchors for every current Yukh component", async () => {
-  const response = await render("/projects/");
+test("publishes stable work anchors and explicit repository exits", async () => {
+  const response = await render("/work/");
   const html = await response.text();
 
   assert.match(html, /id="yukh-mcp"/);
   assert.match(html, /id="yukh-projects"/);
   assert.match(html, /id="yukh-coordination"/);
-  assert.match(html, /href="\/system\/mcp"/);
-  assert.match(html, /href="\/system\/projects"/);
-  assert.match(html, /href="\/system\/coordination"/);
+  assert.match(html, /href="\/system\/mcp\/"/);
+  assert.match(html, /href="\/system\/projects\/"/);
+  assert.match(html, /href="\/system\/coordination\/"/);
+  assert.match(html, /href="https:\/\/github\.com\/nomed\/yukh-mcp" target="_blank"/);
+  assert.match(html, /class="github-icon"/);
 });
 
 test("every Yukh deep dive publishes the same editorial contract", async () => {
@@ -103,5 +110,24 @@ test("every Yukh deep dive publishes the same editorial contract", async () => {
     assert.match(html, /Public contracts/, pathname);
     assert.match(html, /How it interacts/, pathname);
     assert.match(html, /Next direction/, pathname);
+    assert.match(html, /aria-label="Breadcrumb"/, pathname);
+    assert.match(html, /aria-label="Yukh components"/, pathname);
+    assert.match(html, /class="repository-link"/, pathname);
+    assert.match(html, /target="_blank"/, pathname);
   }
+});
+
+test("orders the homepage as position, Yukh system, work and research", async () => {
+  const response = await render();
+  const html = await response.text();
+  const markers = ["01 / Position", "02 / Yukh system", "03 / Work", "04 / Research signal"];
+  const offsets = markers.map((marker) => html.indexOf(marker));
+
+  assert.ok(offsets.every((offset) => offset >= 0));
+  assert.deepEqual(offsets, [...offsets].sort((a, b) => a - b));
+});
+
+test("does not publish the former Projects route", async () => {
+  const response = await render("/projects/");
+  assert.equal(response.status, 404);
 });

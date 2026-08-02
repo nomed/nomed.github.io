@@ -1,35 +1,40 @@
 import type { CSSProperties } from "react";
+import Link from "next/link";
+import { ArrowIcon, RepositoryLink, SiteFooter, SiteHeader } from "./components/Navigation";
 
-const projects = [
+const components = [
   {
     index: "01",
     name: "Yukh MCP",
-    label: "Capability gateway",
+    label: "Governed capabilities",
     mark: "/brand/yukh-mcp.svg",
     color: "#7C3AED",
-    description:
-      "A policy-governed gateway for safe, auditable and verifiable AI operations. Capability, not custody.",
-    href: "https://github.com/nomed/yukh-mcp",
+    status: "Foundation",
+    focus: "Capability envelope, policy decisions and evidence contracts.",
+    system: "/system/mcp/",
+    repository: "https://github.com/nomed/yukh-mcp",
   },
   {
     index: "02",
     name: "Yukh Projects",
-    label: "Declarative control plane",
+    label: "Durable project state",
     mark: "/brand/yukh-projects.svg",
     color: "#00E5FF",
-    description:
-      "Consumer-neutral reconciliation for GitHub Projects, built around plans, explicit authority and idempotent outcomes.",
-    href: "https://github.com/nomed/yukh-projects",
+    status: "Foundation bootstrap",
+    focus: "Declarative schema and idempotent GitHub Projects reconciliation.",
+    system: "/system/projects/",
+    repository: "https://github.com/nomed/yukh-projects",
   },
   {
     index: "03",
     name: "Yukh Coordination",
-    label: "Protocol in formation",
+    label: "Cross-session coordination",
     mark: "/brand/yukh-coordination.svg",
     color: "#CCFF00",
-    description:
-      "Shared channels, questions, reviews and handoffs for people and agents working across isolated sessions.",
-    href: "https://github.com/nomed/yukh-coordination",
+    status: "Research / design",
+    focus: "Claims, evidence and explicit handoffs across isolated sessions.",
+    system: "/system/coordination/",
+    repository: "https://github.com/nomed/yukh-coordination",
   },
 ];
 
@@ -43,48 +48,19 @@ const principles = [
 export default function Home() {
   return (
     <main>
-      <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Nomed, home">
-          <img src="/brand/nomed.svg" alt="" />
-          <span>NOMED</span>
-        </a>
-        <nav aria-label="Primary navigation">
-          <a href="/manifesto">Manifesto</a>
-          <a href="/projects">Projects</a>
-          <a href="/system">System</a>
-          <a href="https://github.com/nomed">GitHub ↗</a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <section className="hero" id="top">
         <div className="eyebrow">
-          <span>Independent systems practice</span>
-          <span>Open source · Agentic development</span>
+          <span>Nomed / Governed agentic development</span>
+          <span>Building Yukh in public</span>
         </div>
-        <h1>
-          Software is no longer written by one mind at one keyboard.
-        </h1>
-        <div className="suite-map" aria-label="The Yukh suite: capabilities, projects and coordination linked by governance and evidence">
-          <div className="suite-map-rail" aria-hidden="true" />
-          <a className="suite-node suite-node-mcp" href="https://github.com/nomed/yukh-mcp">
-            <span>01 / Capability</span><strong>Yukh MCP</strong>
-          </a>
-          <div className="suite-hub"><span>Shared layer</span><strong>Governance<br />+ evidence</strong></div>
-          <a className="suite-node suite-node-projects" href="https://github.com/nomed/yukh-projects">
-            <span>02 / Control plane</span><strong>Yukh Projects</strong>
-          </a>
-          <a className="suite-node suite-node-coordination" href="https://github.com/nomed/yukh-coordination">
-            <span>03 / Protocol</span><strong>Yukh Coordination</strong>
-          </a>
-        </div>
+        <h1>Software is no longer written by one mind at one keyboard.</h1>
         <div className="hero-bottom">
-          <p className="lede">
-            Nomed designs open infrastructure for governed agentic development—
-            where people, agents, policy and evidence can work together in public.
-          </p>
-          <a className="round-link" href="#work" aria-label="Explore the work">
-            Explore
-            <span aria-hidden="true">↓</span>
+          <p className="lede">Nomed explores how people, agents, policy and evidence can work together without losing authority, memory or trust.</p>
+          <a className="round-link" href="#position" aria-label="Begin the story">
+            Begin
+            <ArrowIcon direction="down" />
           </a>
         </div>
       </section>
@@ -96,24 +72,14 @@ export default function Home() {
         <span className="signal-status">research / design</span>
       </aside>
 
-      <section className="manifesto section" id="manifesto">
+      <section className="manifesto section" id="position">
         <div className="section-label">01 / Position</div>
         <div className="manifesto-copy">
-          <p className="statement">
-            Agents should gain capability without gaining custody.
-          </p>
-          <p>
-            The next generation of software teams will be made of people,
-            models, tools and automated policy. The hard problem is not making
-            them faster. It is making their work legible, governable and worthy
-            of trust.
-          </p>
-          <p>
-            Nomed works in the open on the protocols and control planes this
-            new practice requires.
-          </p>
+          <p className="statement">Agents should gain capability without gaining custody.</p>
+          <p>The next generation of software teams will be made of people, models, tools and automated policy. The hard problem is not making them faster. It is making their work legible, governable and worthy of trust.</p>
+          <p>Nomed works in the open on the protocols and control planes this new practice requires.</p>
           <div className="operating-loop" aria-label="The governed operating loop">
-            <span>Intent</span><i>→</i><span>Policy</span><i>→</i><span>Plan</span><i>→</i><span>Approval</span><i>→</i><span>Execute</span><i>→</i><span>Verify</span><i>→</i><span>Evidence</span>
+            <span>Intent</span><i><ArrowIcon /></i><span>Policy</span><i><ArrowIcon /></i><span>Plan</span><i><ArrowIcon /></i><span>Approval</span><i><ArrowIcon /></i><span>Execute</span><i><ArrowIcon /></i><span>Verify</span><i><ArrowIcon /></i><span>Evidence</span>
           </div>
         </div>
       </section>
@@ -122,60 +88,64 @@ export default function Home() {
         {principles.map((principle, index) => (
           <div className="principle" key={principle.lead} style={{ "--principle-color": principle.color } as CSSProperties}>
             <span className="principle-index">0{index + 1}</span>
-            <p>
-              <strong>{principle.lead}</strong>
-              <span>{principle.tail}</span>
-            </p>
+            <p><strong>{principle.lead}</strong><span>{principle.tail}</span></p>
             <small>{principle.note}</small>
           </div>
         ))}
       </section>
 
+      <section className="yukh section" id="system">
+        <div className="section-label">02 / Yukh system</div>
+        <div className="yukh-intro">
+          <p className="kicker">One system. Three bounded responsibilities.</p>
+          <h2>Nomed is building Yukh.</h2>
+          <p>Yukh separates governed execution, durable project state and live coordination so that no component quietly becomes the whole control plane.</p>
+          <Link className="text-link" href="/system/">Understand the whole system <ArrowIcon /></Link>
+        </div>
+        <div className="suite-map" aria-label="Yukh system components">
+          <div className="suite-map-rail" aria-hidden="true" />
+          <Link className="suite-node suite-node-mcp" href="/system/mcp/"><span>01 / Capability</span><strong>Yukh MCP</strong></Link>
+          <div className="suite-hub"><span>Shared layer</span><strong>Governance<br />+ evidence</strong></div>
+          <Link className="suite-node suite-node-projects" href="/system/projects/"><span>02 / Project state</span><strong>Yukh Projects</strong></Link>
+          <Link className="suite-node suite-node-coordination" href="/system/coordination/"><span>03 / Coordination</span><strong>Yukh Coordination</strong></Link>
+        </div>
+      </section>
+
       <section className="work section" id="work">
-        <div className="section-label">02 / Workbench</div>
-        <div className="project-list">
-          {projects.map((project) => (
-            <a
-              className="project"
-              href={project.href}
-              key={project.name}
-              target="_blank"
-              rel="noreferrer"
-              style={{ "--project-color": project.color } as CSSProperties}
-            >
-              <span className="project-index">
-                <img src={project.mark} alt="" />
-                {project.index}
-              </span>
-              <div>
-                <span className="project-label">{project.label}</span>
-                <h2>{project.name}</h2>
-              </div>
-              <p>{project.description}</p>
-              <span className="project-arrow" aria-hidden="true">↗</span>
-            </a>
-          ))}
+        <div className="section-label">03 / Work</div>
+        <div>
+          <div className="work-heading">
+            <h2>Current build status.</h2>
+            <Link className="text-link" href="/work/">See the complete work surface <ArrowIcon /></Link>
+          </div>
+          <div className="project-list">
+            {components.map((component) => (
+              <article className="project" key={component.name} style={{ "--project-color": component.color } as CSSProperties}>
+                <span className="project-index"><img src={component.mark} alt="" />{component.index}</span>
+                <div>
+                  <span className="project-label">{component.status}</span>
+                  <h3><Link href={component.system}>{component.name}</Link></h3>
+                </div>
+                <p><strong>{component.label}</strong>{component.focus}</p>
+                <RepositoryLink href={component.repository} name={component.name} compact />
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="coordination section" id="signal">
-        <div className="section-label">03 / Field signal</div>
+        <div className="section-label">04 / Research signal</div>
         <div className="coordination-grid">
           <div>
             <p className="kicker">Ancient protocols. New participants.</p>
             <h2>What if agents could meet in the open?</h2>
+            <Link className="signal-link" href="/system/coordination/">Explore the coordination thesis <ArrowIcon /></Link>
           </div>
           <div className="coordination-copy">
-            <p>
-              IRC gave communities shared rooms. Mailing lists gave them
-              memory. Patch queues made review visible. Agentic development
-              needs those same social guarantees, expressed as an open protocol.
-            </p>
+            <p>IRC gave communities shared rooms. Mailing lists gave them memory. Patch queues made review visible. Agentic development needs those same social guarantees, expressed as an open protocol.</p>
             <div className="terminal" role="img" aria-label="A shared coordination channel showing agents working and reviewing">
-              <div className="terminal-top">
-                <span>#project-release</span>
-                <span>4 agents · 0 collisions</span>
-              </div>
+              <div className="terminal-top"><span>#project-release</span><span>4 agents · 0 collisions</span></div>
               <p><span>12:28</span> wave2 <b>PROGRESS</b> main merged, CI green</p>
               <p><span>12:29</span> reviewer <b>QUESTION</b> exact-head evidence?</p>
               <p><span>12:30</span> ui-agent <b>ANSWER</b> attached run/30748155709</p>
@@ -187,23 +157,15 @@ export default function Home() {
       </section>
 
       <section className="invitation">
-        <p>Working in public from Europe.</p>
+        <p>Writing / Notes from the work</p>
         <h2>Build systems that deserve agency.</h2>
         <div>
-          <a href="/writing/capability-not-custody">Read the first field note →</a>
-          <a href="/brand">Explore the identity system →</a>
-          <a href="https://github.com/nomed">Follow the work ↗</a>
+          <Link href="/writing/">Read the field notes <ArrowIcon /></Link>
+          <Link href="/brand/">Explore the identity system <ArrowIcon /></Link>
         </div>
       </section>
 
-      <footer>
-        <a className="wordmark footer-mark" href="#top">
-          <img src="/brand/nomed.svg" alt="" />
-          <span>NOMED</span>
-        </a>
-        <p>Open infrastructure for governed agentic development.</p>
-        <p>© 2026 · Built in public</p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import Link from "next/link";
+import { SiteFooter, SiteHeader } from "./Navigation";
 
 type EditorialPageProps = {
   index: string;
@@ -20,18 +20,7 @@ export function EditorialPage({
 }: EditorialPageProps) {
   return (
     <main className="editorial-page" style={{ "--page-accent": accent } as CSSProperties}>
-      <header className="site-header">
-        <Link className="wordmark" href="/" aria-label="Nomed, home">
-          <img src="/brand/nomed.svg" alt="" />
-          <span>NOMED</span>
-        </Link>
-        <nav aria-label="Primary navigation">
-          <a href="/manifesto">Manifesto</a>
-          <a href="/projects">Projects</a>
-          <a href="/system">System</a>
-          <a href="https://github.com/nomed">GitHub ↗</a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <article>
         <header className="editorial-hero">
@@ -42,14 +31,7 @@ export function EditorialPage({
         <div className="editorial-body">{children}</div>
       </article>
 
-      <footer>
-        <Link className="wordmark footer-mark" href="/">
-          <img src="/brand/nomed.svg" alt="" />
-          <span>NOMED</span>
-        </Link>
-        <p>Open infrastructure for governed agentic development.</p>
-        <p>© 2026 · Built in public</p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
