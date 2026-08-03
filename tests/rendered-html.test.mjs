@@ -114,7 +114,7 @@ test("every Yukh deep dive publishes the same editorial contract", async () => {
     assert.match(html, /aria-label="Breadcrumb"/, pathname);
     assert.match(html, /aria-label="Yukh components"/, pathname);
     assert.match(html, /class="repository-link"/, pathname);
-    assert.match(html, /class="mark-stage"/, pathname);
+    assert.match(html, /class="mark-keyline"/, pathname);
     assert.match(html, new RegExp(`/brand/yukh-${component}\\.svg`), pathname);
     assert.match(html, /target="_blank"/, pathname);
   }

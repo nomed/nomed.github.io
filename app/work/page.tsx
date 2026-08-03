@@ -53,7 +53,7 @@ export default function WorkPage() {
       <div className="project-cards work-cards">
         {work.map((item) => (
           <section className="project-card" id={item.slug} key={item.slug} style={{ "--card-color": item.color } as CSSProperties}>
-            <span className="mark-stage project-mark"><img src={item.mark} alt={`${item.name} mark`} /></span>
+            <span className="mark-keyline project-mark"><img src={item.mark} alt={`${item.name} mark`} /></span>
             <p className="card-status">{item.status}</p>
             <h2>{item.name}</h2>
             <p className="work-focus"><strong>Current direction</strong>{item.focus}</p>

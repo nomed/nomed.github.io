@@ -37,7 +37,7 @@ export default function BrandPage() {
       <ul>
         <li>Preserve the geometry and white internal circles.</li>
         <li>Preserve the canonical component color on every surface; never darken or recolor a mark to create contrast.</li>
-        <li>On light or uncontrolled surfaces, place the unchanged mark on the protected dark field.</li>
+        <li>On light or uncontrolled surfaces, separate the unchanged mark with the canonical fine dark keyline.</li>
         <li>Do not add gradients, shadows or decorative effects to the canonical mark.</li>
         <li>Use component color for recognition, not as a substitute for status or accessibility.</li>
         <li>Mark proposed identities explicitly until adopted in the owning repository.</li>

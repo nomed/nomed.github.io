@@ -29,7 +29,7 @@ export function EditorialPage({
       <article>
         <header className="editorial-hero">
           <div className="editorial-identity">
-            {mark && <span className="mark-stage"><img src={mark} alt={markAlt} /></span>}
+            {mark && <span className="mark-keyline"><img src={mark} alt={markAlt} /></span>}
             <p className="editorial-kicker">{index} / {label}</p>
           </div>
           <h1>{title}</h1>
