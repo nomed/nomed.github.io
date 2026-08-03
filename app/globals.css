@@ -1,6 +1,6 @@
 :root {
   --ink: #171714;
-  --paper: #f4f1e8;
+  --paper: #f7f7f4;
   --acid: #ff3b30;
   --coordination-ink: #596b00;
   --line: rgba(23, 23, 20, 0.24);
@@ -12,7 +12,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background-color: var(--paper);
-  background-image: radial-gradient(rgba(23, 23, 20, .055) .65px, transparent .65px);
+  background-image: radial-gradient(rgba(23, 23, 20, .045) .65px, transparent .65px);
   background-size: 8px 8px;
   color: var(--ink);
   font-family: var(--font-geist-sans), Arial, sans-serif;
