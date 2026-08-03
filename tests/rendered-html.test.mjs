@@ -129,7 +129,7 @@ test("orders the homepage as position, Yukh system, work and research", async ()
 
 test("uses a paper-safe Coordination tone for small Yukh copy", async () => {
   const css = await import("node:fs/promises").then(({ readFile }) => readFile(new URL("../app/globals.css", import.meta.url), "utf8"));
-  assert.match(css, /--paper:\s*#f4f1e8/);
+  assert.match(css, /--paper:\s*#f7f7f4/);
   assert.match(css, /--coordination-ink:\s*#596b00/);
   assert.match(css, /\.yukh-intro \.kicker\s*{\s*color:\s*var\(--coordination-ink\)/);
 });
