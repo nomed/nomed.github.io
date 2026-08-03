@@ -92,6 +92,12 @@ The original [Yukh reconciler](https://github.com/nomed/yukh) remains available 
 
 Deep dives: [MCP](https://nomed.github.io/system/mcp/) · [Projects](https://nomed.github.io/system/projects/) · [Coordination](https://nomed.github.io/system/coordination/)
 
+## Engineering method
+
+Cross-suite work follows the lightweight [Yukh systems engineering management plan](docs/engineering/YUKH-SEMP.md): mission threads become authority boundaries, executable contracts, adversarial vertical slices and independently verifiable evidence.
+
+The current architectural proposal is [RFC-0003 — Yukh reference architecture and minimum runtime](docs/rfcs/RFC-0003-yukh-reference-architecture-and-minimum-runtime.md), governed by [issue #29](https://github.com/nomed/nomed.github.io/issues/29). It remains Proposed until explicitly accepted by the human owner.
+
 ## This repository
 
 `nomed.github.io` is Nomed's public home and governance hub. It contains the current editorial site and the reviewed cross-repository records that define how the wider system evolves. Runtime implementations remain in their own repositories; facts link to canonical sources instead of being copied into parallel documentation.
