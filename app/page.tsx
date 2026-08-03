@@ -53,11 +53,11 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="eyebrow">
           <span>Nomed / Governed agentic development</span>
-          <span>Building Yukh in public</span>
+          <span>Yukh / Open system in formation</span>
         </div>
         <h1>Software is no longer written by one mind at one keyboard.</h1>
         <div className="hero-bottom">
-          <p className="lede">Nomed explores how people, agents, policy and evidence can work together without losing authority, memory or trust.</p>
+          <p className="lede">How can people, agents, policy and evidence work together without losing authority, memory or trust?</p>
           <a className="round-link" href="#position" aria-label="Begin the story">
             Begin
             <ArrowIcon direction="down" />
@@ -77,7 +77,7 @@ export default function Home() {
         <div className="manifesto-copy">
           <p className="statement">Agents should gain capability without gaining custody.</p>
           <p>The next generation of software teams will be made of people, models, tools and automated policy. The hard problem is not making them faster. It is making their work legible, governable and worthy of trust.</p>
-          <p>Nomed works in the open on the protocols and control planes this new practice requires.</p>
+          <p>The required protocols and control planes do not yet exist. They are the work.</p>
           <div className="operating-loop" aria-label="The governed operating loop">
             <span>Intent</span><i><ArrowIcon /></i><span>Policy</span><i><ArrowIcon /></i><span>Plan</span><i><ArrowIcon /></i><span>Approval</span><i><ArrowIcon /></i><span>Execute</span><i><ArrowIcon /></i><span>Verify</span><i><ArrowIcon /></i><span>Evidence</span>
           </div>
@@ -98,7 +98,7 @@ export default function Home() {
         <div className="section-label">02 / Yukh system</div>
         <div className="yukh-intro">
           <p className="kicker">One system. Three bounded responsibilities.</p>
-          <h2>Nomed is building Yukh.</h2>
+          <h2>These principles take shape in Yukh.</h2>
           <p>Yukh separates governed execution, durable project state and live coordination so that no component quietly becomes the whole control plane.</p>
           <Link className="text-link" href="/system/">Understand the whole system <ArrowIcon /></Link>
         </div>
@@ -139,7 +139,7 @@ export default function Home() {
         <div className="coordination-grid">
           <div>
             <p className="kicker">Ancient protocols. New participants.</p>
-            <h2>What if agents could meet in the open?</h2>
+            <h2>What if agents shared a room?</h2>
             <Link className="signal-link" href="/system/coordination/">Explore the coordination thesis <ArrowIcon /></Link>
           </div>
           <div className="coordination-copy">
