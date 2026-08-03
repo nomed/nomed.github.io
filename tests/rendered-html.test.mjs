@@ -102,6 +102,7 @@ test("every Yukh deep dive publishes the same editorial contract", async () => {
   for (const pathname of ["/system/mcp/", "/system/projects/", "/system/coordination/"]) {
     const response = await render(pathname);
     const html = await response.text();
+    const component = pathname.split("/").filter(Boolean).at(-1);
 
     assert.equal(response.status, 200, pathname);
     assert.match(html, /The problem/, pathname);
@@ -113,6 +114,8 @@ test("every Yukh deep dive publishes the same editorial contract", async () => {
     assert.match(html, /aria-label="Breadcrumb"/, pathname);
     assert.match(html, /aria-label="Yukh components"/, pathname);
     assert.match(html, /class="repository-link"/, pathname);
+    assert.match(html, /class="mark-stage"/, pathname);
+    assert.match(html, new RegExp(`/brand/yukh-${component}\\.svg`), pathname);
     assert.match(html, /target="_blank"/, pathname);
   }
 });

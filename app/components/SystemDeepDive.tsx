@@ -52,9 +52,10 @@ export function SystemDeepDive({
   const currentIndex = components.findIndex((item) => item.slug === component);
   const previous = components[(currentIndex + components.length - 1) % components.length];
   const next = components[(currentIndex + 1) % components.length];
+  const mark = `/brand/yukh-${component}.svg`;
 
   return (
-    <EditorialPage index={index} label={label} title={title} lede={lede} accent={accent}>
+    <EditorialPage index={index} label={label} title={title} lede={lede} accent={accent} mark={mark} markAlt={`${repositoryName} mark`}>
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <Link href="/">Nomed</Link>
         <ArrowIcon />

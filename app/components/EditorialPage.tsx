@@ -7,6 +7,8 @@ type EditorialPageProps = {
   title: string;
   lede: string;
   accent?: string;
+  mark?: string;
+  markAlt?: string;
   children: ReactNode;
 };
 
@@ -16,6 +18,8 @@ export function EditorialPage({
   title,
   lede,
   accent = "#FF3B30",
+  mark,
+  markAlt = "",
   children,
 }: EditorialPageProps) {
   return (
@@ -24,7 +28,10 @@ export function EditorialPage({
 
       <article>
         <header className="editorial-hero">
-          <p className="editorial-kicker">{index} / {label}</p>
+          <div className="editorial-identity">
+            {mark && <span className="mark-stage"><img src={mark} alt={markAlt} /></span>}
+            <p className="editorial-kicker">{index} / {label}</p>
+          </div>
           <h1>{title}</h1>
           <p className="editorial-lede">{lede}</p>
         </header>

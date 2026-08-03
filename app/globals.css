@@ -145,7 +145,10 @@ footer p { margin: 0; color: #8c8a82; font-size: .78rem; }
 .editorial-page { --page-accent: #ff3b30; }
 .editorial-page article { border-bottom: 1px solid var(--ink); }
 .editorial-hero { padding: 6rem 3.2vw 7rem; border-bottom: 1px solid var(--ink); }
-.editorial-kicker { margin: 0 0 5rem; color: var(--page-accent); font: 600 .72rem var(--font-geist-mono); text-transform: uppercase; letter-spacing: .08em; }
+.editorial-identity { display: flex; align-items: center; gap: 1.2rem; margin: 0 0 5rem; }
+.editorial-kicker { margin: 0; color: var(--page-accent); font: 600 .72rem var(--font-geist-mono); text-transform: uppercase; letter-spacing: .08em; }
+.mark-stage { width: 88px; height: 88px; padding: 8px; background: var(--ink); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; box-sizing: border-box; }
+.mark-stage img { width: 100%; height: 100%; display: block; }
 .editorial-hero h1 { max-width: 1400px; margin: 0; font-size: clamp(4.2rem, 9vw, 9.5rem); font-weight: 620; line-height: .87; letter-spacing: -.08em; }
 .editorial-lede { max-width: 900px; margin: 5rem 0 0 auto; font-size: clamp(1.4rem, 2.5vw, 2.5rem); line-height: 1.24; letter-spacing: -.04em; }
 .editorial-body { max-width: 1120px; margin: 0 auto; padding: 7rem 3.2vw 9rem; }
@@ -169,7 +172,7 @@ footer p { margin: 0; color: #8c8a82; font-size: .78rem; }
 
 .project-cards, .brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--ink); border: 1px solid var(--ink); }
 .project-card { min-height: 520px; padding: 2rem; background: var(--paper); display: flex; flex-direction: column; align-items: flex-start; }
-.project-card > img { width: 72px; height: 72px; margin-bottom: 3.5rem; }
+.project-card .project-mark { margin-bottom: 3.5rem; }
 .project-card .card-status { width: auto; margin: 0 0 1rem; color: var(--muted); font: .66rem var(--font-geist-mono); text-transform: uppercase; }
 .project-card h2 { margin: 0 0 1.5rem; font-size: clamp(2rem, 3vw, 3.4rem); line-height: .95; letter-spacing: -.06em; }
 .project-card > p { margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5; }
@@ -223,7 +226,8 @@ footer p { margin: 0; color: #8c8a82; font-size: .78rem; }
   .coordination-grid { grid-template-columns: 1fr; gap: 2rem; }
   footer { grid-template-columns: 1fr; }
   .editorial-hero { padding: 4rem 5vw 5rem; }
-  .editorial-kicker { margin-bottom: 3rem; }
+  .editorial-identity { margin-bottom: 3rem; }
+  .mark-stage { width: 72px; height: 72px; padding: 7px; }
   .editorial-lede { margin-top: 3rem; }
   .editorial-body { padding: 5rem 5vw 7rem; }
   .project-cards { grid-template-columns: 1fr; }
