@@ -38,6 +38,7 @@ test("server-renders the Nomed editorial home page", async () => {
   assert.match(html, /Yukh MCP/);
   assert.match(html, /Yukh Projects/);
   assert.match(html, /Yukh Coordination/);
+  assert.match(html, /Foundation \/ reference implementation/);
   assert.match(html, /src="\/brand\/nomed\.svg"/);
   assert.match(html, /src="\/brand\/yukh-mcp\.svg"/);
   assert.match(html, /src="\/brand\/yukh-projects\.svg"/);
@@ -114,9 +115,26 @@ test("every Yukh deep dive publishes the same editorial contract", async () => {
     assert.match(html, /aria-label="Breadcrumb"/, pathname);
     assert.match(html, /aria-label="Yukh components"/, pathname);
     assert.match(html, /class="repository-link"/, pathname);
+    assert.match(html, /aria-label="Yukh .* resources"/, pathname);
+    assert.match(html, /class="editorial-cta"/, pathname);
     assert.match(html, /class="mark-keyline"/, pathname);
     assert.match(html, new RegExp(`/brand/yukh-${component}\\.svg`), pathname);
     assert.match(html, /target="_blank"/, pathname);
+  }
+});
+
+test("publishes component-owned documentation without overstating readiness", async () => {
+  const expectations = [
+    ["/system/mcp/", /href="https:\/\/nomed\.github\.io\/yukh-mcp\/"/, /foundation/],
+    ["/system/projects/", /href="https:\/\/github\.com\/nomed\/yukh-projects#architecture-and-migration"/, /foundation bootstrap/],
+    ["/system/coordination/", /href="https:\/\/github\.com\/nomed\/yukh-coordination\/blob\/main\/PROTOCOL\.md"/, /no supported public process binary/],
+  ];
+
+  for (const [pathname, documentation, maturity] of expectations) {
+    const response = await render(pathname);
+    const html = await response.text();
+    assert.match(html, documentation, pathname);
+    assert.match(html, maturity, pathname);
   }
 });
 

@@ -27,6 +27,8 @@ export default function YukhMcpPage() {
       ]}
       interactions={<p>Coordination carries claims and signals to the right participants. Projects provides durable delivery context. MCP alone crosses the execution boundary and returns evidence for both.</p>}
       direction={<p>Stabilize the capability envelope, policy decision model and evidence contract before adding provider-specific operations.</p>}
+      documentation="https://nomed.github.io/yukh-mcp/"
+      documentationName="Yukh MCP documentation"
       repository="https://github.com/nomed/yukh-mcp"
       repositoryName="Yukh MCP"
     />
