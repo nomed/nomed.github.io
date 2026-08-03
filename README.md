@@ -96,7 +96,7 @@ Deep dives: [MCP](https://nomed.github.io/system/mcp/) · [Projects](https://nom
 
 Cross-suite work follows the lightweight [Yukh systems engineering management plan](docs/engineering/YUKH-SEMP.md): mission threads become authority boundaries, executable contracts, adversarial vertical slices and independently verifiable evidence.
 
-The current architectural proposal is [RFC-0003 — Yukh reference architecture and minimum runtime](docs/rfcs/RFC-0003-yukh-reference-architecture-and-minimum-runtime.md), governed by [issue #29](https://github.com/nomed/nomed.github.io/issues/29). It remains Proposed until explicitly accepted by the human owner.
+The accepted architecture is [RFC-0003 — Yukh reference architecture and minimum runtime](docs/rfcs/RFC-0003-yukh-reference-architecture-and-minimum-runtime.md), governed by [issue #29](https://github.com/nomed/nomed.github.io/issues/29). JetStream is the first distributed adapter and Matrix the first human bridge; their implementation remains owned by Yukh Coordination.
 
 ## This repository
 

@@ -32,7 +32,4 @@ RFCs never contain credentials, private data, sensitive infrastructure identifie
 
 - [RFC-0001 — Yukh suite topology, ownership, and portfolio schema](RFC-0001-yukh-suite-topology-and-portfolio-schema.md)
 - [RFC-0002 — Confidential consumer migration inventory](RFC-0002-confidential-consumer-migration-inventory.md)
-
-## Proposed records
-
 - [RFC-0003 — Yukh reference architecture and minimum runtime](RFC-0003-yukh-reference-architecture-and-minimum-runtime.md)
