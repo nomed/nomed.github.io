@@ -50,7 +50,7 @@ test("renders the public editorial system with truthful maturity labels", async 
     ["/work/", /Foundation bootstrap/],
     ["/system/", /Three boundaries\. One governed flow\./],
     ["/system/mcp/", /Capability without custody\./],
-    ["/system/projects/", /Declared state, reconciled in the open\./],
+    ["/system/projects/", /Declared state\. Deterministic reconciliation\./],
     ["/system/coordination/", /A shared room for work that happens in separate minds\./],
     ["/writing/", /Ideas tested against the work\./],
     ["/writing/capability-not-custody/", /A capability is a contract/],
@@ -70,7 +70,7 @@ test("publishes stable identity and predictable internal navigation", async () =
 
   assert.match(
     html,
-    /name="description" content="Nomed designs open infrastructure for governed agentic development:/,
+    /name="description" content="Open infrastructure for governed agentic development:/,
   );
   assert.match(html, /property="og:image" content="https:\/\/nomed\.github\.io\/og\.png"/);
   assert.match(html, /href="\/system\/mcp\/"/);
@@ -129,8 +129,32 @@ test("orders the homepage as position, Yukh system, work and research", async ()
 
 test("uses a paper-safe Coordination tone for small Yukh copy", async () => {
   const css = await import("node:fs/promises").then(({ readFile }) => readFile(new URL("../app/globals.css", import.meta.url), "utf8"));
+  assert.match(css, /--paper:\s*#f4f1e8/);
   assert.match(css, /--coordination-ink:\s*#596b00/);
   assert.match(css, /\.yukh-intro \.kicker\s*{\s*color:\s*var\(--coordination-ink\)/);
+});
+
+test("keeps the public voice free of third-person corporate copy", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const [home, readme] = await Promise.all([
+    render().then((response) => response.text()),
+    readFile(new URL("../README.md", import.meta.url), "utf8"),
+  ]);
+  const publicCopy = `${home}\n${readme}`;
+
+  assert.doesNotMatch(publicCopy, /Nomed (?:builds|is building|designs|explores|works in the open)/i);
+  assert.doesNotMatch(publicCopy, /build(?:ing|s)? in public/i);
+});
+
+test("does not repeat the Yukh prefix inside the established System index", async () => {
+  const response = await render("/system/");
+  const html = await response.text();
+  const visibleText = html.replace(/<[^>]*>/g, "");
+
+  assert.match(visibleText, /03\.1 \/ MCP/);
+  assert.match(visibleText, /03\.2 \/ Projects/);
+  assert.match(visibleText, /03\.3 \/ Coordination/);
+  assert.doesNotMatch(visibleText, /03\.[123] \/ Yukh/);
 });
 
 test("does not publish the former Projects route", async () => {

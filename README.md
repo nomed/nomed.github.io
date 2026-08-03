@@ -18,13 +18,11 @@
 
 ---
 
-**Nomed explores and builds the operating systems of governed agentic development.** It turns a clear point of view into public protocols, bounded components, golden paths, and durable engineering records for a future where people and autonomous agents can work together without surrendering control, context, or trust.
-
-Nomed is a point of view made operational: a public laboratory and an open engineering project.
+**Governed agentic development needs explicit authority, durable memory and verifiable evidence.** This repository develops that position through public protocols, bounded components, golden paths and durable engineering records.
 
 The work starts from a concrete failure mode. Agentic development works surprisingly well inside one session, but becomes fragile across multiple agents, repositories, tools, model providers, and asynchronous handoffs. Intent disappears. Authority becomes ambiguous. Work is duplicated. Evidence and memory fragment.
 
-Nomed exists to make that larger system **legible, governable, durable, and worthy of trust**.
+The aim is to make that larger system **legible, governable, durable, and worthy of trust**.
 
 > The goal is not merely to make agents faster.  
 > The goal is to make human–agent collaboration capable of carrying real responsibility.
@@ -36,15 +34,15 @@ Nomed exists to make that larger system **legible, governable, durable, and wort
 - **Capability, not custody.** Agents receive narrowly governed capabilities, not unrestricted credentials or invisible authority.
 - **Plans before mutations.** Consequential actions begin as inspectable intent and end with verifiable evidence.
 - **Memory outside the session.** Decisions, claims, handoffs, and outcomes survive any single chat, agent, or vendor.
-- **Coordination in the open.** Parallel work becomes legible through explicit ownership, state, dependencies, and review.
+- **Observable coordination.** Parallel work becomes legible through explicit ownership, state, dependencies, and review.
 - **Vendor-neutral by design.** The contracts must work across Codex, ChatGPT, Claude, Gemini, local agents, and future runtimes.
 - **Honest maturity.** Research, foundations, compatibility layers, and production systems are named for what they really are.
 
 Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) for the full position.
 
-## Yukh — the system taking shape
+## Yukh — an open system in formation
 
-Yukh is the open system taking shape within this architecture. It is a family of bounded instruments rather than a monolithic platform: each component owns one part of the control plane and exposes explicit contracts to the others.
+**Yukh turns these principles into an architecture.** Its components separate governed execution, durable project state and cross-session coordination rather than collapsing them into a monolithic platform.
 
 <table>
   <tr>

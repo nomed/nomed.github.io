@@ -12,7 +12,7 @@ export default function YukhProjectsPage() {
       component="projects"
       index="03.2"
       label="Yukh system / Projects"
-      title="Declared state, reconciled in the open."
+      title="Declared state. Deterministic reconciliation."
       lede="Yukh Projects makes portfolio and delivery state durable, reviewable and independent from any single agent, session or consumer."
       accent="#00B8CC"
       status="foundation bootstrap. Functional code enters through reviewed clean-room migration."
