@@ -22,6 +22,8 @@ type SystemDeepDiveProps = {
   contracts: Contract[];
   interactions: ReactNode;
   direction: ReactNode;
+  documentation: string;
+  documentationName: string;
   repository: string;
   repositoryName: string;
 };
@@ -46,6 +48,8 @@ export function SystemDeepDive({
   contracts,
   interactions,
   direction,
+  documentation,
+  documentationName,
   repository,
   repositoryName,
 }: SystemDeepDiveProps) {
@@ -88,7 +92,12 @@ export function SystemDeepDive({
       <h2>Next direction</h2>
       {direction}
 
-      <RepositoryLink href={repository} name={repositoryName} />
+      <div className="component-resources" aria-label={`${repositoryName} resources`}>
+        <a className="editorial-cta" href={documentation} target="_blank" rel="noreferrer">
+          Read {documentationName} <ArrowIcon direction="external" />
+        </a>
+        <RepositoryLink href={repository} name={repositoryName} />
+      </div>
 
       <nav className="sibling-nav" aria-label="Yukh components">
         <Link href={`/system/${previous.slug}/`}>

@@ -26,7 +26,9 @@ export default function YukhProjectsPage() {
         { name: "Postconditions", description: "evidence that observed state now satisfies the declaration." },
       ]}
       interactions={<p>Coordination announces who is acting on a plan and carries review signals. MCP can expose reconciliation as a governed capability. Projects remains the durable source of delivery truth.</p>}
-      direction={<p>Complete the clean-room foundation, stabilize the declarative schema and prove idempotent reconciliation against real GitHub Projects fixtures.</p>}
+      direction={<p>Complete the clean-room migration and qualify the accepted contracts as one supported adoption path. Installation, operations and migration guidance remain owned by the component repository.</p>}
+      documentation="https://github.com/nomed/yukh-projects#architecture-and-migration"
+      documentationName="Yukh Projects documentation"
       repository="https://github.com/nomed/yukh-projects"
       repositoryName="Yukh Projects"
     />

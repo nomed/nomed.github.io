@@ -31,8 +31,8 @@ const components = [
     label: "Cross-session coordination",
     mark: "/brand/yukh-coordination.svg",
     color: "#CCFF00",
-    status: "Research / design",
-    focus: "Claims, evidence and explicit handoffs across isolated sessions.",
+    status: "Foundation / reference implementation",
+    focus: "Protocol conformance and qualified relay layers without a supported public process.",
     system: "/system/coordination/",
     repository: "https://github.com/nomed/yukh-coordination",
   },
@@ -69,7 +69,7 @@ export default function Home() {
         <span className="pulse" aria-hidden="true" />
         <strong>Current signal</strong>
         <span>Yukh Coordination Protocol</span>
-        <span className="signal-status">research / design</span>
+        <span className="signal-status">foundation / reference implementation</span>
       </aside>
 
       <section className="manifesto section" id="position">

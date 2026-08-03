@@ -81,7 +81,7 @@ Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) for the full posi
     <td>
       <strong>Cross-session coordination</strong><br>
       Open claims, signals, reviews, evidence, and explicit handoffs. It coordinates work; it does not grant authority.<br>
-      <sub>Research / design</sub>
+      <sub>Foundation / reference implementation</sub>
     </td>
   </tr>
 </table>

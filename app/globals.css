@@ -113,6 +113,8 @@ a { color: inherit; text-decoration: none; }
 .repository-link .arrow-icon { margin-left: .35rem; }
 .repository-link-compact { margin: 0; padding: .7rem .8rem; font-size: .62rem; line-height: 1.25; }
 .repository-link-compact .github-icon { width: 1rem; height: 1rem; }
+.component-resources { display: flex; flex-wrap: wrap; align-items: stretch; gap: .75rem; margin-top: 5rem; }
+.component-resources .editorial-cta, .component-resources .repository-link { margin-top: 0; }
 
 .coordination { background: var(--ink); color: var(--paper); }
 .coordination-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; margin-top: 5rem; }
