@@ -1,7 +1,8 @@
 # RFC-0004 — Yukh documentation architecture
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-03
+- **Accepted:** 2026-08-03 by `@nomed`
 - **Owner:** `@nomed`
 - **Governing issue:** [nomed.github.io#32](https://github.com/nomed/nomed.github.io/issues/32)
 - **Affected repositories:** `nomed.github.io`, `yukh-mcp`, `yukh-projects`, `yukh-coordination`, `yukh`
@@ -250,4 +251,3 @@ This decision is fully implemented when:
 5. Whether stable common visual requirements justify a shared theme after the second component site.
 
 These decisions do not change the ownership boundary established here. Each requires evidence from the owning component and, where it affects more than one repository, a reviewed suite-level decision.
-
