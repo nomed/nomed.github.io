@@ -1,7 +1,8 @@
 # RFC-0003 — Yukh reference architecture and minimum runtime
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-03
+- **Accepted:** 2026-08-03 by `@nomed`
 - **Owner:** `@nomed`
 - **Governing issue:** [nomed.github.io#29](https://github.com/nomed/nomed.github.io/issues/29)
 - **Affected repositories:** `nomed.github.io`, `yukh-projects`, `yukh-mcp`, `yukh-coordination`
@@ -10,7 +11,7 @@
 
 Yukh will be developed as a protocol-first system of bounded components. The Yukh Coordination protocol and conformance corpus form the coordination kernel. Clients use a transport-neutral Coordination API; relay persistence and messaging remain behind explicit ports. Projects retains accepted delivery state, MCP retains execution authority, and a coordinator remains a non-authoritative participant.
 
-The first distributed runtime candidate is NATS JetStream, evaluated against a deterministic reference adapter. IRC and Matrix are presentation bridges only. This RFC proposes the architecture and the experiment that may accept or reject NATS; it does not yet select a production broker or authorize infrastructure deployment.
+The first distributed runtime adapter is NATS JetStream, qualified against a deterministic reference adapter. Matrix is the first human bridge. IRC and any other presentation surfaces remain optional adapters. This decision selects the first implementation path; it does not declare a production platform or authorize infrastructure deployment.
 
 ## Context
 
@@ -35,7 +36,7 @@ Choosing a broker before preserving these semantics would allow infrastructure c
 
 ## Non-goals
 
-- accepting NATS, RabbitMQ, Matrix, IRC, PostgreSQL, or another product as the production platform;
+- declaring NATS, Matrix, RabbitMQ, IRC, PostgreSQL, or another product production-ready without qualification evidence;
 - creating a privileged autonomous supervisor;
 - changing the accepted Yukh Coordination 0.1 envelope or transition semantics;
 - making coordination messages authoritative project mutations;
@@ -119,15 +120,15 @@ The exact language interface is component-local, but every adapter must support 
 
 The reference adapter optimizes for determinism and inspectability. It runs in memory for conformance and may use SQLite for a single-node integration environment. It is the executable semantic oracle, not the production scalability claim.
 
-### Distributed candidate: NATS JetStream
+### First distributed adapter: NATS JetStream
 
-The first distributed spike will map accepted events to a replicated JetStream stream and recoverable subscriptions to durable consumers. Adapter code must handle at-least-once delivery and may use JetStream atomic primitives only where the Yukh protocol already requires a transaction, such as handoff acceptance or immutable channel creation.
+The first distributed implementation will map accepted events to a replicated JetStream stream and recoverable subscriptions to durable consumers. Adapter code must handle at-least-once delivery and may use JetStream atomic primitives only where the Yukh protocol already requires a transaction, such as handoff acceptance or immutable channel creation.
 
 NATS Key/Value must not become an exclusive claim lock. If the adapter cannot preserve accepted concurrent claims, contiguous relay sequencing, idempotent receipts, transcript epochs, and handoff CAS, the spike fails.
 
-### IRC and Matrix
+### Matrix and other human bridges
 
-IRC and Matrix may expose rooms and human-readable activity. A bridge translates authorized input into protocol requests and renders accepted events. It stores no authoritative state and does not treat a displayed or delivered message as acceptance. Bridge loss must not lose the transcript.
+Matrix is the first human bridge. It translates explicitly supported, authorized input into protocol requests and renders accepted events. It stores no authoritative state and does not treat Matrix delivery, edits, redactions, power levels, or room state as Yukh acceptance or authority. Bridge loss must not lose the transcript. IRC may be evaluated later under the same boundary.
 
 ### Other brokers and stores
 
@@ -188,7 +189,7 @@ The reference and NATS adapters run the same corpus. The spike records:
 - authorization denial and tenant/channel isolation;
 - operational steps, failure recovery, and rollback.
 
-The NATS candidate is rejected or redesigned if protocol-specific exceptions leak into clients, canonical results diverge, operations require unbounded manual repair, or the security boundary cannot be evidenced.
+The NATS adapter is rejected or redesigned if protocol-specific exceptions leak into clients, canonical results diverge, operations require unbounded manual repair, or the security boundary cannot be evidenced. Acceptance of this RFC authorizes implementation planning, not bypassing this failure rule.
 
 ## Security consequences
 
@@ -249,25 +250,27 @@ No new repository is proposed.
 
 ## Rollback
 
-Before RFC acceptance, rollback is document reversion with the governing issue retained as history. During the spike, the distributed adapter may be discarded without changing protocol fixtures or the reference adapter. Any test infrastructure is ephemeral and contains no production state. A failed candidate produces a recorded spike report rather than a compatibility promise.
+After acceptance, material architectural rollback requires a superseding RFC. During qualification, the distributed adapter may be discarded without changing protocol fixtures or the reference adapter. Any test infrastructure is ephemeral and contains no production state. A failed adapter produces a recorded spike report rather than a compatibility promise.
 
 ## Open questions
 
 1. Which public API shape best preserves receipt and streaming semantics: HTTP plus SSE, HTTP plus WebSocket, or a bidirectional RPC binding?
 2. Does SQLite add useful reference evidence beyond the in-memory conformance implementation?
 3. Can NATS preserve the relay atomicity and receipt requirements without a separate transactional store?
-4. Should the first human bridge be IRC, Matrix, or a read-only web transcript?
-5. Which exact Projects mutation and MCP capability are sufficiently bounded for the first slice?
+4. Which exact Projects mutation and MCP capability are sufficiently bounded for the first slice?
 
-## Acceptance evidence
+## Acceptance record
 
-This RFC remains Proposed. Acceptance requires:
+The human owner accepted the architectural direction on 2026-08-03 with these explicit implementation choices:
 
-- human approval of the architectural direction;
-- review against component-local accepted protocol and security records;
-- confirmed ownership of the first component issues;
-- no unresolved contradiction with RFC-0001;
-- a recorded decision on whether the spike may provision ephemeral NATS infrastructure.
+- NATS JetStream is the first distributed relay adapter, owned by [`yukh-coordination#14`](https://github.com/nomed/yukh-coordination/issues/14);
+- Matrix is the first human bridge, owned by [`yukh-coordination#15`](https://github.com/nomed/yukh-coordination/issues/15);
+- component implementation remains in the owning component repository;
+- `nomed.github.io` retains only cross-suite method, decisions, and acceptance evidence;
+- no issue is created in MCP or Projects until a concrete bounded integration crosses that component's authority boundary;
+- ephemeral or hosted infrastructure still requires a separately reviewed implementation plan.
+
+The remaining open questions do not block architecture acceptance. They must be resolved in their owning component records before the relevant implementation gate.
 
 ## Informative references
 
