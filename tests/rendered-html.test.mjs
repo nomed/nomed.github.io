@@ -38,7 +38,10 @@ test("server-renders the Nomed editorial home page", async () => {
   assert.match(html, /Yukh MCP/);
   assert.match(html, /Yukh Projects/);
   assert.match(html, /Yukh Coordination/);
-  assert.match(html, /Foundation \/ reference implementation/);
+  assert.match(html, /Preparation evidence complete/);
+  assert.match(html, /no live apply has occurred/);
+  assert.match(html, /no durable profile is accepted/);
+  assert.match(html, /there is no public or live runtime/);
   assert.match(html, /src="\/brand\/nomed\.svg"/);
   assert.match(html, /src="\/brand\/yukh-mcp\.svg"/);
   assert.match(html, /src="\/brand\/yukh-projects\.svg"/);
@@ -48,7 +51,7 @@ test("server-renders the Nomed editorial home page", async () => {
 test("renders the public editorial system with truthful maturity labels", async () => {
   const routes = [
     ["/manifesto/", /Plans before mutations\./],
-    ["/work/", /Foundation bootstrap/],
+    ["/work/", /Published \/ synthetically qualified/],
     ["/system/", /Three boundaries\. One governed flow\./],
     ["/system/mcp/", /Capability without custody\./],
     ["/system/projects/", /Declared state\. Deterministic reconciliation\./],
@@ -125,9 +128,9 @@ test("every Yukh deep dive publishes the same editorial contract", async () => {
 
 test("publishes component-owned documentation without overstating readiness", async () => {
   const expectations = [
-    ["/system/mcp/", /href="https:\/\/nomed\.github\.io\/yukh-mcp\/"/, /foundation/],
-    ["/system/projects/", /href="https:\/\/github\.com\/nomed\/yukh-projects#architecture-and-migration"/, /foundation bootstrap/],
-    ["/system/coordination/", /href="https:\/\/github\.com\/nomed\/yukh-coordination\/blob\/main\/PROTOCOL\.md"/, /no supported public process binary/],
+    ["/system/mcp/", /href="https:\/\/nomed\.github\.io\/yukh-mcp\/"/, /no durable profile has been accepted and no mutation lifecycle is integrated/],
+    ["/system/projects/", /href="https:\/\/github\.com\/nomed\/yukh-projects#architecture-and-migration"/, /no live qualification or apply has occurred/],
+    ["/system/coordination/", /href="https:\/\/github\.com\/nomed\/yukh-coordination\/blob\/main\/PROTOCOL\.md"/, /there is no public or live runtime and the project is not production-ready/],
   ];
 
   for (const [pathname, documentation, maturity] of expectations) {
