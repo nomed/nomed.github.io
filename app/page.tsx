@@ -9,8 +9,8 @@ const components = [
     label: "Governed capabilities",
     mark: "/brand/yukh-mcp.svg",
     color: "#7C3AED",
-    status: "Foundation",
-    focus: "Capability envelope, policy decisions and evidence contracts.",
+    status: "Audit writer foundation",
+    focus: "Storage-neutral audit contracts exist; no durable profile is accepted and no mutation lifecycle is integrated.",
     system: "/system/mcp/",
     repository: "https://github.com/nomed/yukh-mcp",
   },
@@ -20,8 +20,8 @@ const components = [
     label: "Durable project state",
     mark: "/brand/yukh-projects.svg",
     color: "#00E5FF",
-    status: "Foundation bootstrap",
-    focus: "Declarative schema and idempotent GitHub Projects reconciliation.",
+    status: "Published / synthetically qualified",
+    focus: "v1.7.0 qualifies controlled apply with synthetic fixtures; no live apply has occurred.",
     system: "/system/projects/",
     repository: "https://github.com/nomed/yukh-projects",
   },
@@ -31,8 +31,8 @@ const components = [
     label: "Cross-session coordination",
     mark: "/brand/yukh-coordination.svg",
     color: "#CCFF00",
-    status: "Foundation / reference implementation",
-    focus: "Protocol conformance and qualified relay layers without a supported public process.",
+    status: "Preparation evidence complete",
+    focus: "Protocol and runtime preparation evidence exist; there is no public or live runtime.",
     system: "/system/coordination/",
     repository: "https://github.com/nomed/yukh-coordination",
   },
@@ -69,7 +69,7 @@ export default function Home() {
         <span className="pulse" aria-hidden="true" />
         <strong>Current signal</strong>
         <span>Yukh Coordination Protocol</span>
-        <span className="signal-status">foundation / reference implementation</span>
+        <span className="signal-status">preparation evidence complete / no live runtime</span>
       </aside>
 
       <section className="manifesto section" id="position">

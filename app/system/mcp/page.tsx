@@ -15,7 +15,7 @@ export default function YukhMcpPage() {
       title="Capability without custody."
       lede="Yukh MCP turns agent intent into bounded execution and verifiable evidence without distributing unrestricted credentials or invisible authority."
       accent="#7C3AED"
-      status="foundation. Public contracts and security boundaries precede operational capabilities."
+      status="audit writer foundation. Storage-neutral durable writer and recovery contracts exist with a volatile conformance store; no durable profile has been accepted and no mutation lifecycle is integrated."
       problem={<p>Agents need to inspect and change real systems, but direct credential access collapses intent, policy, execution and audit into one opaque step.</p>}
       responsibility={<p>Expose typed capabilities through an explicit intent-to-evidence lifecycle: describe the proposed action, evaluate policy, execute within a bounded grant and return durable proof of the outcome.</p>}
       boundary={<p>MCP may validate and execute an authorized capability. It does not decide portfolio priority, own project state or infer coordination authority from messages.</p>}
@@ -26,7 +26,7 @@ export default function YukhMcpPage() {
         { name: "Evidence", description: "immutable references that show what happened and under which decision." },
       ]}
       interactions={<p>Coordination carries claims and signals to the right participants. Projects provides durable delivery context. MCP alone crosses the execution boundary and returns evidence for both.</p>}
-      direction={<p>Stabilize the capability envelope, policy decision model and evidence contract before adding provider-specific operations.</p>}
+      direction={<p>Review and explicitly accept a durable profile before implementation, then qualify checkpoint authority, approval identity, gateway integration, provider execution, verification and reconciliation as one bounded mutation lifecycle.</p>}
       documentation="https://nomed.github.io/yukh-mcp/"
       documentationName="Yukh MCP documentation"
       repository="https://github.com/nomed/yukh-mcp"
