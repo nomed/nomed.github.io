@@ -38,3 +38,4 @@ RFCs never contain credentials, private data, sensitive infrastructure identifie
 ## Proposed records
 
 - [RFC-0005 — First usable Yukh suite preview](RFC-0005-first-usable-yukh-preview.md)
+- [RFC-0006 — Bounded delegation policy for suite governance decisions](RFC-0006-bounded-delegation-policy.md)
