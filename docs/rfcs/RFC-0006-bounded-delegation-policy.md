@@ -1,8 +1,9 @@
 # RFC-0006 — Bounded delegation policy for suite governance decisions
 
-- **Status:** Accepted
+- **Status:** Superseded
 - **Date:** 2026-08-09
 - **Accepted:** 2026-08-09 by `@nomed`
+- **Superseded:** 2026-08-09 by [RFC-0007 — Autonomous maintainer mandate: session-separated delegation and bounded execution](RFC-0007-autonomous-maintainer-mandate.md)
 - **Owner:** `@nomed`
 - **Governing issue:** [nomed.github.io#43](https://github.com/nomed/nomed.github.io/issues/43)
 - **Affected repositories:** `nomed.github.io`, `yukh-projects`, `yukh-mcp`, `yukh-coordination`, `yukh`
@@ -418,3 +419,18 @@ requirements, revocation, and audit rules authoritative text. It does not:
   authorized by this acceptance; and
 - supersede or reinterpret RFC-0001 through RFC-0005, which remain
   independently authoritative within their own scope.
+
+## Superseded
+
+This RFC was superseded in full on 2026-08-09 by
+[RFC-0007 — Autonomous maintainer mandate: session-separated delegation and bounded execution](RFC-0007-autonomous-maintainer-mandate.md),
+which the owner accepted on the same date via cross-session coordination from
+the "Stato progetto yulh" session. The named-human-delegate Class B mechanic
+and the per-repository Migration adoption bootstrap above are replaced by
+RFC-0007's session-role separation and self-activating suite-wide migration;
+Class A, the exhaustive Class C philosophy, the immutable decision record, and
+the fail-closed denial semantics carry forward under RFC-0007 rather than
+this record. The text above remains the historical record of what was
+accepted and why; it is no longer authoritative. See RFC-0007's own
+Acceptance record for the exact owner statement that accepted RFC-0007 and,
+in the same act, superseded this RFC.
