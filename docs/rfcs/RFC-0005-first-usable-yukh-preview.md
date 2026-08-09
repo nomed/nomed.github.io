@@ -1,7 +1,8 @@
 # RFC-0005 — First usable Yukh suite preview
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-09
+- **Accepted:** 2026-08-09 by `@nomed`
 - **Owner:** `@nomed`
 - **Governing issue:** [#40](https://github.com/nomed/nomed.github.io/issues/40)
 - **Affected repositories:** `nomed.github.io`, `yukh-projects`, `yukh-mcp`, `yukh-coordination`
@@ -408,8 +409,11 @@ this proposal.
 
 ## Acceptance record
 
-This RFC is proposed only. It authorizes no deployment, provider registration,
-credential creation, GitHub mutation, release publication or maturity change.
-Only the human owner may accept it after the governing issue and component
-reviews establish that the two-effect mission thread is the intended first
-preview.
+The owner accepted this RFC on 2026-08-09, including the two-effect authority
+model that preserves RFC-0003 steps 8 and 9 as independently planned, approved,
+authorized, verified and audited effects.
+
+Acceptance authorizes component planning and implementation within the
+repository ownership and delivery gates defined here. It does not authorize
+deployment, credential creation, live mutation, preview publication or
+production use.
