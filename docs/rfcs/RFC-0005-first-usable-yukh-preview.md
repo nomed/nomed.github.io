@@ -3,7 +3,7 @@
 - **Status:** Proposed
 - **Date:** 2026-08-09
 - **Owner:** `@nomed`
-- **Governing issue:** Pending
+- **Governing issue:** [#40](https://github.com/nomed/nomed.github.io/issues/40)
 - **Affected repositories:** `nomed.github.io`, `yukh-projects`, `yukh-mcp`, `yukh-coordination`
 
 ## Summary
