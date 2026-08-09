@@ -1,7 +1,8 @@
 # RFC-0006 — Bounded delegation policy for suite governance decisions
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-09
+- **Accepted:** 2026-08-09 by `@nomed`
 - **Owner:** `@nomed`
 - **Governing issue:** [nomed.github.io#43](https://github.com/nomed/nomed.github.io/issues/43)
 - **Affected repositories:** `nomed.github.io`, `yukh-projects`, `yukh-mcp`, `yukh-coordination`, `yukh`
@@ -25,12 +26,13 @@ human-owner-only. The policy is explicit, auditable, revocable by default, and
 fails closed: if any required condition cannot be evidenced, the decision
 falls to the next stricter class, ultimately to the human owner.
 
-**This RFC does not itself delegate anything.** It remains **Proposed** until
-the human owner explicitly accepts it. No decision may be treated as
-delegated, and no repository may claim Class B delegated acceptance,
-before that acceptance is recorded. Until acceptance, every governance
-decision in every affected repository continues to require the human owner,
-exactly as under RFC-0001 through RFC-0005 today.
+**This RFC does not itself delegate anything.** Suite-level acceptance of the
+policy text (recorded below) activates no Class B delegation in any
+repository by itself. No decision may be treated as delegated, and no
+repository may claim Class B delegated acceptance, until that repository
+separately completes its own owner-accepted adoption record per Migration.
+Until a repository does so, every governance decision in it continues to
+require the human owner, exactly as under RFC-0001 through RFC-0005 today.
 
 ## Context
 
@@ -282,9 +284,10 @@ Before any Class B acceptance:
 
 ## Examples applying this policy to the current suite preview
 
-These illustrate classification; none are authorized by this RFC before it is
-accepted, and Class B examples remain owner-only until a repository adopts
-this policy per Migration below.
+These illustrate classification only. Suite-level acceptance of this RFC does
+not by itself authorize any of them; Class B examples remain owner-only until
+the specific repository completes its own owner-accepted adoption record per
+Migration below.
 
 | Decision | Class | Why |
 | --- | --- | --- |
@@ -328,7 +331,8 @@ suite level does not itself activate delegation anywhere.
 
 1. **Suite acceptance.** The human owner explicitly accepts this RFC
    (see Acceptance record below). This alone activates nothing beyond making
-   the policy text authoritative and available for adoption.
+   the policy text authoritative and available for adoption — accepted on
+   2026-08-09 per the Acceptance record below.
 2. **Repository adoption.** A repository that wants to use Class B delegation
    opens its own governance record (an issue and, if it changes repository
    files, a PR) that: names the exact delegate(s) by GitHub identity, states
@@ -344,12 +348,13 @@ suite level does not itself activate delegation anywhere.
 
 ## Rollback
 
-- Before this RFC is accepted: rollback is simply declining it. Nothing
-  changes; every decision in every repository remains human-owner-only under
-  RFC-0001 through RFC-0005 and each repository's existing rules.
-- After acceptance but before any repository adopts it: the policy exists as
-  accepted text with zero operational effect; withdrawing it is a superseding
-  RFC.
+- Before this RFC was accepted, rollback would have been simply declining it.
+  That gate has passed: the policy text is now accepted, but every
+  operational effect described below still requires a repository's own
+  separate adoption.
+- After acceptance but before any repository adopts it (the current state):
+  the policy exists as accepted text with zero operational effect;
+  withdrawing it is a superseding RFC.
 - After a repository adopts delegation: revocation (Emergency stop, above)
   immediately returns that repository to human-owner-only for all future
   decisions; it does not retroactively invalidate already-recorded Class B
@@ -393,10 +398,23 @@ what is explicitly defined above.
 
 ## Acceptance record
 
-*(Pending — this RFC remains Proposed. It becomes authoritative only when the
-human owner records explicit acceptance here, including confirmation that no
-Class B delegation is active in any repository until that repository
-separately completes the adoption steps in Migration. Acceptance of this RFC
-alone does not authorize any live effect, credential, deployment, or
-operation semantics change in any repository — those remain Class C under
-this policy's own terms.)*
+The owner accepted this RFC on 2026-08-09. After being presented with the
+exact acceptance statement and its consequences — that suite-level acceptance
+activates no Class B delegation in any repository by itself, and that each
+repository must separately complete its own owner-accepted adoption record
+before Class B applies there — the owner replied "procedi", relayed via
+cross-session coordination from the "Stato progetto yulh" session. This is
+recorded as explicit acceptance of RFC-0006 as written, on those terms.
+
+Acceptance makes this policy's class taxonomy, delegate mechanics, evidence
+requirements, revocation, and audit rules authoritative text. It does not:
+
+- activate Class B delegation in `nomed.github.io`, `yukh-projects`,
+  `yukh-mcp`, `yukh-coordination`, or `yukh` — each still requires its own
+  separate owner-accepted adoption record per Migration;
+- authorize any Class C decision — no new authority, live/external effect,
+  credential, provider registration, infrastructure change, deployment,
+  release, destructive restore, or privacy/legal/data-boundary change is
+  authorized by this acceptance; and
+- supersede or reinterpret RFC-0001 through RFC-0005, which remain
+  independently authoritative within their own scope.

@@ -34,8 +34,8 @@ RFCs never contain credentials, private data, sensitive infrastructure identifie
 - [RFC-0002 — Confidential consumer migration inventory](RFC-0002-confidential-consumer-migration-inventory.md)
 - [RFC-0003 — Yukh reference architecture and minimum runtime](RFC-0003-yukh-reference-architecture-and-minimum-runtime.md)
 - [RFC-0004 — Yukh documentation architecture](RFC-0004-yukh-documentation-architecture.md)
+- [RFC-0006 — Bounded delegation policy for suite governance decisions](RFC-0006-bounded-delegation-policy.md)
 
 ## Proposed records
 
 - [RFC-0005 — First usable Yukh suite preview](RFC-0005-first-usable-yukh-preview.md)
-- [RFC-0006 — Bounded delegation policy for suite governance decisions](RFC-0006-bounded-delegation-policy.md)
