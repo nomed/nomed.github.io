@@ -1,11 +1,12 @@
 # RFC-0007 — Autonomous maintainer mandate: session-separated delegation and bounded execution
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-09
+- **Accepted:** 2026-08-09 by `@nomed`
 - **Owner:** `@nomed`
 - **Governing issue:** [nomed.github.io#45](https://github.com/nomed/nomed.github.io/issues/45)
 - **Affected repositories:** `nomed.github.io`, `yukh`, `yukh-projects`, `yukh-mcp`, `yukh-coordination`
-- **Supersedes on acceptance:** [RFC-0006 — Bounded delegation policy for suite governance decisions](RFC-0006-bounded-delegation-policy.md) (moves RFC-0006 to Superseded; RFC-0001 through RFC-0005 are unaffected)
+- **Supersedes:** [RFC-0006 — Bounded delegation policy for suite governance decisions](RFC-0006-bounded-delegation-policy.md) (now Superseded; RFC-0001 through RFC-0005 are unaffected)
 
 ## Summary
 
@@ -46,11 +47,12 @@ exhaustive-list approach to owner-only gates) and replaces what did not work in 
 5. **Moving any new-authority RFC — including this one — to Accepted remains Class C,
    human-owner-only, without exception.**
 
-**This RFC does not itself activate anything.** It remains **Proposed** until the owner
-accepts this exact text. No mechanic described here has effect before that acceptance, and
-no component change, deployment, credential, or execution described in the Worked example
-below has been performed. Until acceptance, RFC-0006 continues to govern exactly as
-currently Accepted.
+**The owner accepted this exact text on 2026-08-09** (see Acceptance record). Class A, the
+role-separated Class B, Class B-X, the Class C hard-gate list, and the default ceilings are
+therefore effective immediately in every repository listed under Affected repositories, and
+RFC-0006 is superseded. Acceptance activates the policy mechanic itself, not any specific
+action: no component change, deployment, credential, or execution described in the Worked
+example below has been performed by this RFC or its governing PR.
 
 ## Context
 
@@ -598,12 +600,12 @@ record:
 
 This RFC is implemented only when:
 
-- it exists on `main` in `docs/rfcs/` with correct numbering and index entry, while its
-  status remains Proposed;
+- it exists on `main` in `docs/rfcs/` with correct numbering and index entry, and its
+  status is Accepted;
 - the governing issue documents review, and — separately — the owner's exact acceptance
-  statement verbatim, before any mandate mechanic is treated as active anywhere;
-- no repository or session claims Class B-X, or role-separated Class B, is active before
-  this RFC's own status is Accepted;
+  statement verbatim, recorded before any mandate mechanic is treated as active anywhere;
+- no repository or session claimed Class B-X, or role-separated Class B, as active before
+  this RFC's own status became Accepted;
 - existing site checks (build, test, lint) pass unchanged, since this RFC alters no
   application code;
 - the Worked example section is understood, and remains, as illustrative only — no
@@ -636,9 +638,8 @@ defined above.
 
 ## Acceptance record
 
-*(Pending.)* This RFC remains **Proposed**. It becomes Accepted — and simultaneously moves
-RFC-0006 to Superseded — only when the human owner records acceptance of this exact text.
-A statement such as:
+The owner accepted this RFC as written on 2026-08-09, via cross-session coordination from
+the "Stato progetto yulh" session, in these exact terms:
 
 > "Accetto la RFC-0007 come scritta, attivando in tutta la suite l'Autonomous Maintainer
 > Mandate — inclusa la Classe B senza delegato umano nominato e la Classe B-X con i tetti
@@ -651,11 +652,27 @@ including Class B without a named human delegate and Class B-X with the stated c
 understanding that Class C gates remain unchanged and that no publication, production
 data, persistent secret, or irreversible action is authorized by this acceptance.")
 
-recorded in the governing issue or this RFC's pull request would constitute that
-acceptance.
+This is, verbatim, the exact acceptance statement this RFC specified as sufficient. It is
+recorded in full in [issue #45](https://github.com/nomed/nomed.github.io/issues/45) and in
+[PR #46](https://github.com/nomed/nomed.github.io/pull/46), and is recorded here as
+explicit, unambiguous acceptance of this RFC as written, on those terms.
 
-Until that statement (or an equivalent unambiguous acceptance of this exact text) is
-recorded, no repository may claim any part of this mandate is active, and RFC-0006
-continues to govern exactly as currently Accepted — meaning Class B remains, in practice,
-inoperable for lack of a usable delegate, and every decision above Class A continues to
-require the owner personally.
+Acceptance makes this RFC's authority source, class taxonomy, session-role Class B
+mechanic, Class B-X definition and default ceilings, Class C hard-gate list,
+conflict-resolution tie-breaks, independent- and security-review requirements, emergency
+stop, expiration/audit rules, denial semantics, and evidence template authoritative text,
+effective immediately in every repository listed under Affected repositories, and
+simultaneously moves RFC-0006 to Superseded. It does not:
+
+- authorize any Class C decision — no new authority, production or adopter data, material
+  privacy/legal/data-boundary change, persistent or broadly reusable secret,
+  irreversible/destructive action without independently verified restore, spend above the
+  stated ceiling, mission-authority expansion, public production-readiness/SLA claim, or
+  change to this hard-stop policy itself is authorized by this acceptance;
+- perform, or retroactively validate, any action described in the Worked example section —
+  that section remains illustrative only; no file in `yukh-mcp`, `yukh-projects`,
+  `yukh-coordination`, or `yukh` was changed by this RFC or its governing PR;
+- reinterpret RFC-0001, RFC-0002, RFC-0004, or RFC-0005, which remain independently
+  authoritative within their own scope; and
+- relieve any affected repository of recording its own local narrowing, or of seeking
+  fresh, explicit owner acceptance before any local widening, per Migration.
