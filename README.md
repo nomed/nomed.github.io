@@ -136,12 +136,14 @@ Node.js 22 or later and run:
 ```bash
 npm ci
 npm run e2e
+npm run test:network-denial
 ```
 
 `npm run e2e` builds the GitHub Pages export, serves it only on an ephemeral
 local port, visits every primary route, checks internal pages, fragments and
 assets, and confirms links to the three canonical Yukh repositories. It does
-not contact those repositories or require credentials.
+not contact those repositories or require credentials. The network-denial test
+repeats E2E from fresh build and user caches while denying non-loopback traffic.
 
 ---
 

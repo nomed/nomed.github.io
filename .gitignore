@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/.network-denial-home/
 
 # next.js
 /.next/
