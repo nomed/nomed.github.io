@@ -34,11 +34,8 @@ RFCs never contain credentials, private data, sensitive infrastructure identifie
 - [RFC-0002 — Confidential consumer migration inventory](RFC-0002-confidential-consumer-migration-inventory.md)
 - [RFC-0003 — Yukh reference architecture and minimum runtime](RFC-0003-yukh-reference-architecture-and-minimum-runtime.md)
 - [RFC-0004 — Yukh documentation architecture](RFC-0004-yukh-documentation-architecture.md)
-- [RFC-0007 — Autonomous maintainer mandate: session-separated delegation and bounded execution](RFC-0007-autonomous-maintainer-mandate.md) (supersedes RFC-0006)
-
-## Proposed records
-
 - [RFC-0005 — First usable Yukh suite preview](RFC-0005-first-usable-yukh-preview.md)
+- [RFC-0007 — Autonomous maintainer mandate: session-separated delegation and bounded execution](RFC-0007-autonomous-maintainer-mandate.md) (supersedes RFC-0006)
 
 ## Superseded records
 
