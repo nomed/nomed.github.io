@@ -98,6 +98,10 @@ Cross-suite work follows the lightweight [Yukh systems engineering management pl
 
 The accepted architecture is [RFC-0003 — Yukh reference architecture and minimum runtime](docs/rfcs/RFC-0003-yukh-reference-architecture-and-minimum-runtime.md), governed by [issue #29](https://github.com/nomed/nomed.github.io/issues/29). JetStream is the first distributed adapter and Matrix the first human bridge; their implementation remains owned by Yukh Coordination.
 
+Draft suite candidates and bounded qualification evidence are indexed in
+[`docs/releases`](docs/releases/README.md). A draft record is not release or
+deployment authority.
+
 ## This repository
 
 `nomed.github.io` is Nomed's public home and governance hub. It contains the current editorial site and the reviewed cross-repository records that define how the wider system evolves. Runtime implementations remain in their own repositories; facts link to canonical sources instead of being copied into parallel documentation.

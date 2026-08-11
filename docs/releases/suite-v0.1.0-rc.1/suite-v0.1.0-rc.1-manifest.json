@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "candidate": {
+    "version": "v0.1.0-rc.1",
+    "planned_git_tag": "suite-v0.1.0-rc.1",
+    "status": "draft-plan-only",
+    "tag_created": false,
+    "release_created": false
+  },
+  "host": {
+    "repository": "nomed/nomed.github.io",
+    "qualified_commit": "d957a95b5d4eb90e50d72987937394ffee72300b",
+    "planned_tag_target": null,
+    "planned_tag_target_state": "pending-governance-merge"
+  },
+  "components": [
+    {
+      "repository": "nomed/yukh-projects",
+      "commit": "9b0a4e252e179e24d70b308e3f0b8853e78881c0"
+    },
+    {
+      "repository": "nomed/yukh-mcp",
+      "commit": "dbec60834148ea8086582e1c60bbf3c19c14eb00"
+    },
+    {
+      "repository": "nomed/yukh-coordination",
+      "commit": "b8d59340427c959560a55e80dc3612bd804bb54e"
+    }
+  ],
+  "scope": {
+    "profile": "local-hermetic-synthetic",
+    "production_ready": false,
+    "live_provider": false,
+    "live_mutation": false,
+    "publish_authorized": false,
+    "deploy_authorized": false,
+    "component_release_implied": false
+  },
+  "planned_assets": [
+    "suite-v0.1.0-rc.1-manifest.json",
+    "suite-v0.1.0-rc.1-qualification.json",
+    "suite-v0.1.0-rc.1-SHA256SUMS"
+  ]
+}
