@@ -44,9 +44,23 @@ The normalized, path-free evidence is
 The raw files are not published
 because the runner summary records workstation paths.
 
-This is evidence for the local synthetic profile only. It is not a second
-independent reproduction and does not demonstrate live GitHub, provider,
-credential, deployment, restore, or production behavior.
+An independent verifier then reproduced the exact candidate pins using separate
+clean clones, caches, and a private `HOME`. Site denied-egress qualification
+passed in 12.853 s and the cross-suite runner passed 4/4 in 58.752 s. Clean
+trees and cleanup were verified. The retained `second-reproduction.json` has
+SHA-256
+`2cc0e640afc8e5bf224a265a94794b426727b40689cab79c5ef87848d14834c8`;
+its runner summary has SHA-256
+`dc17a20e9549c07942e7327cf4b359c176c62ec31f81b6c65c357e8d86927531`.
+
+The verifier retained an earlier nonqualifying attempt that stopped because Go
+modules were absent from its cache. After explicit dependency preparation, the
+qualifying run above passed. The failed preflight is not counted as a
+reproduction and is not omitted from the evidence history.
+
+Both successful runs prove only the local hermetic synthetic profile. They do
+not demonstrate live GitHub, provider, credential, deployment, restore, or
+production behavior.
 
 ## Gate 4 release plan
 
@@ -80,20 +94,18 @@ live mutation; synthetic target restoration requires a new reviewed plan.
 
 ## Gate accounting and blockers
 
-No RFC-0005 delivery gate is newly declared satisfied by this record.
+No RFC-0005 delivery gate as a whole is newly declared satisfied by this record.
 
 - **Gates 1–3:** the accepted RFC and component records remain authoritative;
   this evidence record does not reassess or upgrade them.
-- **Gate 4:** **pending**. The single local run does not establish the full
-  mission thread, independent receipt/audit verification, an intervention-free
-  operator/restore exercise, risk acceptance, or the required second clean
-  reproduction by an independent verifier.
+- **Gate 4 second reproduction criterion:** **satisfied** for the local
+  synthetic candidate by the separately isolated run cited above.
+- **Gate 4 overall:** **pending**. The two local synthetic runs do not establish
+  the full mission thread, independent receipt/audit verification, an
+  intervention-free operator/restore exercise, or owner acceptance or deferral
+  of unresolved risks.
 - **Release action:** **pending**. The exact tag target cannot exist until this
   record is reviewed and merged, and human Gate 4 acceptance is absent.
-
-The second reproduction must be performed from a clean environment by a
-separately identified verifier. Re-running on this host or relabeling the run
-above cannot satisfy it.
 
 ## Unresolved production and live limitations
 

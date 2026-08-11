@@ -12,6 +12,31 @@
     "source_log_sha256": "c6f74052c8c3a04935fa28d391e070d0b08e87a3c3e0e88a1f4f16df8d5c870c",
     "environment_class": "single-local-host"
   },
+  "independent_reproduction": {
+    "date": "2026-08-11",
+    "status": "PASS",
+    "passed": 4,
+    "total": 4,
+    "duration_ms": 58752,
+    "site_denied_egress_status": "PASS",
+    "site_denied_egress_duration_ms": 12853,
+    "evidence_file": "second-reproduction.json",
+    "evidence_sha256": "2cc0e640afc8e5bf224a265a94794b426727b40689cab79c5ef87848d14834c8",
+    "summary_sha256": "dc17a20e9549c07942e7327cf4b359c176c62ec31f81b6c65c357e8d86927531",
+    "environment_class": "separate-clean-clones-caches-private-home",
+    "exact_candidate_pins": true,
+    "clean_worktrees": true,
+    "cleanup_verified": true,
+    "live_provider": false,
+    "live_mutation": false,
+    "publication": false,
+    "prior_attempt": {
+      "qualifying": false,
+      "retained": true,
+      "reason": "missing-cached-go-modules",
+      "resolution": "dependency-preparation-before-qualifying-run"
+    }
+  },
   "components": [
     {
       "name": "Site",
@@ -52,7 +77,7 @@
   ],
   "claims": {
     "local_synthetic_qualification": true,
-    "second_independent_reproduction": false,
+    "second_independent_reproduction": true,
     "gate_4_satisfied": false,
     "release_authorized": false
   }
