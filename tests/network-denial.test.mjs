@@ -2,11 +2,13 @@ import assert from "node:assert/strict";
 import { mkdir, rm } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
+import { isolationInvocation } from "./network-isolation.mjs";
 
 const repository = new URL("../", import.meta.url);
 const privateHome = new URL("../.network-denial-home/", import.meta.url);
 const nextCache = new URL("../.next/", import.meta.url);
 const staticOutput = new URL("../out/", import.meta.url);
+const runner = new URL("./network-denial-runner.mjs", import.meta.url);
 
 test("fresh-cache E2E succeeds without non-loopback network access", async () => {
   await Promise.all([
@@ -16,29 +18,20 @@ test("fresh-cache E2E succeeds without non-loopback network access", async () =>
   ]);
   await mkdir(privateHome, { recursive: true });
 
-  const environment = {
-    ...process.env,
-    HOME: privateHome.pathname,
-    XDG_CACHE_HOME: new URL("cache/", privateHome).pathname,
-    npm_config_cache: new URL("npm-cache/", privateHome).pathname,
-    NEXT_TELEMETRY_DISABLED: "1",
-  };
-  const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-  const profile = '(version 1) (allow default) (deny network-outbound) (allow network-outbound (remote ip "localhost:*"))';
-  const command = process.platform === "darwin" ? "sandbox-exec" : npm;
-  const args = process.platform === "darwin"
-    ? ["-p", profile, npm, "run", "e2e"]
-    : ["run", "e2e"];
-
-  if (process.platform !== "darwin") {
-    const preload = new URL("./deny-external-network.mjs", import.meta.url).pathname;
-    environment.NODE_OPTIONS = `${environment.NODE_OPTIONS ?? ""} --import=${preload}`.trim();
-  }
+  const { command, args } = isolationInvocation(process.platform, {
+    node: process.execPath,
+    runner: runner.pathname,
+    repository: repository.pathname,
+    privateHome: privateHome.pathname,
+    npmCli: process.env.npm_execpath,
+    uid: process.getuid?.(),
+    gid: process.getgid?.(),
+  });
 
   try {
     const result = spawnSync(command, args, {
       cwd: repository,
-      env: environment,
+      env: process.env,
       encoding: "utf8",
       timeout: 120_000,
     });
@@ -48,4 +41,35 @@ test("fresh-cache E2E succeeds without non-loopback network access", async () =>
   } finally {
     await rm(privateHome, { recursive: true, force: true });
   }
+});
+
+test("Linux isolation is fail-closed and configures only loopback", () => {
+  const invocation = isolationInvocation("linux", {
+    node: "/node",
+    runner: "/runner.mjs",
+    repository: "/repo",
+    privateHome: "/private-home",
+    npmCli: "/npm-cli.js",
+    uid: 1000,
+    gid: 1000,
+  });
+
+  assert.equal(invocation.command, "sudo");
+  assert.deepEqual(invocation.args.slice(0, 4), ["--non-interactive", "unshare", "--net", "--"]);
+  assert.match(invocation.args.join(" "), /ip link set lo up/);
+  assert.match(invocation.args.join(" "), /setpriv --reuid/);
+  assert.doesNotMatch(invocation.args.join(" "), /NODE_OPTIONS|deny-external-network/);
+});
+
+test("unsupported platforms fail instead of running E2E without isolation", () => {
+  assert.throws(
+    () => isolationInvocation("win32", {
+      node: "/node",
+      runner: "/runner.mjs",
+      repository: "/repo",
+      privateHome: "/private-home",
+      npmCli: "/npm-cli.js",
+    }),
+    /Unsupported OS-level network isolation/,
+  );
 });

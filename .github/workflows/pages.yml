@@ -36,6 +36,9 @@ jobs:
       - name: Qualify static site
         run: npm run e2e
 
+      - name: Qualify without external network
+        run: npm run test:network-denial
+
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
