@@ -5,6 +5,8 @@
   --coordination-ink: #596b00;
   --line: rgba(23, 23, 20, 0.24);
   --muted: #6e6c64;
+  --font-geist-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-geist-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 * { box-sizing: border-box; }

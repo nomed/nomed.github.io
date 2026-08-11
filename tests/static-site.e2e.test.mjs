@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 import test, { after, before } from "node:test";
+import { fileURLToPath } from "node:url";
 
 const outputDirectory = new URL("../out/", import.meta.url);
 const routes = [
@@ -22,6 +23,7 @@ const repositories = new Set([
   "https://github.com/nomed/yukh-projects",
   "https://github.com/nomed/yukh-coordination",
 ]);
+const externalFontHosts = /fonts\.(?:googleapis|gstatic)\.com/i;
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
@@ -76,7 +78,7 @@ before(async () => {
       }
 
       response.writeHead(200, {
-        "content-type": contentTypes[extname(file.pathname)] ?? "application/octet-stream",
+        "content-type": contentTypes[extname(fileURLToPath(file))] ?? "application/octet-stream",
       });
       response.end(await readFile(file));
     } catch (error) {
@@ -148,4 +150,15 @@ test("links to all three canonical Yukh repositories without network access", as
   }
 
   assert.deepEqual(discovered, repositories);
+});
+
+test("does not publish external Google Font references", async () => {
+  const files = await readdir(outputDirectory, { recursive: true, withFileTypes: true });
+
+  for (const file of files) {
+    if (!file.isFile() || !/\.(?:css|html|js|json|txt|xml)$/i.test(file.name)) continue;
+
+    const contents = await readFile(join(file.parentPath, file.name), "utf8");
+    assert.doesNotMatch(contents, externalFontHosts, join(file.parentPath, file.name));
+  }
 });
