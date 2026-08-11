@@ -3,6 +3,7 @@ import { readFile, readdir, stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 import test, { after, before } from "node:test";
+import { fileURLToPath } from "node:url";
 
 const outputDirectory = new URL("../out/", import.meta.url);
 const routes = [
@@ -77,7 +78,7 @@ before(async () => {
       }
 
       response.writeHead(200, {
-        "content-type": contentTypes[extname(file.pathname)] ?? "application/octet-stream",
+        "content-type": contentTypes[extname(fileURLToPath(file))] ?? "application/octet-stream",
       });
       response.end(await readFile(file));
     } catch (error) {
