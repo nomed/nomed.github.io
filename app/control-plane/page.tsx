@@ -2,50 +2,150 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowIcon, SiteFooter, SiteHeader } from "../components/Navigation";
 
-const teams = [
+const managers = [
   {
-    id: "team-manager-preview",
-    mode: "plan-first",
-    state: "waiting for approval",
-    goal: "Improve the Yukh control plane with one bounded UI increment.",
-    budget: "18,420 / 120,000",
-    reserved: "40,000",
-    agents: [
-      ["manager", "Codex CLI", "planned"],
-      ["frontend-worker", "Copilot SDK", "proposed"],
-      ["qa-worker", "Codex SDK", "planned"],
-    ],
+    id: "manager-suite-evolution",
+    title: "Suite evolution manager",
+    status: "planning",
+    provider: "Codex CLI",
+    model: "gpt-5.6-sol",
+    workspace: "yukh-workspace",
+    goal: "Plan one bounded improvement across yukh-mcp, yukh-coordination and nomed.github.io.",
+    started: "14:02:11",
+    lastEvent: "14:09:42",
+    budget: { used: "42,180", total: "180,000", width: "23%" },
+    orchestrates: ["docs-operator", "runtime-qa", "frontend-console"],
   },
   {
-    id: "team-task-board-smoke",
-    mode: "delegate",
-    state: "complete",
-    goal: "Verify automatic Coordination handoff.",
-    budget: "31,200 / 80,000",
-    reserved: "55,000",
-    agents: [["agent-b", "Copilot CLI", "answered"]],
+    id: "manager-task-board",
+    title: "Task board exercise manager",
+    status: "completed",
+    provider: "Codex CLI",
+    model: "gpt-5.6-sol",
+    workspace: "yukh-task-board",
+    goal: "Coordinate backend and frontend workers for the local task-board smoke.",
+    started: "12:31:18",
+    lastEvent: "12:32:03",
+    budget: { used: "31,200", total: "80,000", width: "39%" },
+    orchestrates: ["agent-b"],
   },
 ];
 
-const transcript = [
+const workers = [
   {
-    time: "12:31:18",
-    kind: "QUESTION",
-    route: "agent:a → agent:b",
-    body: "Confirm that the coordinator launched you and report the question event id.",
+    id: "docs-operator",
+    parent: "manager-suite-evolution",
+    role: "Documentation operator",
+    provider: "Copilot SDK",
+    status: "proposed",
+    reason: "Condense operator-facing docs after the plan is approved.",
+    budget: "35,000",
   },
   {
-    time: "12:32:02",
-    kind: "ANSWER",
-    route: "agent:b → agent:a",
-    body: "Confirmed. The coordinator launched me through Yukh Coordination.",
+    id: "runtime-qa",
+    parent: "manager-suite-evolution",
+    role: "Runtime QA",
+    provider: "Codex SDK planned",
+    status: "waiting",
+    reason: "Verify team status, transcript and budget accounting.",
+    budget: "45,000",
   },
   {
-    time: "12:32:03",
-    kind: "VERIFIED",
-    route: "coordinator → observer",
-    body: "The worker response is linked to the original question and receipt.",
+    id: "frontend-console",
+    parent: "manager-suite-evolution",
+    role: "Control plane UI",
+    provider: "Copilot SDK",
+    status: "running",
+    reason: "Turn dashboard mock into operator console mock.",
+    budget: "40,000",
   },
+  {
+    id: "agent-b",
+    parent: "manager-task-board",
+    role: "Frontend worker",
+    provider: "Copilot CLI",
+    status: "answered",
+    reason: "Confirm automatic Coordination launch and answer verification.",
+    budget: "20,000",
+  },
+];
+
+const sessions = [
+  {
+    id: "session-codex-manager-suite",
+    owner: "manager-suite-evolution",
+    runtime: "Codex CLI",
+    state: "running",
+    workspace: "yukh-workspace",
+    started: "14:02:11",
+    last: "manager.plan.created",
+  },
+  {
+    id: "session-copilot-frontend-console",
+    owner: "frontend-console",
+    runtime: "Copilot SDK",
+    state: "running",
+    workspace: "nomed.github.io",
+    started: "14:07:28",
+    last: "worker.patch.ready",
+  },
+  {
+    id: "session-copilot-agent-b",
+    owner: "agent-b",
+    runtime: "Copilot CLI",
+    state: "exited",
+    workspace: "yukh-task-board",
+    started: "12:31:21",
+    last: "answer.verified",
+  },
+];
+
+const events = [
+  [
+    "14:02:11",
+    "manager.start",
+    "manager-suite-evolution",
+    "manager created with 180k team budget",
+  ],
+  [
+    "14:03:04",
+    "model.catalog",
+    "manager-suite-evolution",
+    "Codex and Copilot models discovered",
+  ],
+  [
+    "14:04:22",
+    "plan.created",
+    "manager-suite-evolution",
+    "3 workers proposed, no worker launched yet",
+  ],
+  [
+    "14:05:10",
+    "approval.required",
+    "operator",
+    "delegate mode requires explicit approval",
+  ],
+  [
+    "14:07:28",
+    "worker.started",
+    "frontend-console",
+    "Copilot SDK worker launched for static UI iteration",
+  ],
+  [
+    "14:09:42",
+    "worker.patch.ready",
+    "frontend-console",
+    "operator console mock ready for review",
+  ],
+];
+
+const config = [
+  ["Default mode", "plan-first"],
+  ["Dynamic workers", "explicit approval only"],
+  ["Manager runtime", "Codex CLI now, Codex SDK target"],
+  ["Worker runtime", "Copilot SDK preferred"],
+  ["Budget policy", "preflight allocation + post-turn accounting"],
+  ["Viewer", "GitHub Pages preview, live runtime later"],
 ];
 
 export default function ControlPlanePreview() {
@@ -53,132 +153,235 @@ export default function ControlPlanePreview() {
     <main className="control-plane-page">
       <SiteHeader />
 
-      <section className="control-hero">
-        <div className="control-hero-copy">
-          <p className="editorial-kicker">Yukh Control Plane / public preview</p>
-          <h1>See the team before you trust the run.</h1>
+      <section className="control-operator-hero">
+        <div>
+          <p className="editorial-kicker">
+            Yukh Control Plane / operator preview
+          </p>
+          <h1>Who is managing what, right now?</h1>
           <p>
-            A browser surface for manager-first Yukh work: teams, roles, provider
-            choices, Coordination transcript and token budgets in one place.
+            This view is shaped as an operator console: managers, sessions,
+            orchestration tree, configuration and event history before any live
+            runtime is connected.
           </p>
         </div>
-        <div className="control-hero-panel" aria-label="Preview status">
-          <span>Preview status</span>
-          <strong>Static / read-only</strong>
-          <p>No live runtime actions, credentials, private logs or real token usage are exposed here.</p>
+        <div className="control-run-command" aria-label="Target command">
+          <span>Target operator entrypoint</span>
+          <code>yukh team start --goal ... --mode plan-first</code>
+          <p>
+            Mock data only. The real UI should hydrate from team status,
+            Coordination replay and runtime receipts.
+          </p>
         </div>
       </section>
 
-      <section className="control-metrics" aria-label="Mock run summary">
-        <div><span>Active teams</span><strong>1</strong></div>
-        <div><span>Running agents</span><strong>4</strong></div>
-        <div><span>Token budget</span><strong>25% used</strong></div>
-        <div><span>Provider mix</span><strong>CLI + SDK</strong></div>
+      <section
+        className="control-metrics"
+        aria-label="Mock control plane summary"
+      >
+        <div>
+          <span>Active managers</span>
+          <strong>1</strong>
+        </div>
+        <div>
+          <span>Open sessions</span>
+          <strong>2</strong>
+        </div>
+        <div>
+          <span>Worker proposals</span>
+          <strong>3</strong>
+        </div>
+        <div>
+          <span>Token usage</span>
+          <strong>24%</strong>
+        </div>
       </section>
 
       <section className="control-layout">
         <aside className="control-sidebar">
-          <Link href="#teams">Teams</Link>
-          <Link href="#transcript">Transcript</Link>
-          <Link href="#budget">Budget</Link>
-          <Link href="#start">Start team</Link>
-          <a href="https://github.com/nomed/yukh-mcp/pull/244" target="_blank" rel="noreferrer">
-            Implementation PR <ArrowIcon direction="external" />
+          <Link href="#managers">Managers</Link>
+          <Link href="#orchestration">Orchestration</Link>
+          <Link href="#sessions">Sessions</Link>
+          <Link href="#events">Events</Link>
+          <Link href="#configuration">Configuration</Link>
+          <a
+            href="https://github.com/nomed/yukh-mcp/pull/244"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Runtime PR <ArrowIcon direction="external" />
           </a>
         </aside>
 
         <div className="control-main">
-          <section className="control-card" id="teams">
+          <section className="control-card" id="managers">
             <div className="control-section-title">
               <div>
-                <p className="editorial-kicker">Teams</p>
-                <h2>Live work</h2>
+                <p className="editorial-kicker">Managers</p>
+                <h2>Active orchestration</h2>
               </div>
               <span>mock data</span>
             </div>
-
-            <div className="control-team-list">
-              {teams.map((team) => (
-                <article className="control-team" key={team.id}>
-                  <div>
-                    <p className="control-mode">{team.mode}</p>
-                    <h3>{team.id}</h3>
-                    <p>{team.goal}</p>
-                    <div className="control-agent-list">
-                      {team.agents.map(([name, provider, state]) => (
-                        <span key={name}>
-                          <strong>{name}</strong>
-                          {provider} · {state}
-                        </span>
-                      ))}
+            <div className="control-manager-list">
+              {managers.map((manager) => (
+                <article className="control-manager" key={manager.id}>
+                  <div className="control-manager-head">
+                    <div>
+                      <p className="control-mode">{manager.id}</p>
+                      <h3>{manager.title}</h3>
                     </div>
+                    <span className="control-state">{manager.status}</span>
                   </div>
-                  <span className="control-state">{team.state}</span>
+                  <p>{manager.goal}</p>
+                  <dl>
+                    <div>
+                      <dt>Provider</dt>
+                      <dd>{manager.provider}</dd>
+                    </div>
+                    <div>
+                      <dt>Model</dt>
+                      <dd>{manager.model}</dd>
+                    </div>
+                    <div>
+                      <dt>Workspace</dt>
+                      <dd>{manager.workspace}</dd>
+                    </div>
+                    <div>
+                      <dt>Started</dt>
+                      <dd>{manager.started}</dd>
+                    </div>
+                    <div>
+                      <dt>Last event</dt>
+                      <dd>{manager.lastEvent}</dd>
+                    </div>
+                  </dl>
+                  <div className="control-budget compact-budget">
+                    <div>
+                      <strong>Token ledger</strong>
+                      <span>
+                        {manager.budget.used} / {manager.budget.total}
+                      </span>
+                    </div>
+                    <i
+                      style={
+                        {
+                          "--budget-width": manager.budget.width,
+                        } as CSSProperties
+                      }
+                    />
+                  </div>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="control-grid">
-            <article className="control-card" id="transcript">
+          <section className="control-grid" id="orchestration">
+            <article className="control-card">
               <div className="control-section-title">
                 <div>
-                  <p className="editorial-kicker">Coordination</p>
-                  <h2>Verified transcript</h2>
+                  <p className="editorial-kicker">Orchestration</p>
+                  <h2>Who created whom</h2>
                 </div>
               </div>
-              <div className="control-transcript">
-                {transcript.map((event) => (
-                  <div className="control-event" key={`${event.time}-${event.kind}`}>
-                    <div>
-                      <span>{event.time}</span>
-                      <span>{event.route}</span>
-                      <strong>{event.kind}</strong>
+              <div className="control-tree">
+                {managers.map((manager) => (
+                  <div className="control-tree-group" key={manager.id}>
+                    <div className="control-tree-node manager-node">
+                      <strong>{manager.id}</strong>
+                      <span>
+                        {manager.status} · {manager.provider}
+                      </span>
                     </div>
-                    <p>{event.body}</p>
+                    {workers
+                      .filter((worker) => worker.parent === manager.id)
+                      .map((worker) => (
+                        <div
+                          className="control-tree-node worker-node"
+                          key={worker.id}
+                        >
+                          <strong>{worker.id}</strong>
+                          <span>
+                            {worker.role} · {worker.provider} · {worker.status}
+                          </span>
+                          <p>{worker.reason}</p>
+                        </div>
+                      ))}
                   </div>
                 ))}
               </div>
             </article>
 
-            <article className="control-card" id="budget">
+            <article className="control-card" id="configuration">
               <div className="control-section-title">
                 <div>
-                  <p className="editorial-kicker">Budget</p>
-                  <h2>Token control</h2>
+                  <p className="editorial-kicker">Configuration</p>
+                  <h2>Run policy</h2>
                 </div>
               </div>
-              {teams.map((team, index) => (
-                <div className="control-budget" key={team.id}>
-                  <div>
-                    <strong>{team.id}</strong>
-                    <span>{team.budget}</span>
+              <div className="control-config-list">
+                {config.map(([label, value]) => (
+                  <div key={label}>
+                    <span>{label}</span>
+                    <strong>{value}</strong>
                   </div>
-                  <i style={{ "--budget-width": index === 0 ? "15%" : "39%" } as CSSProperties} />
-                  <p>Reserved: {team.reserved} tokens</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </article>
           </section>
 
-          <section className="control-card control-start" id="start">
-            <div>
-              <p className="editorial-kicker">Start</p>
-              <h2>Manager-first, not ping-pong-first.</h2>
-              <p>
-                The intended product flow starts from a human goal, creates an accounted
-                manager, shows the plan, then asks for explicit approval before workers run.
-              </p>
+          <section className="control-card" id="sessions">
+            <div className="control-section-title">
+              <div>
+                <p className="editorial-kicker">Sessions</p>
+                <h2>Runtimes started</h2>
+              </div>
+              <span>process view target</span>
             </div>
-            <div className="control-form-preview" aria-label="Start team form preview">
-              <span>Goal</span>
-              <strong>Improve Yukh suite with one bounded increment.</strong>
-              <span>Mode</span>
-              <strong>plan-first</strong>
-              <span>Worker provider</span>
-              <strong>Copilot SDK</strong>
-              <span>Budget</span>
-              <strong>120,000 tokens</strong>
+            <div
+              className="control-session-table"
+              role="table"
+              aria-label="Runtime sessions"
+            >
+              <div role="row" className="table-head">
+                <span>Session</span>
+                <span>Owner</span>
+                <span>Runtime</span>
+                <span>Workspace</span>
+                <span>State</span>
+                <span>Last</span>
+              </div>
+              {sessions.map((session) => (
+                <div role="row" key={session.id}>
+                  <span>{session.id}</span>
+                  <span>{session.owner}</span>
+                  <span>{session.runtime}</span>
+                  <span>{session.workspace}</span>
+                  <strong>{session.state}</strong>
+                  <span>{session.last}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="control-card" id="events">
+            <div className="control-section-title">
+              <div>
+                <p className="editorial-kicker">Events</p>
+                <h2>What happened</h2>
+              </div>
+              <span>timeline</span>
+            </div>
+            <div className="control-transcript">
+              {events.map(([time, kind, source, body]) => (
+                <div className="control-event" key={`${time}-${kind}`}>
+                  <div>
+                    <span>{time}</span>
+                    <strong>{kind}</strong>
+                    <span>{source}</span>
+                  </div>
+                  <p>{body}</p>
+                </div>
+              ))}
             </div>
           </section>
         </div>
