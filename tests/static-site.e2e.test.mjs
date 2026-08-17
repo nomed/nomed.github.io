@@ -10,6 +10,7 @@ const routes = [
   "/",
   "/manifesto/",
   "/work/",
+  "/control-plane/",
   "/system/",
   "/system/mcp/",
   "/system/projects/",

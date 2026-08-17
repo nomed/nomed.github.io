@@ -38,6 +38,7 @@ export function SiteHeader() {
         <Link href="/manifesto">Manifesto</Link>
         <Link href="/system">System</Link>
         <Link href="/work">Work</Link>
+        <Link href="/control-plane">Control</Link>
         <Link href="/writing">Writing</Link>
         <a className="nav-external" href="https://github.com/nomed" target="_blank" rel="noreferrer">
           GitHub <ArrowIcon direction="external" />
