@@ -22,7 +22,7 @@ async function render(pathname = "/") {
   );
 }
 
-test("server-renders the Nomed editorial home page", async () => {
+test("server-renders the current Nomed editorial home page", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -30,30 +30,29 @@ test("server-renders the Nomed editorial home page", async () => {
   const html = await response.text();
   assert.match(html, /<html lang="en"/i);
   assert.match(html, /<title>Nomed — Governed Agentic Development<\/title>/i);
-  assert.match(html, /Software is no longer written by one mind at one keyboard\./);
-  assert.match(html, /Agents should gain capability without gaining custody\./);
+  assert.match(html, /Give agents capability without giving any runtime custody of the system\./);
+  assert.match(html, /Own the semantics\. Reuse the machinery\./);
   assert.match(html, /Yukh MCP/);
   assert.match(html, /Yukh Projects/);
   assert.match(html, /Yukh Coordination/);
-  assert.match(html, /Preparation evidence complete/);
-  assert.match(html, /no live apply has occurred/);
-  assert.match(html, /no durable profile is accepted/);
-  assert.match(html, /there is no public or live runtime/);
+  assert.match(html, /goose \/ Hermes A1 PASS/);
+  assert.match(html, /TencentDB Agent Memory Track C2/);
   assert.match(html, /src="\/brand\/nomed\.svg"/);
   assert.match(html, /src="\/brand\/yukh-mcp\.svg"/);
   assert.match(html, /src="\/brand\/yukh-projects\.svg"/);
   assert.match(html, /src="\/brand\/yukh-coordination\.svg"/);
 });
 
-test("renders the public editorial system with truthful maturity labels", async () => {
+test("renders the public editorial system with current architecture language", async () => {
   const routes = [
     ["/manifesto/", /Plans before mutations\./],
     ["/landscape/", /Own the semantics\. Reuse the machinery\./],
-    ["/work/", /Published \/ synthetically qualified/],
-    ["/system/", /Three boundaries\. One governed flow\./],
+    ["/work/", /Implementations and qualifications\./],
+    ["/control-plane/", /The control plane is not an accepted Yukh component\./],
+    ["/system/", /Own the boundaries\. Replace the machinery\./],
     ["/system/mcp/", /Capability without custody\./],
-    ["/system/projects/", /Declared state\. Deterministic reconciliation\./],
-    ["/system/coordination/", /A shared room for work that happens in separate minds\./],
+    ["/system/projects/", /Accepted state without session custody\./],
+    ["/system/coordination/", /Coordination without invisible orchestration\./],
     ["/writing/", /Ideas tested against the work\./],
     ["/writing/capability-not-custody/", /A capability is a contract/],
     ["/brand/", /One geometry\. Distinct responsibilities\./],
@@ -72,21 +71,21 @@ test("keeps landscape non-binding and evidence-qualified", async () => {
 
   assert.equal(response.status, 200);
   assert.match(html, /not an adoption decision/i);
-  assert.match(html, /does not supersede accepted RFCs/i);
-  assert.match(html, /qualification priorities, not product rankings/i);
-  assert.match(html, /Reference-host qualification candidate/);
-  assert.match(html, /Hermes Agent/);
-  assert.match(html, /OpenHuman/);
-  assert.match(html, /Maka isolation requires qualification/);
-  assert.match(html, /Agent host:/);
-  assert.match(html, /Orchestration \+ memory:/);
+  assert.match(html, /RFC-0003 remains the current reference architecture/i);
+  assert.match(html, /runtime-substrate gate/i);
+  assert.match(html, /Gate A2/i);
+  assert.match(html, /No reference host is selected/i);
+  assert.match(html, /TencentDB Agent Memory/);
+  assert.match(html, /Memory has also been separated from orchestration/i);
+  assert.match(html, /Track A \/ Agent host:/);
+  assert.match(html, /Track C2 \/ Shared memory:/);
 });
 
 test("publishes stable identity and predictable internal navigation", async () => {
   const response = await render();
   const html = await response.text();
 
-  assert.match(html, /name="description" content="Open infrastructure for governed agentic development:/);
+  assert.match(html, /name="description" content="Open governance semantics for replaceable agent systems:/);
   assert.match(html, /property="og:image" content="https:\/\/nomed\.github\.io\/og\.png"/);
   assert.match(html, /href="\/system\/mcp\/"/);
   assert.match(html, /href="\/system\/projects\/"/);
@@ -95,12 +94,13 @@ test("publishes stable identity and predictable internal navigation", async () =
   assert.match(html, /href="\/work\/"/);
   assert.match(html, /href="\/writing\/"/);
   assert.match(html, /<nav aria-label="Primary navigation">/);
+  assert.doesNotMatch(html, /href="\/control-plane">Control<\/a>/);
   assert.match(html, /<main>/);
   assert.doesNotMatch(html, /↗|→|↓/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|react-loading-skeleton/i);
 });
 
-test("publishes stable work anchors and explicit repository exits", async () => {
+test("publishes stable work anchors, repository exits and qualification work", async () => {
   const response = await render("/work/");
   const html = await response.text();
 
@@ -112,6 +112,9 @@ test("publishes stable work anchors and explicit repository exits", async () => 
   assert.match(html, /href="\/system\/coordination\/"/);
   assert.match(html, /href="https:\/\/github\.com\/nomed\/yukh-mcp" target="_blank"/);
   assert.match(html, /class="github-icon"/);
+  assert.match(html, /Track A \/ Agent host/);
+  assert.match(html, /Shared memory \/ Track C2/);
+  assert.match(html, /A1 runtime-substrate PASS for both/);
 });
 
 test("every Yukh deep dive publishes the same editorial contract", async () => {
@@ -140,9 +143,9 @@ test("every Yukh deep dive publishes the same editorial contract", async () => {
 
 test("publishes component-owned documentation without overstating readiness", async () => {
   const expectations = [
-    ["/system/mcp/", /href="https:\/\/nomed\.github\.io\/yukh-mcp\/"/, /no durable profile has been accepted and no mutation lifecycle is integrated/],
-    ["/system/projects/", /href="https:\/\/github\.com\/nomed\/yukh-projects#architecture-and-migration"/, /no live qualification or apply has occurred/],
-    ["/system/coordination/", /href="https:\/\/github\.com\/nomed\/yukh-coordination\/blob\/main\/PROTOCOL\.md"/, /there is no public or live runtime and the project is not production-ready/],
+    ["/system/mcp/", /href="https:\/\/nomed\.github\.io\/yukh-mcp\/"/, /no external host has passed the Yukh-specific host-composition gate/],
+    ["/system/projects/", /href="https:\/\/github\.com\/nomed\/yukh-projects#architecture-and-migration"/, /publication and synthetic convergence do not constitute a live apply qualification/],
+    ["/system/coordination/", /href="https:\/\/github\.com\/nomed\/yukh-coordination\/blob\/main\/PROTOCOL\.md"/, /there is no public\/live runtime qualification and the project is not production-ready/],
   ];
 
   for (const [pathname, documentation, maturity] of expectations) {
@@ -153,14 +156,25 @@ test("publishes component-owned documentation without overstating readiness", as
   }
 });
 
-test("orders the homepage as position, Yukh system, work and research", async () => {
+test("orders the homepage as position, current system, implementations and qualification", async () => {
   const response = await render();
   const html = await response.text();
-  const markers = ["01 / Position", "02 / Yukh system", "03 / Work", "04 / Research signal"];
+  const markers = ["01 / Position", "02 / Current system", "03 / Implementations", "04 / Qualification"];
   const offsets = markers.map((marker) => html.indexOf(marker));
 
   assert.ok(offsets.every((offset) => offset >= 0));
   assert.deepEqual(offsets, [...offsets].sort((a, b) => a - b));
+});
+
+test("keeps the superseded control-plane route explicit and out of primary navigation", async () => {
+  const response = await render("/control-plane/");
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /retained only for route continuity/i);
+  assert.match(html, /not an accepted Yukh component/i);
+  assert.match(html, /OpenHuman is being evaluated as external workflow\/orchestration machinery/i);
+  assert.doesNotMatch(html, /yukh team start --goal/);
 });
 
 test("uses a paper-safe Coordination tone for small Yukh copy", async () => {
