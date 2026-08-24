@@ -9,8 +9,8 @@ const components = [
     label: "Capability policy + evidence",
     mark: "/brand/yukh-mcp.svg",
     color: "#7C3AED",
-    status: "Current implementation",
-    focus: "Implements the capability-policy and evidence boundary while Track A tests composition with host-native security.",
+    status: "Foundation / current implementation",
+    focus: "Implements the capability-policy and evidence boundary while Track A tests composition with host-native security. Durable production readiness remains unproven.",
     system: "/system/mcp/",
     repository: "https://github.com/nomed/yukh-mcp",
   },
@@ -20,8 +20,8 @@ const components = [
     label: "GitHub accepted-state adapter",
     mark: "/brand/yukh-projects.svg",
     color: "#00E5FF",
-    status: "Published adapter",
-    focus: "A useful GitHub Projects implementation whose long-term architectural role is being narrowed to accepted work state rather than protected as a universal pillar.",
+    status: "Published / synthetically qualified adapter",
+    focus: "A useful GitHub Projects implementation whose long-term architectural role is being narrowed to accepted work state. No live apply qualification is implied.",
     system: "/system/projects/",
     repository: "https://github.com/nomed/yukh-projects",
   },
@@ -31,8 +31,8 @@ const components = [
     label: "Coordination kernel",
     mark: "/brand/yukh-coordination.svg",
     color: "#CCFF00",
-    status: "Current implementation",
-    focus: "Carries claims, conflict, handoff, attribution and replay semantics while transports and workspaces remain replaceable.",
+    status: "Preparation evidence complete / current implementation",
+    focus: "Carries claims, conflict, handoff, attribution and replay semantics while transports and workspaces remain replaceable. No public/live runtime is qualified.",
     system: "/system/coordination/",
     repository: "https://github.com/nomed/yukh-coordination",
   },
@@ -69,7 +69,7 @@ export default function Home() {
         <span className="pulse" aria-hidden="true" />
         <strong>Current signal</strong>
         <span>Host composition + shared memory qualification</span>
-        <span className="signal-status">goose / Hermes A1 PASS · A2 not executed · TencentDB Agent Memory Track C2</span>
+        <span className="signal-status">goose / Hermes runtime-substrate PASS · A2 not executed · TencentDB Agent Memory Track C2</span>
       </aside>
 
       <section className="manifesto section" id="position">
@@ -147,7 +147,7 @@ export default function Home() {
             <p>goose and Hermes have both passed the first runtime-substrate gate, but neither is a selected Yukh host. Apache Maka, OpenHands, OpenHuman, TencentDB Agent Memory and Buzz are being evaluated for distinct replaceable concerns rather than collected into one mandatory platform.</p>
             <div className="terminal" role="img" aria-label="Current Yukh qualification tracks">
               <div className="terminal-top"><span>#qualification</span><span>observed 2026-08-24</span></div>
-              <p><span>A1</span> goose + Hermes <b className="pass">PASS</b> runtime substrate</p>
+              <p><span>RT</span> goose + Hermes <b className="pass">PASS</b> runtime substrate</p>
               <p><span>A2</span> host composition <b>DEFINED</b> adapters not executed</p>
               <p><span>C2</span> TencentDB Agent Memory <b>MEMORY?</b> contextual, never authority</p>
               <p><span>EX</span> Maka + OpenHands <b>EXECUTION?</b> durable facts + isolation</p>
