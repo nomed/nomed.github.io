@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./editorial-tables.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nomed.github.io"),
