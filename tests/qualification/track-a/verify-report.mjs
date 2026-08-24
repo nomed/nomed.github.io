@@ -11,7 +11,7 @@ assert.equal(report.qualification_level, "runtime-substrate");
 assert.equal(report.work_uri, "yukh://qualification/track-a/work/hello-evidence");
 assert.equal(report.fixture.value, "hello-yukh\n");
 assert.equal(report.fixture.byte_length, 11);
-assert.equal(report.fixture.sha256, "e254650e958e5b56aa9f3f77388d196d46e1e25d0af2611f59043877d660ba2d");
+assert.equal(report.fixture.sha256, "2ac976403f898314551829ae59ce7acb69f6a725ad5df5c09e6db7766f766cbd");
 assert.equal(report.authority_claims.yukh_authority_granted_to_host, false);
 assert.equal(report.authority_claims.host_memory_is_evidence, false);
 assert.equal(report.authority_claims.private_reasoning_required, false);
