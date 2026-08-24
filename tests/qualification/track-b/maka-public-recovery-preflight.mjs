@@ -25,10 +25,12 @@ const facts = {
   controlled_provider_setup_imports_storage_authority:
     releaseSmoke.includes("node_modules/@maka/storage/dist/root-authority.js") &&
     releaseSmoke.includes("node_modules/@maka/storage/dist/runtime-policy-stores.js"),
-  recovery_phase_0_2_implemented: recovery.includes("Phases 0–2 are implemented"),
-  recovery_phase_3a_foundation_implemented: recovery.includes("Phase 3A") && recovery.includes("Resolver are implemented"),
-  production_reconciler_future_work: recovery.includes("production Phase 3 reconciler") && recovery.includes("remain future work"),
-  phase_4_not_implemented: recovery.includes("Phase 4") && recovery.includes("not implemented"),
+  recovery_document_current: recovery.includes("document_status: current"),
+  recovery_document_last_verified_2026_07_28: recovery.includes("last_verified: 2026-07-28"),
+  recovery_phase_0_2_documented_implemented: recovery.includes("Phases 0–2 are implemented"),
+  recovery_phase_3a_foundation_documented_implemented: recovery.includes("Phase 3A") && recovery.includes("Resolver are implemented"),
+  production_reconciler_documented_future_work: recovery.includes("production Phase 3 reconciler") && recovery.includes("remain future work"),
+  phase_4_documented_not_implemented: recovery.includes("Phase 4") && recovery.includes("not implemented"),
   readme_claims_crash_recovery: repoReadme.includes("crash recovery") && repoReadme.includes("optional resume of an interrupted turn"),
 };
 
@@ -45,20 +47,20 @@ const blockers = [
   },
   {
     id: "unknown-side-effect-production-reconciliation",
-    status: "NOT_IMPLEMENTED_AT_PIN",
+    status: "DOCUMENTED_GAP_REQUIRES_REVALIDATION",
     reason:
-      "The pinned current recovery architecture states that the production Phase 3 reconciler and complete host-owner lifecycle remain future work. A crash in the T1→T2 uncertainty window therefore cannot be promoted into a successful idempotent Yukh completion without stronger public evidence.",
+      "The recovery architecture present at the pinned revision is marked current but last verified 2026-07-28; it states that the production Phase 3 reconciler and complete host-owner lifecycle remain future work. Track B treats this as a documented gap, not proof that newer code lacks every reconciliation path. A PASS still requires executable public evidence at the pin.",
   },
   {
     id: "workspace-checkpoint-recovery",
-    status: "NOT_IMPLEMENTED_AT_PIN",
+    status: "DOCUMENTED_GAP_REQUIRES_REVALIDATION",
     reason:
-      "The pinned recovery architecture states Phase 4 Git checkpoints / isolated restore / durable rebaseline are not implemented. This is not required for every durable step, but prevents claiming general workspace-safe durable execution.",
+      "The same pinned current document, last verified 2026-07-28, states Phase 4 Git checkpoints / isolated restore / durable rebaseline are not implemented. This prevents a general workspace-safe claim unless executable public evidence at the pin proves otherwise.",
   },
 ];
 
 const report = {
-  schema_version: 1,
+  schema_version: 2,
   track: "B",
   gate: "maka-public-recovery-preflight",
   candidate: "apache/maka",
@@ -73,10 +75,10 @@ const report = {
   },
   result: "PARTIAL",
   result_reason:
-    "Maka exposes real public resume/continue/graph surfaces and implemented durable recovery foundations, but the pinned public surface is not yet sufficient to run the frozen Yukh crash/recovery proof without relying on internal provider setup, and the candidate documents production reconciliation gaps for uncertain side effects.",
+    "Maka exposes real public resume/continue/graph surfaces and substantial durable recovery foundations. The frozen Yukh crash/recovery proof is not yet executable through a clean deterministic public setup path, and the pinned current recovery document identifies reconciliation/workspace gaps that must be revalidated by executable evidence rather than assumed away.",
   next_probe_allowed: false,
   next_probe_unblock_condition:
-    "A supported public deterministic/non-interactive provider bootstrap plus a public production recovery path that can settle or safely park T1-without-T2 operations with candidate-native evidence.",
+    "A supported public deterministic/non-interactive provider bootstrap and executable public evidence sufficient to test the T1-without-T2 recovery boundary without private storage/runtime-policy mutation.",
 };
 
 await mkdir(reportDir, { recursive: true });
