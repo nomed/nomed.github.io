@@ -7,6 +7,11 @@ on:
     paths:
       - '.github/workflows/qualify-track-a-hosts.yml'
       - 'tests/qualification/track-a/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-a-hosts.yml'
+      - 'tests/qualification/track-a/**'
 
 permissions:
   contents: read
