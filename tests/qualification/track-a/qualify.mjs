@@ -29,7 +29,9 @@ for (const relativePath of candidate.required_paths) {
 
 const startedAt = process.env.TRACK_A_GATE_STARTED_AT ?? null;
 const finishedAt = new Date().toISOString();
+const bootstrapOutcome = process.env.TRACK_A_BOOTSTRAP_OUTCOME ?? "PASS";
 const runtimeGate = process.env.TRACK_A_RUNTIME_GATE ?? "NOT_EXECUTED";
+assert.ok(["PASS", "FAIL", "NOT_REQUIRED"].includes(bootstrapOutcome), `invalid TRACK_A_BOOTSTRAP_OUTCOME: ${bootstrapOutcome}`);
 assert.ok(["PASS", "FAIL", "NOT_EXECUTED"].includes(runtimeGate), `invalid TRACK_A_RUNTIME_GATE: ${runtimeGate}`);
 
 const report = {
@@ -42,13 +44,17 @@ const report = {
   revision: candidate.revision,
   license: candidate.license,
   work_uri: "yukh://qualification/track-a/work/hello-evidence",
-  operation: "read deterministic fixture and verify runtime substrate",
-  fixture: {
+  operation: "verify pinned public host substrate using candidate-owned ACP/permission/MCP tests",
+  harness_fixture: {
+    purpose: "reserved deterministic input for the later model-driven common fixture; not consumed by this substrate gate",
     value: fixtureBytes.toString("utf8"),
     byte_length: fixtureBytes.length,
     sha256: fixtureDigest
   },
   public_surface_checks: pathChecks,
+  bootstrap: {
+    outcome: bootstrapOutcome
+  },
   runtime_gate: {
     command: candidate.runtime_gate,
     outcome: runtimeGate,
@@ -64,6 +70,7 @@ const report = {
   dimensions: {
     pinned_revision: "PASS",
     public_integration_surface: "PASS",
+    candidate_bootstrap: bootstrapOutcome === "NOT_REQUIRED" ? "PASS" : bootstrapOutcome,
     upstream_acp_permission_tests: runtimeGate,
     model_driven_capability_composition: "NOT_EXECUTED",
     restart_recovery: "NOT_EXECUTED",
