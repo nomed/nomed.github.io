@@ -1,0 +1,52 @@
+name: Qualify Track B Maka durable execution
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-b-maka.yml'
+      - 'tests/qualification/track-b/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track-b-maka-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  public-recovery-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout qualification harness
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Checkout pinned Apache Maka
+        uses: actions/checkout@v7
+        with:
+          repository: apache/maka
+          ref: 8fd33df4bb26cadff93d38f3d824ae0760a4d01d
+          path: external/maka
+          persist-credentials: false
+
+      - name: Execute fail-closed public recovery preflight
+        run: >-
+          node tests/qualification/track-b/maka-public-recovery-preflight.mjs
+          external/maka
+          artifacts/track-b-maka
+
+      - name: Verify Track B evidence
+        run: >-
+          node tests/qualification/track-b/verify-maka-public-recovery-preflight.mjs
+          artifacts/track-b-maka/maka-public-recovery-preflight.json
+
+      - name: Upload Track B evidence
+        uses: actions/upload-artifact@v6
+        with:
+          name: track-b-maka-public-recovery-preflight-8fd33df4
+          path: artifacts/track-b-maka/maka-public-recovery-preflight.json
+          if-no-files-found: error
+          retention-days: 30
