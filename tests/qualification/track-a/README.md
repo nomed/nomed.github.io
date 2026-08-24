@@ -23,4 +23,4 @@ A later gate may exercise the complete agent loop only when a deterministic cred
 - `verify-report.mjs` — schema/invariant checks for generated reports;
 - `fixture/hello.txt` — deterministic operation input.
 
-The workflow `.github/workflows/qualify-track-a-hosts.yml` is manual-only and uploads one evidence artifact per candidate.
+The workflow `.github/workflows/qualify-track-a-hosts.yml` can be dispatched manually. It also runs on pull requests only when the Track A workflow or harness itself changes, so ordinary editorial/site PRs do not pay the qualification cost. Each candidate produces its own evidence artifact even when its runtime gate fails.
