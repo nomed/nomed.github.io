@@ -1,0 +1,53 @@
+name: Qualify Track C2 OpenViking OV-4
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-c2-openviking-ov4.yml'
+      - 'tests/qualification/track-c2/openviking/ov4-**'
+      - 'tests/qualification/track-c2/openviking/verify-ov4-**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track-c2-openviking-ov4-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  ov4-public-memory-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout qualification harness
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Checkout pinned OpenViking
+        uses: actions/checkout@v7
+        with:
+          repository: volcengine/OpenViking
+          ref: 234a2d9fe778a9512fd7ebe9807198e847c647ec
+          path: external/openviking
+          persist-credentials: false
+
+      - name: Execute OV-4 public memory preflight
+        run: >-
+          python tests/qualification/track-c2/openviking/ov4-public-memory-preflight.py
+          external/openviking
+          artifacts/track-c2-openviking/openviking-ov4-preflight.json
+
+      - name: Verify OV-4 preflight evidence
+        run: >-
+          python tests/qualification/track-c2/openviking/verify-ov4-preflight.py
+          artifacts/track-c2-openviking/openviking-ov4-preflight.json
+
+      - name: Upload OV-4 preflight evidence
+        uses: actions/upload-artifact@v6
+        with:
+          name: track-c2-openviking-ov4-preflight-234a2d9f
+          path: artifacts/track-c2-openviking/openviking-ov4-preflight.json
+          if-no-files-found: error
+          retention-days: 30
