@@ -39,7 +39,6 @@ export function SiteHeader() {
         <Link href="/system">System</Link>
         <Link href="/landscape">Landscape</Link>
         <Link href="/work">Work</Link>
-        <Link href="/control-plane">Control</Link>
         <Link href="/writing">Writing</Link>
         <a className="nav-external" href="https://github.com/nomed" target="_blank" rel="noreferrer">
           GitHub <ArrowIcon direction="external" />
@@ -56,10 +55,11 @@ export function SiteFooter() {
         <img src="/brand/nomed.svg" alt="" />
         <span>NOMED</span>
       </Link>
-      <p>Open infrastructure for governed agentic development.</p>
+      <p>Open governance semantics for replaceable agent systems.</p>
       <div className="footer-links">
-        <Link href="/writing">Writing</Link>
+        <Link href="/system">System</Link>
         <Link href="/landscape">Landscape</Link>
+        <Link href="/writing">Writing</Link>
         <Link href="/brand">Identity</Link>
         <a href="https://github.com/nomed" target="_blank" rel="noreferrer">GitHub <ArrowIcon direction="external" /></a>
       </div>

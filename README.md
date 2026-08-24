@@ -7,42 +7,40 @@
 <h1 align="center">Nomed</h1>
 
 <p align="center">
-  <strong>Open infrastructure for governed agentic development.</strong>
+  <strong>Open governance semantics for replaceable agent systems.</strong>
 </p>
 
 <p align="center">
   <a href="https://nomed.github.io/"><img alt="Public home" src="https://img.shields.io/badge/public_home-nomed.github.io-FF3B30?style=for-the-badge"></a>
   <a href="https://nomed.github.io/manifesto/"><img alt="Manifesto" src="https://img.shields.io/badge/manifesto-plans_before_mutations-111111?style=for-the-badge"></a>
-  <a href="https://github.com/nomed"><img alt="Open source" src="https://img.shields.io/badge/building_in_public-open_source-7C3AED?style=for-the-badge"></a>
+  <a href="https://github.com/nomed"><img alt="Open source" src="https://img.shields.io/badge/open_source-public_repositories-7C3AED?style=for-the-badge"></a>
 </p>
 
 ---
 
-**Governed agentic development needs explicit authority, durable memory and verifiable evidence.** This repository develops that position through public protocols, bounded components, golden paths and durable engineering records.
+**Agent systems need authority, coordination and evidence that survive replacement of the model, runtime, workspace or vendor.** This repository owns the public Yukh thesis, suite-level architecture and durable cross-repository governance records.
 
-The work starts from a concrete failure mode. Agentic development works surprisingly well inside one session, but becomes fragile across multiple agents, repositories, tools, model providers, and asynchronous handoffs. Intent disappears. Authority becomes ambiguous. Work is duplicated. Evidence and memory fragment.
+The hard problem is no longer starting an agent loop. Modern hosts already provide tools, approvals, subagents, memory, sandboxes and workflow machinery. The harder problem is deciding which semantics must remain stable when any of those implementations changes.
 
-The aim is to make that larger system **legible, governable, durable, and worthy of trust**.
-
-> The goal is not merely to make agents faster.  
-> The goal is to make human–agent collaboration capable of carrying real responsibility.
+> Own the semantics. Reuse the machinery.
 
 [Enter the public home →](https://nomed.github.io/)
 
 ## The thesis
 
-- **Capability, not custody.** Agents receive narrowly governed capabilities, not unrestricted credentials or invisible authority.
-- **Plans before mutations.** Consequential actions begin as inspectable intent and end with verifiable evidence.
-- **Memory outside the session.** Decisions, claims, handoffs, and outcomes survive any single chat, agent, or vendor.
-- **Observable coordination.** Parallel work becomes legible through explicit ownership, state, dependencies, and review.
-- **Vendor-neutral by design.** The contracts must work across Codex, ChatGPT, Claude, Gemini, local agents, and future runtimes.
-- **Honest maturity.** Research, foundations, compatibility layers, and production systems are named for what they really are.
+- **Semantics before machinery.** Yukh should own only contracts that must survive host/runtime replacement.
+- **Capability, not custody.** Agents receive bounded authority; neither Yukh nor a host gets to hide or widen the other side's policy.
+- **Observable coordination.** Claims, conflict, attribution and handoff remain explicit across sessions and workspaces.
+- **Evidence, not declarations.** Operational facts remain independently checkable without persisting private reasoning.
+- **Memory is context, not authority.** Persistent memory may be reusable and shared without becoming accepted state or evidence truth.
+- **Runtime-neutral by design.** Agent hosts, sandboxes, workflow engines, memory systems and human workspaces should remain replaceable where possible.
+- **Honest maturity.** Qualification candidates are not adopted components, and passing an upstream test is not a Yukh architecture decision.
 
-Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) for the full position.
+Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) and the current [agent systems landscape](https://nomed.github.io/landscape/).
 
-## Yukh — an open system in formation
+## Yukh — accepted boundaries, replaceable implementations
 
-**Yukh turns these principles into an architecture.** Its components separate governed execution, durable project state and cross-session coordination rather than collapsing them into a monolithic platform.
+[RFC-0003](docs/rfcs/RFC-0003-yukh-reference-architecture-and-minimum-runtime.md) remains the accepted reference architecture until superseded. It separates capability authority, accepted delivery state and live coordination. The current repositories implement those responsibilities, but architecture review explicitly allows them to shrink, become adapters, be replaced or disappear when equivalent external machinery preserves the required semantics.
 
 <table>
   <tr>
@@ -53,9 +51,8 @@ Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) for the full posi
       </a>
     </td>
     <td>
-      <strong>Governed capabilities</strong><br>
-      A typed, policy-governed gateway that turns agent intent into bounded execution and verifiable evidence.<br>
-      <sub>Foundation</sub>
+      <strong>Capability policy + evidence</strong><br>
+      Current foundation implementation of the Yukh capability boundary. Track A is testing two-sided composition with host-native permissions rather than duplicating or bypassing them; durable production readiness remains unproven.
     </td>
   </tr>
   <tr>
@@ -66,9 +63,8 @@ Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) for the full posi
       </a>
     </td>
     <td>
-      <strong>Durable project state</strong><br>
-      Declarative, secure, consumer-neutral reconciliation for portfolio and delivery state in GitHub Projects.<br>
-      <sub>Foundation bootstrap</sub>
+      <strong>GitHub accepted-state adapter</strong><br>
+      Published and synthetically qualified GitHub Projects implementation of accepted delivery state. The architecture review is testing whether the stable concern should become an explicit abstract contract with multiple adapters; no live apply qualification is implied.
     </td>
   </tr>
   <tr>
@@ -79,32 +75,52 @@ Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) for the full posi
       </a>
     </td>
     <td>
-      <strong>Cross-session coordination</strong><br>
-      Open claims, signals, reviews, evidence, and explicit handoffs. It coordinates work; it does not grant authority.<br>
-      <sub>Foundation / reference implementation</sub>
+      <strong>Coordination kernel</strong><br>
+      Current implementation of claims, conflict, handoff, attribution and replay. Preparation evidence exists, while public/live runtime qualification remains unproven and transports/workspaces stay replaceable.
     </td>
   </tr>
 </table>
 
-The original [Yukh reconciler](https://github.com/nomed/yukh) remains available as a compatibility implementation while its reusable capabilities migrate into Yukh Projects.
-
-[Inspect current maturity and work →](https://nomed.github.io/work/)
+[Understand the current system →](https://nomed.github.io/system/)  
+[Inspect implementation and qualification work →](https://nomed.github.io/work/)
 
 Deep dives: [MCP](https://nomed.github.io/system/mcp/) · [Projects](https://nomed.github.io/system/projects/) · [Coordination](https://nomed.github.io/system/coordination/)
+
+## Architecture qualification
+
+The current review has moved from feature comparison to executable qualification:
+
+- **Track A / agent host:** goose and Hermes both passed the first runtime-substrate gate. Neither is selected. Gate A2 requires observable Yukh/host policy composition through supported public seams before either can pass Yukh-specific host qualification.
+- **Durable execution:** Apache Maka is the first AgentRun/execution-evidence candidate.
+- **Execution isolation:** OpenHands is the first external sandbox/execution-provider candidate.
+- **Orchestration:** OpenHuman is a workflow/checkpoint/approval challenger, not an accepted Yukh control plane.
+- **Shared memory / Track C2:** TencentDB Agent Memory is the primary team-memory candidate. Memory must remain contextual and non-authoritative; Hermes and OpenHuman provide comparison points.
+- **Human-agent workspace:** Buzz is being evaluated as a replaceable collaboration surface over Yukh coordination semantics.
+- **Agent participants:** Codex, Claude Code and other runtimes are participants/candidates, not core architecture dependencies.
+
+Governing records: [architecture review #56](https://github.com/nomed/nomed.github.io/issues/56), [host qualification #58](https://github.com/nomed/nomed.github.io/issues/58), [shared memory #63](https://github.com/nomed/nomed.github.io/issues/63).
+
+## Documentation ownership
+
+[RFC-0004](docs/rfcs/RFC-0004-yukh-documentation-architecture.md) defines one suite-level discovery surface and component-owned technical documentation.
+
+`nomed.github.io` owns:
+
+- the public thesis and system narrative;
+- suite architecture and authority boundaries;
+- maturity and qualification summaries;
+- cross-suite RFCs and governance records;
+- routing to canonical component documentation.
+
+Component repositories own installation, configuration, APIs, operations, security, releases, migrations and troubleshooting. The suite site summarizes those facts but does not create a second technical source of truth.
 
 ## Engineering method
 
 Cross-suite work follows the lightweight [Yukh systems engineering management plan](docs/engineering/YUKH-SEMP.md): mission threads become authority boundaries, executable contracts, adversarial vertical slices and independently verifiable evidence.
 
-The accepted architecture is [RFC-0003 — Yukh reference architecture and minimum runtime](docs/rfcs/RFC-0003-yukh-reference-architecture-and-minimum-runtime.md), governed by [issue #29](https://github.com/nomed/nomed.github.io/issues/29). JetStream is the first distributed adapter and Matrix the first human bridge; their implementation remains owned by Yukh Coordination.
-
-Draft suite candidates and bounded qualification evidence are indexed in
-[`docs/releases`](docs/releases/README.md). A draft record is not release or
-deployment authority.
+Accepted RFCs are immutable; changes to topology, component authority or shared contracts require a later superseding RFC. Qualification results do not silently rewrite accepted architecture.
 
 ## This repository
-
-`nomed.github.io` is Nomed's public home and governance hub. It contains the current editorial site and the reviewed cross-repository records that define how the wider system evolves. Runtime implementations remain in their own repositories; facts link to canonical sources instead of being copied into parallel documentation.
 
 ```text
 app/       current editorial application and routes
@@ -115,9 +131,7 @@ build/     hosting build integration
 worker/    hosting runtime integration
 ```
 
-Historical material predating the current site is preserved exactly on the `archive/legacy-site-2026-08-02` branch and is intentionally absent from `main`.
-
-New top-level directories require a documented, current responsibility. `main` is not an archive, scratch space, or session store.
+Historical material predating the current site is preserved on the designated archive branch and is intentionally absent from `main`. New top-level directories require a documented current responsibility.
 
 ## Build locally
 
@@ -134,8 +148,7 @@ npm test
 npm run build
 ```
 
-For the deterministic cross-suite demo qualification, install dependencies with
-Node.js 22 or later and run:
+For deterministic static-site qualification with Node.js 22 or later:
 
 ```bash
 npm ci
@@ -143,17 +156,11 @@ npm run e2e
 npm run test:network-denial
 ```
 
-`npm run e2e` builds the GitHub Pages export, serves it only on an ephemeral
-local port, visits every primary route, checks internal pages, fragments and
-assets, and confirms links to the three canonical Yukh repositories. It does
-not contact those repositories or require credentials. The network-denial test
-repeats E2E from fresh build and user caches inside an OS network sandbox. It
-fails closed unless macOS `sandbox-exec` or Linux `sudo unshare --net` isolation
-is available, and probes both permitted loopback and denied external traffic.
+The site checks build the GitHub Pages export, visit primary routes, verify internal pages/fragments/assets and canonical Yukh repository exits. The network-denial test repeats qualification inside an OS network sandbox where available.
 
 ---
 
 <p align="center">
   <strong>Nomed</strong><br>
-  Identity into intent. Intent into governed action. Action into evidence.
+  Stable governance semantics. Replaceable agent machinery.
 </p>

@@ -114,11 +114,14 @@ test("serves every primary route from the static build", async () => {
   }
 });
 
-test("keeps landscape explicitly non-binding", async () => {
+test("keeps landscape explicitly non-binding and current", async () => {
   const html = await fetch(`${origin}/landscape/`).then((response) => response.text());
   assert.match(html, /not an adoption decision/i);
-  assert.match(html, /does not supersede accepted RFCs/i);
-  assert.match(html, /qualification priorities, not product rankings/i);
+  assert.match(html, /RFC-0003 remains the current reference architecture/i);
+  assert.match(html, /runtime-substrate gate/i);
+  assert.match(html, /Gate A2/i);
+  assert.match(html, /TencentDB Agent Memory/);
+  assert.match(html, /No reference host is selected/i);
 });
 
 test("keeps every internal page, fragment, and asset reachable", async () => {

@@ -6,43 +6,43 @@ const components = [
   {
     index: "01",
     name: "Yukh MCP",
-    label: "Governed capabilities",
+    label: "Capability policy + evidence",
     mark: "/brand/yukh-mcp.svg",
     color: "#7C3AED",
-    status: "Audit writer foundation",
-    focus: "Storage-neutral audit contracts exist; no durable profile is accepted and no mutation lifecycle is integrated.",
+    status: "Foundation / current implementation",
+    focus: "Implements the capability-policy and evidence boundary while Track A tests composition with host-native security. Durable production readiness remains unproven.",
     system: "/system/mcp/",
     repository: "https://github.com/nomed/yukh-mcp",
   },
   {
     index: "02",
     name: "Yukh Projects",
-    label: "Accepted-state adapter",
+    label: "GitHub accepted-state adapter",
     mark: "/brand/yukh-projects.svg",
     color: "#00E5FF",
-    status: "Published / synthetically qualified",
-    focus: "v1.7.0 qualifies controlled GitHub Projects apply with synthetic fixtures; no live apply has occurred, and its role as a universal Yukh layer is under review.",
+    status: "Published / synthetically qualified adapter",
+    focus: "A useful GitHub Projects implementation whose long-term architectural role is being narrowed to accepted work state. No live apply qualification is implied.",
     system: "/system/projects/",
     repository: "https://github.com/nomed/yukh-projects",
   },
   {
     index: "03",
     name: "Yukh Coordination",
-    label: "Cross-session coordination",
+    label: "Coordination kernel",
     mark: "/brand/yukh-coordination.svg",
     color: "#CCFF00",
-    status: "Preparation evidence complete",
-    focus: "Protocol and runtime preparation evidence exist; there is no public or live runtime.",
+    status: "Preparation evidence complete / current implementation",
+    focus: "Carries claims, conflict, handoff, attribution and replay semantics while transports and workspaces remain replaceable. No public/live runtime is qualified.",
     system: "/system/coordination/",
     repository: "https://github.com/nomed/yukh-coordination",
   },
 ];
 
 const principles = [
-  { lead: "Capability", tail: "not custody", note: "Typed authority, scoped to a resource.", color: "#7C3AED" },
-  { lead: "Coordination", tail: "not invisible orchestration", note: "Claims, questions and handoffs stay observable.", color: "#CCFF00" },
-  { lead: "Evidence", tail: "not declarations", note: "Plans and outcomes remain independently checkable.", color: "#FF3B30" },
-  { lead: "Open protocols", tail: "not captive platforms", note: "Components integrate without owning the workflow.", color: "#00E5FF" },
+  { lead: "Semantics", tail: "before machinery", note: "Own only what must survive replacement.", color: "#7C3AED" },
+  { lead: "Capability", tail: "not custody", note: "Authority stays explicit, scoped and composable.", color: "#CCFF00" },
+  { lead: "Evidence", tail: "not declarations", note: "Operational facts remain independently checkable.", color: "#FF3B30" },
+  { lead: "Open seams", tail: "not captive runtimes", note: "Hosts, memory, sandboxes and workspaces stay replaceable.", color: "#00E5FF" },
 ];
 
 export default function Home() {
@@ -53,11 +53,11 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="eyebrow">
           <span>Nomed / Governed agentic development</span>
-          <span>Yukh / Open system in formation</span>
+          <span>Yukh / Semantics-first open architecture</span>
         </div>
-        <h1>Software is no longer written by one mind at one keyboard.</h1>
+        <h1>Give agents capability without giving any runtime custody of the system.</h1>
         <div className="hero-bottom">
-          <p className="lede">How can people, agents, policy and evidence work together without losing authority, memory or trust?</p>
+          <p className="lede">Yukh is defining the governance semantics that should survive when the model, host, sandbox, memory system, workflow engine or human workspace changes.</p>
           <a className="round-link" href="#position" aria-label="Begin the story">
             Begin
             <ArrowIcon direction="down" />
@@ -68,18 +68,18 @@ export default function Home() {
       <aside className="signal-strip" aria-label="Current signal">
         <span className="pulse" aria-hidden="true" />
         <strong>Current signal</strong>
-        <span>Agent systems landscape review</span>
-        <span className="signal-status">current Yukh topology under evidence-based challenge</span>
+        <span>Host composition + shared memory qualification</span>
+        <span className="signal-status">goose / Hermes runtime-substrate PASS · A2 not executed · TencentDB Agent Memory Track C2</span>
       </aside>
 
       <section className="manifesto section" id="position">
         <div className="section-label">01 / Position</div>
         <div className="manifesto-copy">
-          <p className="statement">Agents should gain capability without gaining custody.</p>
-          <p>The next generation of software teams will be made of people, models, tools and automated policy. The hard problem is not making them faster. It is making their work legible, governable and worthy of trust.</p>
-          <p>The required protocols and control planes do not yet exist. They are the work.</p>
+          <p className="statement">Own the semantics. Reuse the machinery.</p>
+          <p>Agent systems now arrive with their own loops, approvals, sandboxes, memory, workflows and collaborative surfaces. Yukh should not rebuild those capabilities merely to own the stack. It should define the authority, attribution, coordination and evidence contracts that remain true when any one implementation is replaced.</p>
+          <p>RFC-0003 is still the accepted reference architecture. Current qualification work is testing how much of its implementation machinery can shrink, move behind adapters or disappear without weakening those boundaries.</p>
           <div className="operating-loop" aria-label="The governed operating loop">
-            <span>Intent</span><i><ArrowIcon /></i><span>Policy</span><i><ArrowIcon /></i><span>Plan</span><i><ArrowIcon /></i><span>Approval</span><i><ArrowIcon /></i><span>Execute</span><i><ArrowIcon /></i><span>Verify</span><i><ArrowIcon /></i><span>Evidence</span>
+            <span>Intent</span><i><ArrowIcon /></i><span>Capability</span><i><ArrowIcon /></i><span>Host policy</span><i><ArrowIcon /></i><span>Execute</span><i><ArrowIcon /></i><span>Verify</span><i><ArrowIcon /></i><span>Evidence</span>
           </div>
         </div>
       </section>
@@ -95,29 +95,29 @@ export default function Home() {
       </section>
 
       <section className="yukh section" id="system">
-        <div className="section-label">02 / Yukh system</div>
+        <div className="section-label">02 / Current system</div>
         <div className="yukh-intro">
-          <p className="kicker">Stable boundaries. Replaceable machinery.</p>
-          <h2>These principles currently take shape in Yukh.</h2>
-          <p>The present reference decomposition separates capability policy, accepted work state and live coordination. The boundaries are intentional; the repositories and implementations are not protected from replacement.</p>
-          <Link className="text-link" href="/system/">Understand the current system <ArrowIcon /></Link>
-          <Link className="text-link" href="/landscape/">See what is being challenged <ArrowIcon /></Link>
+          <p className="kicker">Accepted boundaries. Replaceable implementations.</p>
+          <h2>Three current repositories implement only part of the architecture story.</h2>
+          <p>The accepted reference decomposition still separates capability authority, accepted work state and live coordination. Yukh MCP, Projects and Coordination are the current implementations of those responsibilities. Agent hosts, execution, memory, orchestration and human workspaces are not automatically Yukh components.</p>
+          <Link className="text-link" href="/system/">Understand the accepted boundaries <ArrowIcon /></Link>
+          <Link className="text-link" href="/landscape/">See the machinery under qualification <ArrowIcon /></Link>
         </div>
-        <div className="suite-map" aria-label="Current Yukh reference components">
+        <div className="suite-map" aria-label="Current Yukh implementations of accepted reference boundaries">
           <div className="suite-map-rail" aria-hidden="true" />
           <Link className="suite-node suite-node-mcp" href="/system/mcp/"><span>01 / Capability</span><strong>Yukh MCP</strong></Link>
-          <div className="suite-hub"><span>Shared layer</span><strong>Governance<br />+ evidence</strong></div>
+          <div className="suite-hub"><span>Stable goal</span><strong>Governance<br />semantics</strong></div>
           <Link className="suite-node suite-node-projects" href="/system/projects/"><span>02 / Accepted state</span><strong>Yukh Projects</strong></Link>
           <Link className="suite-node suite-node-coordination" href="/system/coordination/"><span>03 / Coordination</span><strong>Yukh Coordination</strong></Link>
         </div>
       </section>
 
       <section className="work section" id="work">
-        <div className="section-label">03 / Work</div>
+        <div className="section-label">03 / Implementations</div>
         <div>
           <div className="work-heading">
-            <h2>Current build status.</h2>
-            <Link className="text-link" href="/work/">See the complete work surface <ArrowIcon /></Link>
+            <h2>What Yukh code exists today.</h2>
+            <Link className="text-link" href="/work/">See implementations + qualification work <ArrowIcon /></Link>
           </div>
           <div className="project-list">
             {components.map((component) => (
@@ -136,21 +136,22 @@ export default function Home() {
       </section>
 
       <section className="coordination section" id="signal">
-        <div className="section-label">04 / Research signal</div>
+        <div className="section-label">04 / Qualification</div>
         <div className="coordination-grid">
           <div>
-            <p className="kicker">Reuse before reinvention.</p>
-            <h2>Which parts of Yukh should not be Yukh code?</h2>
-            <Link className="signal-link" href="/landscape/">Explore the agent systems landscape <ArrowIcon /></Link>
+            <p className="kicker">No protected components.</p>
+            <h2>The next architecture is being earned by evidence.</h2>
+            <Link className="signal-link" href="/landscape/">Explore the current landscape <ArrowIcon /></Link>
           </div>
           <div className="coordination-copy">
-            <p>Maka, goose, OpenHands and Buzz now provide serious runtime, sandbox, interoperability and collaborative-workspace capabilities. Yukh is testing whether they can implement parts of the system without weakening authority, attribution, replay or evidence.</p>
-            <div className="terminal" role="img" aria-label="Architecture qualification options">
-              <div className="terminal-top"><span>#architecture-review</span><span>no protected components</span></div>
-              <p><span>01</span> goose <b>HOST?</b> MCP + ACP + composable loop</p>
-              <p><span>02</span> maka <b>RUNTIME?</b> durable AgentRun facts</p>
-              <p><span>03</span> buzz <b>WORKSPACE?</b> humans + agents + signed events</p>
-              <p><span>04</span> openhands <b className="pass">SANDBOX?</b> isolated execution</p>
+            <p>goose and Hermes have both passed the first runtime-substrate gate, but neither is a selected Yukh host. Apache Maka, OpenHands, OpenHuman, TencentDB Agent Memory and Buzz are being evaluated for distinct replaceable concerns rather than collected into one mandatory platform.</p>
+            <div className="terminal" role="img" aria-label="Current Yukh qualification tracks">
+              <div className="terminal-top"><span>#qualification</span><span>observed 2026-08-24</span></div>
+              <p><span>RT</span> goose + Hermes <b className="pass">PASS</b> runtime substrate</p>
+              <p><span>A2</span> host composition <b>DEFINED</b> adapters not executed</p>
+              <p><span>C2</span> TencentDB Agent Memory <b>MEMORY?</b> contextual, never authority</p>
+              <p><span>EX</span> Maka + OpenHands <b>EXECUTION?</b> durable facts + isolation</p>
+              <p><span>UX</span> Buzz <b>WORKSPACE?</b> surface, not authority</p>
               <div className="terminal-cursor">_</div>
             </div>
           </div>
@@ -158,11 +159,11 @@ export default function Home() {
       </section>
 
       <section className="invitation">
-        <p>Writing / Notes from the work</p>
-        <h2>Build systems that deserve agency.</h2>
+        <p>Research / Architecture under qualification</p>
+        <h2>Less platform. Stronger boundaries.</h2>
         <div>
+          <Link href="/landscape/">Read the qualification landscape <ArrowIcon /></Link>
           <Link href="/writing/">Read the field notes <ArrowIcon /></Link>
-          <Link href="/brand/">Explore the identity system <ArrowIcon /></Link>
         </div>
       </section>
 
