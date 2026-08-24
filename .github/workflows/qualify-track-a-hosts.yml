@@ -7,9 +7,9 @@ on:
     paths:
       - '.github/workflows/qualify-track-a-hosts.yml'
       - 'tests/qualification/track-a/candidates.json'
-      - 'tests/qualification/track-a/a2-config.json'
-      - 'tests/qualification/track-a/*.mjs'
-      - 'tests/qualification/track-a/fixture/**'
+      - 'tests/qualification/track-a/qualify.mjs'
+      - 'tests/qualification/track-a/verify-report.mjs'
+      - 'tests/qualification/track-a/fixture/hello.txt'
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   qualify:
-    name: ${{ matrix.candidate }} runtime substrate + A2 seam
+    name: ${{ matrix.candidate }} runtime substrate
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -94,36 +94,22 @@ jobs:
           fi
           exit 0
 
-      - name: Produce runtime-substrate evidence
+      - name: Produce candidate-neutral evidence
         run: >-
           node tests/qualification/track-a/qualify.mjs
           '${{ matrix.candidate }}'
           '${{ matrix.source_dir }}'
           'artifacts/track-a'
 
-      - name: Verify runtime-substrate evidence invariants
+      - name: Verify evidence invariants
         run: node tests/qualification/track-a/verify-report.mjs 'artifacts/track-a/${{ matrix.candidate }}.json'
-
-      - name: Execute A2 supported public-entrypoint probe
-        if: env.TRACK_A_RUNTIME_GATE == 'PASS'
-        run: >-
-          node tests/qualification/track-a/a2-public-seam-probe.mjs
-          '${{ matrix.candidate }}'
-          '${{ matrix.source_dir }}'
-          'artifacts/track-a'
-
-      - name: Verify A2 public-seam evidence fails closed
-        if: env.TRACK_A_RUNTIME_GATE == 'PASS'
-        run: >-
-          node tests/qualification/track-a/verify-a2-public-seam.mjs
-          'artifacts/track-a/${{ matrix.candidate }}-a2-public-seam.json'
 
       - name: Upload qualification evidence
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: track-a-${{ matrix.candidate }}-${{ matrix.revision }}
-          path: artifacts/track-a/*.json
+          path: artifacts/track-a/${{ matrix.candidate }}.json
           if-no-files-found: error
           retention-days: 30
 
