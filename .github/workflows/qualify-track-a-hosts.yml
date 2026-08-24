@@ -6,12 +6,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/qualify-track-a-hosts.yml'
-      - 'tests/qualification/track-a/**'
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/qualify-track-a-hosts.yml'
-      - 'tests/qualification/track-a/**'
+      - 'tests/qualification/track-a/candidates.json'
+      - 'tests/qualification/track-a/*.mjs'
+      - 'tests/qualification/track-a/fixture/**'
 
 permissions:
   contents: read
