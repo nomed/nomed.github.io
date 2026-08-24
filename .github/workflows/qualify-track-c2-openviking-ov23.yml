@@ -44,16 +44,17 @@ jobs:
 
       - name: Build and install pinned OpenViking wheel
         run: |
-          python -m pip install --upgrade pip
-          mkdir -p runtime/wheels
+          set -o pipefail
+          mkdir -p artifacts/track-c2-openviking runtime/wheels
+          python -m pip install --upgrade pip 2>&1 | tee artifacts/track-c2-openviking/bootstrap-pip.log
           # A wheel build is the candidate-supported path that fail-closed builds
           # and packages the required ov CLI + ragfs_python native runtime artifacts.
-          python -m pip wheel --no-deps external/openviking -w runtime/wheels
-          python -m pip install runtime/wheels/openviking-*.whl
+          python -m pip wheel --no-deps external/openviking -w runtime/wheels 2>&1 | tee artifacts/track-c2-openviking/wheel-build.log
+          python -m pip install runtime/wheels/openviking-*.whl 2>&1 | tee artifacts/track-c2-openviking/wheel-install.log
           # Overlay the HTTP SDK from the exact same source pin. It is a public
           # package in the candidate repository; --no-deps avoids repinning runtime deps.
-          python -m pip install --no-deps external/openviking/sdk/python
-          python - <<'PY'
+          python -m pip install --no-deps external/openviking/sdk/python 2>&1 | tee artifacts/track-c2-openviking/sdk-install.log
+          python - <<'PY' 2>&1 | tee artifacts/track-c2-openviking/native-binding.log
           from openviking.pyagfs import get_binding_client
           binding, _ = get_binding_client()
           assert binding is not None
@@ -140,7 +141,7 @@ jobs:
             kill "$(cat runtime/openviking/server.pid)" 2>/dev/null || true
           fi
 
-      - name: Upload OV-2/OV-3 evidence and server log
+      - name: Upload OV-2/OV-3 evidence and logs
         if: always()
         uses: actions/upload-artifact@v6
         with:
