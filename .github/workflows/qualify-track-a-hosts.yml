@@ -1,0 +1,98 @@
+name: Qualify Track A agent hosts
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track-a-hosts-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    name: ${{ matrix.candidate }} runtime substrate
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - candidate: goose
+            repository: aaif-goose/goose
+            revision: bd16fbfbbe78cadc2cc3ce6295691772df51d71f
+            source_dir: external/goose
+          - candidate: hermes
+            repository: NousResearch/hermes-agent
+            revision: a0ca7c19204e514f9590ce3b812e029b315ab9e9
+            source_dir: external/hermes
+
+    steps:
+      - name: Checkout qualification harness
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Checkout pinned candidate
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ matrix.repository }}
+          ref: ${{ matrix.revision }}
+          path: ${{ matrix.source_dir }}
+          persist-credentials: false
+
+      - name: Setup Python for Hermes
+        if: matrix.candidate == 'hermes'
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Hermes test profile
+        if: matrix.candidate == 'hermes'
+        working-directory: external/hermes
+        run: python -m pip install -e '.[all,dev]'
+
+      - name: Run candidate-owned runtime substrate gate
+        id: gate
+        shell: bash
+        run: |
+          set +e
+          started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "TRACK_A_GATE_STARTED_AT=${started_at}" >> "$GITHUB_ENV"
+          if [[ "${{ matrix.candidate }}" == "goose" ]]; then
+            (cd external/goose && cargo test -p goose acp --lib)
+          else
+            (cd external/hermes && python -m pytest -q \
+              tests/acp/test_session.py \
+              tests/acp/test_edit_approval.py \
+              tests/acp_adapter/test_acp_mcp_discovery.py)
+          fi
+          status=$?
+          if [[ $status -eq 0 ]]; then
+            echo "TRACK_A_RUNTIME_GATE=PASS" >> "$GITHUB_ENV"
+          else
+            echo "TRACK_A_RUNTIME_GATE=FAIL" >> "$GITHUB_ENV"
+          fi
+          exit 0
+
+      - name: Produce candidate-neutral evidence
+        run: >-
+          node tests/qualification/track-a/qualify.mjs
+          '${{ matrix.candidate }}'
+          '${{ matrix.source_dir }}'
+          'artifacts/track-a'
+
+      - name: Verify evidence invariants
+        run: node tests/qualification/track-a/verify-report.mjs 'artifacts/track-a/${{ matrix.candidate }}.json'
+
+      - name: Upload qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: track-a-${{ matrix.candidate }}-${{ matrix.revision }}
+          path: artifacts/track-a/${{ matrix.candidate }}.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce runtime substrate result
+        run: test "$TRACK_A_RUNTIME_GATE" = PASS
