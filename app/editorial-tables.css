@@ -71,6 +71,7 @@
   .editorial-body > table {
     display: block;
     width: calc(100% + 10vw);
+    min-width: 0;
     margin-left: -5vw;
     margin-right: -5vw;
     overflow-x: auto;
@@ -78,17 +79,21 @@
     scrollbar-width: thin;
   }
 
-  .editorial-body > table thead,
-  .editorial-body > table tbody {
-    display: table;
-    width: 100%;
+  /* Keep one table formatting context so header/body columns cannot drift. */
+  .editorial-body > table > thead,
+  .editorial-body > table > tbody {
     min-width: 720px;
-    table-layout: auto;
+  }
+
+  .editorial-body > table th,
+  .editorial-body > table td {
+    min-width: 180px;
   }
 
   .editorial-body > table th:first-child,
   .editorial-body > table td:first-child {
     width: 190px;
+    min-width: 190px;
     padding-left: 5vw;
   }
 
