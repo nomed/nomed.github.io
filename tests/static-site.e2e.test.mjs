@@ -9,6 +9,7 @@ const outputDirectory = new URL("../out/", import.meta.url);
 const routes = [
   "/",
   "/manifesto/",
+  "/landscape/",
   "/work/",
   "/control-plane/",
   "/system/",
@@ -111,6 +112,13 @@ test("serves every primary route from the static build", async () => {
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/, route);
     assert.match(await response.text(), /<main(?:\s|>)/, route);
   }
+});
+
+test("keeps landscape explicitly non-binding", async () => {
+  const html = await fetch(`${origin}/landscape/`).then((response) => response.text());
+  assert.match(html, /not an adoption decision/i);
+  assert.match(html, /does not supersede accepted RFCs/i);
+  assert.match(html, /qualification priorities, not product rankings/i);
 });
 
 test("keeps every internal page, fragment, and asset reachable", async () => {

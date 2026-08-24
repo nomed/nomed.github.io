@@ -17,11 +17,11 @@ const components = [
   {
     index: "02",
     name: "Yukh Projects",
-    label: "Durable project state",
+    label: "Accepted-state adapter",
     mark: "/brand/yukh-projects.svg",
     color: "#00E5FF",
     status: "Published / synthetically qualified",
-    focus: "v1.7.0 qualifies controlled apply with synthetic fixtures; no live apply has occurred.",
+    focus: "v1.7.0 qualifies controlled GitHub Projects apply with synthetic fixtures; no live apply has occurred, and its role as a universal Yukh layer is under review.",
     system: "/system/projects/",
     repository: "https://github.com/nomed/yukh-projects",
   },
@@ -68,8 +68,8 @@ export default function Home() {
       <aside className="signal-strip" aria-label="Current signal">
         <span className="pulse" aria-hidden="true" />
         <strong>Current signal</strong>
-        <span>Yukh Coordination Protocol</span>
-        <span className="signal-status">preparation evidence complete / no live runtime</span>
+        <span>Agent systems landscape review</span>
+        <span className="signal-status">current Yukh topology under evidence-based challenge</span>
       </aside>
 
       <section className="manifesto section" id="position">
@@ -97,16 +97,17 @@ export default function Home() {
       <section className="yukh section" id="system">
         <div className="section-label">02 / Yukh system</div>
         <div className="yukh-intro">
-          <p className="kicker">One system. Three bounded responsibilities.</p>
-          <h2>These principles take shape in Yukh.</h2>
-          <p>Yukh separates governed execution, durable project state and live coordination so that no component quietly becomes the whole control plane.</p>
-          <Link className="text-link" href="/system/">Understand the whole system <ArrowIcon /></Link>
+          <p className="kicker">Stable boundaries. Replaceable machinery.</p>
+          <h2>These principles currently take shape in Yukh.</h2>
+          <p>The present reference decomposition separates capability policy, accepted work state and live coordination. The boundaries are intentional; the repositories and implementations are not protected from replacement.</p>
+          <Link className="text-link" href="/system/">Understand the current system <ArrowIcon /></Link>
+          <Link className="text-link" href="/landscape/">See what is being challenged <ArrowIcon /></Link>
         </div>
-        <div className="suite-map" aria-label="Yukh system components">
+        <div className="suite-map" aria-label="Current Yukh reference components">
           <div className="suite-map-rail" aria-hidden="true" />
           <Link className="suite-node suite-node-mcp" href="/system/mcp/"><span>01 / Capability</span><strong>Yukh MCP</strong></Link>
           <div className="suite-hub"><span>Shared layer</span><strong>Governance<br />+ evidence</strong></div>
-          <Link className="suite-node suite-node-projects" href="/system/projects/"><span>02 / Project state</span><strong>Yukh Projects</strong></Link>
+          <Link className="suite-node suite-node-projects" href="/system/projects/"><span>02 / Accepted state</span><strong>Yukh Projects</strong></Link>
           <Link className="suite-node suite-node-coordination" href="/system/coordination/"><span>03 / Coordination</span><strong>Yukh Coordination</strong></Link>
         </div>
       </section>
@@ -138,18 +139,18 @@ export default function Home() {
         <div className="section-label">04 / Research signal</div>
         <div className="coordination-grid">
           <div>
-            <p className="kicker">Ancient protocols. New participants.</p>
-            <h2>What if agents shared a room?</h2>
-            <Link className="signal-link" href="/system/coordination/">Explore the coordination thesis <ArrowIcon /></Link>
+            <p className="kicker">Reuse before reinvention.</p>
+            <h2>Which parts of Yukh should not be Yukh code?</h2>
+            <Link className="signal-link" href="/landscape/">Explore the agent systems landscape <ArrowIcon /></Link>
           </div>
           <div className="coordination-copy">
-            <p>IRC gave communities shared rooms. Mailing lists gave them memory. Patch queues made review visible. Agentic development needs those same social guarantees, expressed as an open protocol.</p>
-            <div className="terminal" role="img" aria-label="A shared coordination channel showing agents working and reviewing">
-              <div className="terminal-top"><span>#project-release</span><span>4 agents · 0 collisions</span></div>
-              <p><span>12:28</span> wave2 <b>PROGRESS</b> main merged, CI green</p>
-              <p><span>12:29</span> reviewer <b>QUESTION</b> exact-head evidence?</p>
-              <p><span>12:30</span> ui-agent <b>ANSWER</b> attached run/30748155709</p>
-              <p><span>12:31</span> reviewer <b className="pass">VERDICT PASS</b></p>
+            <p>Maka, goose, OpenHands and Buzz now provide serious runtime, sandbox, interoperability and collaborative-workspace capabilities. Yukh is testing whether they can implement parts of the system without weakening authority, attribution, replay or evidence.</p>
+            <div className="terminal" role="img" aria-label="Architecture qualification options">
+              <div className="terminal-top"><span>#architecture-review</span><span>no protected components</span></div>
+              <p><span>01</span> goose <b>HOST?</b> MCP + ACP + composable loop</p>
+              <p><span>02</span> maka <b>RUNTIME?</b> durable AgentRun facts</p>
+              <p><span>03</span> buzz <b>WORKSPACE?</b> humans + agents + signed events</p>
+              <p><span>04</span> openhands <b className="pass">SANDBOX?</b> isolated execution</p>
               <div className="terminal-cursor">_</div>
             </div>
           </div>
