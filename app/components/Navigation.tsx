@@ -37,6 +37,7 @@ export function SiteHeader() {
       <nav aria-label="Primary navigation">
         <Link href="/manifesto">Manifesto</Link>
         <Link href="/system">System</Link>
+        <Link href="/landscape">Landscape</Link>
         <Link href="/work">Work</Link>
         <Link href="/control-plane">Control</Link>
         <Link href="/writing">Writing</Link>
@@ -58,6 +59,7 @@ export function SiteFooter() {
       <p>Open infrastructure for governed agentic development.</p>
       <div className="footer-links">
         <Link href="/writing">Writing</Link>
+        <Link href="/landscape">Landscape</Link>
         <Link href="/brand">Identity</Link>
         <a href="https://github.com/nomed" target="_blank" rel="noreferrer">GitHub <ArrowIcon direction="external" /></a>
       </div>
