@@ -21,7 +21,7 @@ const components = [
     mark: "/brand/yukh-projects.svg",
     color: "#00E5FF",
     status: "Published / synthetically qualified",
-    focus: "v1.7.0 qualifies controlled GitHub Projects apply with synthetic fixtures; its role as a universal Yukh layer is under review.",
+    focus: "v1.7.0 qualifies controlled GitHub Projects apply with synthetic fixtures; no live apply has occurred, and its role as a universal Yukh layer is under review.",
     system: "/system/projects/",
     repository: "https://github.com/nomed/yukh-projects",
   },
