@@ -2,12 +2,17 @@ name: Qualify Track A agent hosts
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-a-hosts.yml'
+      - 'tests/qualification/track-a/**'
 
 permissions:
   contents: read
 
 concurrency:
-  group: track-a-hosts-${{ github.run_id }}
+  group: track-a-hosts-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
   cancel-in-progress: false
 
 jobs:
