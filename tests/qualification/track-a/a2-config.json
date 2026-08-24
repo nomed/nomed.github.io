@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "work_uri": "yukh://qualification/track-a/work/hello-evidence",
+  "participant_id": "yukh-participant:track-a:agent-a",
+  "candidates": {
+    "goose": {
+      "public_entrypoint": "cargo run --quiet -p goose-cli --bin goose -- acp --help",
+      "entrypoint_kind": "ACP stdio CLI",
+      "entrypoint_source": "crates/goose-cli/src/cli.rs",
+      "entrypoint_markers": [
+        "Run goose as an ACP agent server on stdio",
+        "Acp"
+      ],
+      "permission_surfaces": [
+        {
+          "path": "documentation/docs/guides/managing-tools/goose-permissions.md",
+          "markers": ["Manual Approval", "Smart Approval"]
+        },
+        {
+          "path": "documentation/docs/guides/managing-tools/tool-permissions.md",
+          "markers": ["Always Allow", "Ask Before", "Never Allow"]
+        }
+      ],
+      "native_control_status": "NOT_EXECUTED"
+    },
+    "hermes": {
+      "public_entrypoint": "hermes acp --help",
+      "entrypoint_kind": "ACP CLI",
+      "entrypoint_source": "hermes_cli/subcommands/acp.py",
+      "entrypoint_markers": ["acp"],
+      "permission_surfaces": [
+        {
+          "path": "website/docs/user-guide/features/acp.md",
+          "markers": ["ACP"]
+        },
+        {
+          "path": "website/docs/user-guide/security.md",
+          "markers": ["approval"]
+        }
+      ],
+      "native_control_status": "NOT_EXECUTED"
+    }
+  }
+}

@@ -1,0 +1,84 @@
+name: Qualify Track A A2 public seams
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-a-a2.yml'
+      - 'tests/qualification/track-a/candidates.json'
+      - 'tests/qualification/track-a/a2-config.json'
+      - 'tests/qualification/track-a/a2-public-seam-probe.mjs'
+      - 'tests/qualification/track-a/verify-a2-public-seam.mjs'
+      - 'tests/qualification/track-a/fixture/forbidden.txt'
+      - 'tests/qualification/track-a/fixture/host-denied.txt'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track-a-a2-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  public-seam:
+    name: ${{ matrix.candidate }} A2 public seam
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - candidate: goose
+            repository: aaif-goose/goose
+            revision: bd16fbfbbe78cadc2cc3ce6295691772df51d71f
+            source_dir: external/goose
+          - candidate: hermes
+            repository: NousResearch/hermes-agent
+            revision: a0ca7c19204e514f9590ce3b812e029b315ab9e9
+            source_dir: external/hermes
+
+    steps:
+      - name: Checkout qualification harness
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Checkout pinned candidate
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ matrix.repository }}
+          ref: ${{ matrix.revision }}
+          path: ${{ matrix.source_dir }}
+          persist-credentials: false
+
+      - name: Setup Python for Hermes
+        if: matrix.candidate == 'hermes'
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Hermes public CLI profile
+        if: matrix.candidate == 'hermes'
+        working-directory: external/hermes
+        run: python -m pip install -e '.[all]'
+
+      - name: Execute supported public-entrypoint probe
+        run: >-
+          node tests/qualification/track-a/a2-public-seam-probe.mjs
+          '${{ matrix.candidate }}'
+          '${{ matrix.source_dir }}'
+          'artifacts/track-a-a2'
+
+      - name: Verify A2 public-seam evidence fails closed
+        run: >-
+          node tests/qualification/track-a/verify-a2-public-seam.mjs
+          'artifacts/track-a-a2/${{ matrix.candidate }}-a2-public-seam.json'
+
+      - name: Upload A2 public-seam evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: track-a-a2-${{ matrix.candidate }}-${{ matrix.revision }}
+          path: artifacts/track-a-a2/${{ matrix.candidate }}-a2-public-seam.json
+          if-no-files-found: error
+          retention-days: 30
