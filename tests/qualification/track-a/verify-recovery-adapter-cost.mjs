@@ -28,4 +28,14 @@ assert.ok(report.checkpoint.work_uri);
 assert.ok(report.checkpoint.capability_id);
 assert.ok(report.checkpoint.evidence_run_id);
 
+const requiredCheckpointFields = ["participant_id", "work_uri", "capability_id", "evidence_run_id"];
+for (const phase of ["initial", "native_restore", "checkpoint_rebind"]) {
+  const session = report.sessions[phase];
+  assert.equal(session.checkpoint_observed, true, `${phase} must observe the complete Yukh checkpoint`);
+  assert.ok(session.checkpoint_fields_observed, `${phase} must expose per-field checkpoint evidence`);
+  for (const field of requiredCheckpointFields) {
+    assert.equal(session.checkpoint_fields_observed[field], true, `${phase} must observe checkpoint field ${field}`);
+  }
+}
+
 console.log(`verified ${report.candidate} recovery/adapter-cost gate; native restore=${report.results.native_session_restore}`);
