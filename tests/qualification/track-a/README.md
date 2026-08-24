@@ -32,8 +32,11 @@ A later A2 slice must exercise the canonical positive, Yukh-denial and host-deni
 - `fixture/forbidden.txt` — file the host must be observed to allow before Yukh denies the composed operation;
 - `fixture/host-denied.txt` — file Yukh allows but the host must independently deny in the later native-control slice.
 
-The workflow `.github/workflows/qualify-track-a-hosts.yml` can be dispatched manually. It is also path-aware on pull requests: it runs when the workflow, candidate pins, executable verifier scripts, A2 config, or deterministic fixtures change. Evidence-only and explanatory documentation changes do not run the qualification, so ordinary site and record updates do not pay the runtime cost.
+Two workflows keep evidence and CI cost separated:
 
-The A2 public-seam probe runs in the same candidate job after the runtime-substrate gate so it can reuse the candidate checkout and, where possible, the existing build/bootstrap work rather than launching a second expensive job.
+- `.github/workflows/qualify-track-a-hosts.yml` owns the already-established runtime-substrate gate. Its PR trigger is limited to substrate pins, verifier code and `hello.txt`.
+- `.github/workflows/qualify-track-a-a2.yml` owns A2 public-seam and future A2 control slices. It runs only when A2 config, A2 executable code, A2 fixtures or that workflow change.
+
+This separation is intentional: iterating on A2 must not rerun the expensive goose 320-test runtime-substrate suite merely because a composition probe changes. A2 still builds/installs enough of each pinned candidate to invoke its supported public entrypoint; it does not reuse a prior PASS as proof of a new A2 observation.
 
 A Track A pull request is the preferred review-time observability path because its qualification run is directly attributable to the harness revision under review. Post-merge reruns are explicit through `workflow_dispatch`, not automatic on every push to `main`.
