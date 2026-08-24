@@ -34,7 +34,7 @@
           "markers": ["ACP"]
         },
         {
-          "path": "tools/approval.py",
+          "path": "website/docs/user-guide/security.md",
           "markers": ["approval"]
         }
       ],
