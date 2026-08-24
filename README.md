@@ -52,7 +52,7 @@ Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) and the current [
     </td>
     <td>
       <strong>Capability policy + evidence</strong><br>
-      Current implementation of the Yukh capability boundary. Track A is testing two-sided composition with host-native permissions rather than duplicating or bypassing them.
+      Current foundation implementation of the Yukh capability boundary. Track A is testing two-sided composition with host-native permissions rather than duplicating or bypassing them; durable production readiness remains unproven.
     </td>
   </tr>
   <tr>
@@ -64,7 +64,7 @@ Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) and the current [
     </td>
     <td>
       <strong>GitHub accepted-state adapter</strong><br>
-      Current GitHub Projects implementation of accepted delivery state. The architecture review is testing whether the stable concern should become an explicit abstract contract with multiple adapters.
+      Published and synthetically qualified GitHub Projects implementation of accepted delivery state. The architecture review is testing whether the stable concern should become an explicit abstract contract with multiple adapters; no live apply qualification is implied.
     </td>
   </tr>
   <tr>
@@ -76,7 +76,7 @@ Read the [Nomed Manifesto](https://nomed.github.io/manifesto/) and the current [
     </td>
     <td>
       <strong>Coordination kernel</strong><br>
-      Current implementation of claims, conflict, handoff, attribution and replay while transports and human-agent workspaces remain replaceable.
+      Current implementation of claims, conflict, handoff, attribution and replay. Preparation evidence exists, while public/live runtime qualification remains unproven and transports/workspaces stay replaceable.
     </td>
   </tr>
 </table>
