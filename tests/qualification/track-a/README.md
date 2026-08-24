@@ -14,6 +14,17 @@ The native-control slice then exercises the canonical three cases through the su
 
 Candidate-native permission requests, session IDs and tool-call IDs are exported as evidence refs. The adapter never invents a host decision. Hermes qualification disables optional title generation through supported configuration so it cannot trigger unrelated inference fallbacks; dependency bootstrap is kept outside measured control evidence. Goose keeps candidate configuration/session state isolated while reusing only the runner's already-provisioned Rust toolchain paths.
 
+The final executable gate is **restart/recovery and adapter cost**. It distinguishes host-native convenience from Yukh-owned continuity:
+
+1. create a candidate session, bind the external Yukh checkpoint and execute the bounded fixture;
+2. stop the candidate process completely;
+3. start a fresh process with the same isolated durable host home and attempt public ACP `session/load` of the original host session;
+4. separately start a brand-new host session and rebind the same Yukh-owned checkpoint;
+5. require the fresh-session rebind to preserve `participant_id`, `work_uri`, `capability_id` and `evidence_run_id` without treating host memory as authority;
+6. export factual adapter and operational-friction evidence instead of a synthetic score.
+
+Native session restore is useful operability evidence, but it is not the authority boundary. A candidate can remain Yukh-compatible if native restore is unavailable while checkpoint rebind succeeds; a failed checkpoint rebind is disqualifying.
+
 ## Invariants
 
 - no secrets or production credentials;
@@ -21,12 +32,13 @@ Candidate-native permission requests, session IDs and tool-call IDs are exported
 - no mutation outside the ephemeral runner workspace;
 - no external Project apply or Yukh infrastructure deployment;
 - external repositories are pinned by commit SHA;
-- native safety controls are not disabled merely to make the fixture pass;
+- native safety controls are not disabled merely to make a fixture pass;
 - generated evidence contains operational facts, never chain-of-thought;
 - configuration/documentation cannot be promoted into an observed host decision;
 - an adapter cannot invent or reconstruct candidate-native ALLOW/DENY;
+- host session history may be useful context but is never Yukh authority;
 - provider-local and dependency-bootstrap boundaries are verified separately;
-- a failed or missing public seam or native control is a valid qualification result.
+- a failed or missing public seam, native control, native restore or checkpoint rebind is a valid qualification result.
 
 ## Files
 
@@ -38,15 +50,18 @@ Candidate-native permission requests, session IDs and tool-call IDs are exported
 - `verify-a2-public-seam.mjs` — verifies public-seam evidence while native controls remain unclaimed;
 - `a2-native-controls-v2.mjs` — candidate-neutral ACP native-control composition runner;
 - `verify-a2-native-controls.mjs` — verifies ALLOW/ALLOW, Yukh-DENY/Host-ALLOW and Yukh-ALLOW/Host-DENY evidence plus environment invariants;
+- `recovery-adapter-cost-v2.mjs` — candidate-neutral process restart, native restore, fresh checkpoint rebind and adapter-fact runner;
+- `verify-recovery-adapter-cost.mjs` — requires the Yukh-owned recovery boundary while recording native restore separately;
 - `fixture/hello.txt` — canonical positive-operation input;
 - `fixture/forbidden.txt` — file the host must be observed to allow before Yukh denies the composed operation;
 - `fixture/host-denied.txt` — file Yukh allows but the host independently denies.
 
-Two workflows keep evidence and CI cost separated:
+Three workflows keep evidence and CI cost separated:
 
 - `.github/workflows/qualify-track-a-hosts.yml` owns the already-established runtime-substrate gate. Its PR trigger is limited to substrate pins, verifier code and `hello.txt`.
-- `.github/workflows/qualify-track-a-a2.yml` owns A2 public-seam and native-control composition. It runs only when A2 config, executable code, fixtures or that workflow change. Superseded PR runs are cancelled so expensive goose compilation is not repeated for obsolete heads.
+- `.github/workflows/qualify-track-a-a2.yml` owns A2 public-seam and native-control composition. It runs only when A2 config, executable code, fixtures or that workflow change.
+- `.github/workflows/qualify-track-a-recovery.yml` owns restart/recovery and adapter-cost qualification. Goose is prebuilt outside measured recovery timing, so process-restart measurements do not include cold Rust compilation.
 
-This separation is intentional: iterating on A2 must not rerun the expensive goose runtime-substrate suite merely because a composition probe changes. A2 still builds/installs enough of each pinned candidate to invoke its supported public entrypoint; it never reuses a prior PASS as proof of a new observation.
+Superseded PR qualification runs are cancelled. This separation is intentional: later qualification work must not rerun unrelated expensive gates, and no prior PASS is reused as proof of a new observation.
 
 A Track A pull request is the preferred review-time observability path because its qualification run is directly attributable to the harness revision under review. Post-merge reruns are explicit through `workflow_dispatch`, not automatic on every push to `main`.
