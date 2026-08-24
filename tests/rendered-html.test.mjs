@@ -30,10 +30,7 @@ test("server-renders the Nomed editorial home page", async () => {
   const html = await response.text();
   assert.match(html, /<html lang="en"/i);
   assert.match(html, /<title>Nomed — Governed Agentic Development<\/title>/i);
-  assert.match(
-    html,
-    /Software is no longer written by one mind at one keyboard\./,
-  );
+  assert.match(html, /Software is no longer written by one mind at one keyboard\./);
   assert.match(html, /Agents should gain capability without gaining custody\./);
   assert.match(html, /Yukh MCP/);
   assert.match(html, /Yukh Projects/);
@@ -51,6 +48,7 @@ test("server-renders the Nomed editorial home page", async () => {
 test("renders the public editorial system with truthful maturity labels", async () => {
   const routes = [
     ["/manifesto/", /Plans before mutations\./],
+    ["/landscape/", /Own the semantics\. Reuse the machinery\./],
     ["/work/", /Published \/ synthetically qualified/],
     ["/system/", /Three boundaries\. One governed flow\./],
     ["/system/mcp/", /Capability without custody\./],
@@ -68,18 +66,28 @@ test("renders the public editorial system with truthful maturity labels", async 
   }
 });
 
+test("keeps landscape non-binding and evidence-qualified", async () => {
+  const response = await render("/landscape/");
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /not an adoption decision/i);
+  assert.match(html, /does not supersede accepted RFCs/i);
+  assert.match(html, /qualification priorities, not product rankings/i);
+  assert.match(html, /First qualification candidate for reference host/);
+  assert.match(html, /Maka isolation requires qualification/);
+});
+
 test("publishes stable identity and predictable internal navigation", async () => {
   const response = await render();
   const html = await response.text();
 
-  assert.match(
-    html,
-    /name="description" content="Open infrastructure for governed agentic development:/,
-  );
+  assert.match(html, /name="description" content="Open infrastructure for governed agentic development:/);
   assert.match(html, /property="og:image" content="https:\/\/nomed\.github\.io\/og\.png"/);
   assert.match(html, /href="\/system\/mcp\/"/);
   assert.match(html, /href="\/system\/projects\/"/);
   assert.match(html, /href="\/system\/coordination\/"/);
+  assert.match(html, /href="\/landscape"/);
   assert.match(html, /href="\/work\/"/);
   assert.match(html, /href="\/writing\/"/);
   assert.match(html, /<nav aria-label="Primary navigation">/);
