@@ -35,8 +35,10 @@ test("server-renders the current Nomed editorial home page", async () => {
   assert.match(html, /Yukh MCP/);
   assert.match(html, /Yukh Projects/);
   assert.match(html, /Yukh Coordination/);
-  assert.match(html, /goose \/ Hermes A1 PASS/);
+  assert.match(html, /goose \/ Hermes runtime-substrate PASS/);
   assert.match(html, /TencentDB Agent Memory Track C2/);
+  assert.match(html, /Published \/ synthetically qualified adapter/);
+  assert.match(html, /Preparation evidence complete \/ current implementation/);
   assert.match(html, /src="\/brand\/nomed\.svg"/);
   assert.match(html, /src="\/brand\/yukh-mcp\.svg"/);
   assert.match(html, /src="\/brand\/yukh-projects\.svg"/);
@@ -114,7 +116,9 @@ test("publishes stable work anchors, repository exits and qualification work", a
   assert.match(html, /class="github-icon"/);
   assert.match(html, /Track A \/ Agent host/);
   assert.match(html, /Shared memory \/ Track C2/);
-  assert.match(html, /A1 runtime-substrate PASS for both/);
+  assert.match(html, /Runtime-substrate PASS for both/);
+  assert.match(html, /Foundation \/ current capability-policy implementation/);
+  assert.match(html, /Published \/ synthetically qualified GitHub adapter/);
 });
 
 test("every Yukh deep dive publishes the same editorial contract", async () => {
