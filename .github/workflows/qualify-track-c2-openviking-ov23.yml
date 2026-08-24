@@ -80,7 +80,7 @@ jobs:
                 "model": "yukh-ov23-noop-embedding",
                 "api_base": "http://127.0.0.1:21934/v1",
                 "api_key": "qualification-only",
-                "dimension": 3,
+                "dimension": 4,
                 "input": "text"
               }
             },
@@ -90,7 +90,7 @@ jobs:
             "storage": {
               "workspace": "./runtime/openviking/data",
               "agfs": {"backend": "local"},
-              "vectordb": {"backend": "local", "dimension": 3}
+              "vectordb": {"backend": "local", "dimension": 4}
             },
             "server": {
               "host": "127.0.0.1",
