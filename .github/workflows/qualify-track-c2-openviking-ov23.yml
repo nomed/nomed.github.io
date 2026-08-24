@@ -1,0 +1,158 @@
+name: Qualify Track C2 OpenViking OV-2 OV-3
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-c2-openviking-ov23.yml'
+      - 'tests/qualification/track-c2/openviking/fixture/**'
+      - 'tests/qualification/track-c2/openviking/ov23-public-fixture.py'
+      - 'tests/qualification/track-c2/openviking/verify-ov23.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track-c2-openviking-ov23-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  ov23-public-fixture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout qualification harness
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Checkout pinned OpenViking
+        uses: actions/checkout@v7
+        with:
+          repository: volcengine/OpenViking
+          ref: 234a2d9fe778a9512fd7ebe9807198e847c647ec
+          path: external/openviking
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: external/openviking/pyproject.toml
+
+      - name: Build and install pinned OpenViking wheel
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/track-c2-openviking runtime/wheels
+          python -m pip install --upgrade pip 2>&1 | tee artifacts/track-c2-openviking/bootstrap-pip.log
+          # OpenViking declares maturin in its PEP 517 build requirements, but setup.py
+          # launches `sys.executable -m maturin` from inside the isolated build. At the
+          # pinned revision that subprocess cannot see the build-overlay installation.
+          # setup.py explicitly documents `pip install maturin` as the supported
+          # prerequisite/workaround, so install the same declared range into the host
+          # interpreter rather than patching the candidate or copying native artifacts.
+          python -m pip install 'maturin>=1.0,<2.0' 2>&1 | tee artifacts/track-c2-openviking/maturin-prerequisite.log
+          # A wheel build is the candidate-supported path that fail-closed builds
+          # and packages the required ov CLI + ragfs_python native runtime artifacts.
+          python -m pip wheel --no-deps external/openviking -w runtime/wheels 2>&1 | tee artifacts/track-c2-openviking/wheel-build.log
+          python -m pip install runtime/wheels/openviking-*.whl 2>&1 | tee artifacts/track-c2-openviking/wheel-install.log
+          # Overlay the HTTP SDK from the exact same source pin. It is a public
+          # package in the candidate repository; --no-deps avoids repinning runtime deps.
+          python -m pip install --no-deps external/openviking/sdk/python 2>&1 | tee artifacts/track-c2-openviking/sdk-install.log
+          python - <<'PY' 2>&1 | tee artifacts/track-c2-openviking/native-binding.log
+          from openviking.pyagfs import get_binding_client
+          binding, _ = get_binding_client()
+          assert binding is not None
+          print('verified pinned ragfs_python native binding')
+          PY
+
+      - name: Write bounded local-only server configuration
+        run: |
+          mkdir -p artifacts/track-c2-openviking runtime/openviking
+          cat > runtime/openviking/ov.conf <<'JSON'
+          {
+            "embedding": {
+              "max_retries": 0,
+              "dense": {
+                "provider": "openai",
+                "model": "yukh-ov23-noop-embedding",
+                "api_base": "http://127.0.0.1:21934/v1",
+                "api_key": "qualification-only",
+                "dimension": 4,
+                "input": "text"
+              }
+            },
+            "retrieval": {
+              "enable_intent": false
+            },
+            "storage": {
+              "workspace": "./runtime/openviking/data",
+              "agfs": {"backend": "local"},
+              "vectordb": {"backend": "local", "dimension": 4}
+            },
+            "server": {
+              "host": "127.0.0.1",
+              "port": 21933,
+              "workers": 1,
+              "auth_mode": "dev"
+            },
+            "memory": {
+              "extraction_enabled": false,
+              "session_skill_extraction_enabled": false
+            },
+            "telemetry": {}
+          }
+          JSON
+
+      - name: Start pinned OpenViking server
+        env:
+          OPENVIKING_CONFIG_FILE: ${{ github.workspace }}/runtime/openviking/ov.conf
+          OPENAI_API_KEY: ''
+          ANTHROPIC_API_KEY: ''
+          VOLCENGINE_ACCESS_KEY: ''
+          VOLCENGINE_SECRET_KEY: ''
+        run: |
+          openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/server.log 2>&1 &
+          echo $! > runtime/openviking/server.pid
+          for i in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:21933/health > artifacts/track-c2-openviking/health.json; then
+              exit 0
+            fi
+            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then
+              cat artifacts/track-c2-openviking/server.log
+              exit 1
+            fi
+            sleep 1
+          done
+          cat artifacts/track-c2-openviking/server.log
+          exit 1
+
+      - name: Execute OV-2 and OV-3 public fixture
+        run: >-
+          python tests/qualification/track-c2/openviking/ov23-public-fixture.py
+          http://127.0.0.1:21933
+          tests/qualification/track-c2/openviking/fixture
+          artifacts/track-c2-openviking/openviking-ov23.json
+
+      - name: Verify OV-2 and OV-3 evidence
+        run: >-
+          python tests/qualification/track-c2/openviking/verify-ov23.py
+          artifacts/track-c2-openviking/openviking-ov23.json
+
+      - name: Stop OpenViking server
+        if: always()
+        run: |
+          if [ -f runtime/openviking/server.pid ]; then
+            kill "$(cat runtime/openviking/server.pid)" 2>/dev/null || true
+          fi
+
+      - name: Upload OV-2/OV-3 evidence and logs
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: track-c2-openviking-ov23-234a2d9f
+          path: artifacts/track-c2-openviking/
+          if-no-files-found: error
+          retention-days: 30
