@@ -3,7 +3,7 @@ import { SystemDeepDive } from "../../components/SystemDeepDive";
 
 export const metadata: Metadata = {
   title: "Yukh Coordination — Nomed",
-  description: "The cross-session coordination boundary of the Yukh system.",
+  description: "The current Yukh coordination-kernel implementation and its replaceable transport/workspace boundary.",
 };
 
 export default function YukhCoordinationPage() {
@@ -12,22 +12,22 @@ export default function YukhCoordinationPage() {
       component="coordination"
       index="03.3"
       label="Yukh system / Coordination"
-      title="A shared room for work that happens in separate minds."
-      lede="Sessions are isolated. Delivery is not. Coordination provides a neutral channel for ownership, questions, evidence, review and explicit handoff."
+      title="Coordination without invisible orchestration."
+      lede="Sessions, hosts and human workspaces are replaceable. Yukh Coordination is the current implementation of the claims, conflict, handoff, attribution and replay semantics that must remain visible across them."
       accent="#93B800"
-      status="preparation evidence complete. The protocol, security boundaries and reproducible OCI evidence exist, but there is no public or live runtime and the project is not production-ready."
-      problem={<p>Parallel agents and people cannot see one another&apos;s transient context. Silence becomes ambiguous, work is duplicated and handoffs decay into inference.</p>}
-      responsibility={<p>Make cross-session activity legible through open presence, bounded claims, typed signals, evidence references and explicit transfer of work.</p>}
-      boundary={<p>Coordination transports and records signals. It does not grant capability, accept project mutations, supervise participants or convert message delivery into authority.</p>}
+      status="preparation evidence complete. Protocol, security-boundary and reproducible runtime preparation evidence exists, but there is no public/live runtime qualification and the project is not production-ready."
+      problem={<p>Parallel agents and people cannot rely on one another&apos;s transient context. Without explicit coordination, silence becomes ambiguous, work is duplicated and handoff or authority is inferred from chat behavior.</p>}
+      responsibility={<p>Make cross-session work legible through participant attribution, bounded claims, observable conflict, typed signals, evidence references and explicit handoff.</p>}
+      boundary={<p>Coordination records and transports coordination facts. Messaging, acknowledgement, timeouts, workspace roles or coordinator recommendations never grant execution or accepted-state authority by themselves.</p>}
       contracts={[
-        { name: "Presence", description: "who is active, idle, blocked or gone." },
-        { name: "Claims", description: "which bounded outcome a participant currently owns." },
-        { name: "Signals", description: "progress, question, answer, review request and verdict." },
-        { name: "Evidence", description: "immutable references to commits, runs, fixtures and decisions." },
-        { name: "Handoffs", description: "explicit transfer without guessing from silence or elapsed time." },
+        { name: "Presence", description: "which participant is active, idle, blocked or gone without making presence authoritative." },
+        { name: "Claims", description: "which bounded work a participant currently claims, including observable concurrent conflict." },
+        { name: "Signals", description: "progress, question, answer, review request and verdict as typed coordination events." },
+        { name: "Evidence refs", description: "portable references to commits, runs, fixtures and decisions rather than private reasoning." },
+        { name: "Handoffs", description: "explicit transfer with accepted boundaries instead of guessing from silence or elapsed time." },
       ]}
-      interactions={<p>Projects supplies durable delivery context. MCP supplies governed capabilities and execution evidence. Coordination connects participants to those systems without becoming either one.</p>}
-      direction={<p>Authorize and qualify publication and a live runtime separately, then complete the end-to-end multi-session proof. Preparation and protocol conformance remain independent from deployment readiness.</p>}
+      interactions={<p>Accepted-state implementations provide reviewed delivery context. MCP supplies capability/evidence semantics. Buzz, Matrix, IDEs or other human-agent workspaces may become replaceable interaction surfaces, but they must not redefine Yukh claims, authority or handoff semantics.</p>}
+      direction={<p>Keep the semantic kernel small while qualifying external workspace and transport surfaces. Publication/live runtime qualification remains separate from protocol correctness, and replacing UI or messaging machinery should not require changing Yukh-visible coordination contracts.</p>}
       documentation="https://github.com/nomed/yukh-coordination/blob/main/PROTOCOL.md"
       documentationName="Yukh Coordination protocol"
       repository="https://github.com/nomed/yukh-coordination"
