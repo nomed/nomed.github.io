@@ -24,6 +24,13 @@
 .editorial-body > table th:first-child,
 .editorial-body > table td:first-child {
   width: 24%;
+  border-right: 1px solid var(--line);
+  padding-right: 1.5rem;
+}
+
+.editorial-body > table th:nth-child(2),
+.editorial-body > table td:nth-child(2) {
+  padding-left: 1.5rem;
 }
 
 .editorial-body > table td {
@@ -95,6 +102,12 @@
     width: 190px;
     min-width: 190px;
     padding-left: 5vw;
+    padding-right: 1.25rem;
+  }
+
+  .editorial-body > table th:nth-child(2),
+  .editorial-body > table td:nth-child(2) {
+    padding-left: 1.25rem;
   }
 
   .editorial-body > table th:last-child,
