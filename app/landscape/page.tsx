@@ -84,7 +84,7 @@ export default function LandscapePage() {
       </ol>
 
       <p>The full evidence, comparison matrices, upside and disqualifying conditions live in the dated research record governed by issue #56.</p>
-      <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/review/yukh-agent-landscape-56/docs/editorial/YUKH-AGENT-LANDSCAPE-2026-08-24.md">Read the landscape record <ArrowIcon direction="external" /></a>
+      <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/editorial/YUKH-AGENT-LANDSCAPE-2026-08-24.md">Read the landscape record <ArrowIcon direction="external" /></a>
     </EditorialPage>
   );
 }
