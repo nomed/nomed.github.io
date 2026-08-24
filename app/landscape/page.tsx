@@ -4,7 +4,7 @@ import { ArrowIcon } from "../components/Navigation";
 
 export const metadata: Metadata = {
   title: "Agent systems landscape — Nomed",
-  description: "A dated, non-binding assessment of Yukh, Maka, goose, OpenHands, Buzz and agent interoperability boundaries.",
+  description: "A dated, non-binding assessment of Yukh and current agent runtimes, workspaces, orchestration systems and interoperability boundaries.",
 };
 
 const candidates = [
@@ -12,7 +12,9 @@ const candidates = [
   ["Yukh Coordination", "Keep kernel; integrate surfaces", "Claims, conflict, handoff, attribution and replay", "An external protocol proves equivalent semantics with less custom code"],
   ["Yukh Projects", "Narrow", "First accepted-state adapter for GitHub Projects", "Treating GitHub Projects itself as a universal Yukh layer"],
   ["Apache Maka", "Evaluate deeply", "Durable AgentRun and execution evidence", "Authority model cannot compose or required records leak private reasoning"],
-  ["goose", "First qualification candidate for reference host", "Vendor-neutral host; MCP + ACP; composable agent-loop direction", "Requires internal patching or makes Yukh goose-specific"],
+  ["goose", "Reference-host qualification candidate", "Vendor-neutral host; MCP + ACP; composable agent-loop direction", "Requires internal patching or makes Yukh goose-specific"],
+  ["Hermes Agent", "Reference-host qualification candidate", "Provider-neutral persistent agent host; memory, skills, subagents, MCP and multiple execution backends", "Hermes memory or host abstractions become required Yukh semantics"],
+  ["OpenHuman", "Orchestration + durable-memory challenger", "Checkpointed graphs, durable workflows, approvals, agent fleets and persistent memory", "Broad platform coupling, unstable local-first boundary or orchestration becomes authoritative"],
   ["OpenHands", "Evaluate as execution provider", "Sandboxed and remote execution infrastructure", "Must adopt the whole platform just to obtain isolation"],
   ["Buzz", "Evaluate as workspace adapter", "Human-agent rooms, attribution and signed event experience", "Its event substrate changes Yukh authority or handoff semantics"],
 ];
@@ -21,9 +23,11 @@ const semantics = [
   ["Participant identity / attribution", "Yes", "Buzz identities, runtime principals, IdP adapters"],
   ["Claim / conflict / handoff", "Yes", "Yukh Coordination; external transport/workspace adapters"],
   ["Capability policy / decision", "Yes", "Yukh MCP composed with runtime-native permissions"],
-  ["Agent loop", "No", "Maka, goose, OpenHands, Codex, Claude Code"],
-  ["Sandbox execution", "No", "OpenHands and runtime-native sandboxes; Maka isolation requires qualification"],
-  ["Durable AgentRun facts", "Probably", "Maka is the first qualification candidate"],
+  ["Agent host / loop", "No", "goose, Hermes, Maka, OpenHands, Codex, Claude Code"],
+  ["Sandbox execution", "No", "OpenHands, Hermes execution backends and runtime-native sandboxes; Maka isolation requires qualification"],
+  ["Durable AgentRun facts", "Probably", "Maka first; OpenHuman checkpointed graphs as a challenger"],
+  ["Durable orchestration / workflow", "Probably not core", "OpenHuman/tinyagents/tinyflows and other workflow engines"],
+  ["Persistent agent memory", "No, except evidence/retention contracts", "Hermes, OpenHuman and external memory stores"],
   ["Accepted work state", "Yes, abstractly", "GitHub Projects through yukh-projects; other adapters later"],
   ["Human collaborative workspace", "No", "Buzz, Matrix, IDEs, web clients"],
 ];
@@ -40,7 +44,7 @@ export default function LandscapePage() {
       <p><strong>Research status / observed 24 August 2026.</strong> This page is not an adoption decision and does not supersede accepted RFCs. External projects move quickly; every material decision requires fresh qualification.</p>
 
       <h2>The architectural test</h2>
-      <p>The working hypothesis is that Yukh should own only the governance and interoperability semantics that must survive a change of model, runtime, workspace or vendor. Agent loops, sandboxes and human interfaces should be reused when an external implementation preserves those semantics better than custom code.</p>
+      <p>The working hypothesis is that Yukh should own only the governance and interoperability semantics that must survive a change of model, runtime, workspace or vendor. Agent hosts, loops, sandboxes, workflow engines, memory systems and human interfaces should be reused when an external implementation preserves those semantics better than custom code.</p>
 
       <h2>How to read the assessment</h2>
       <p>Postures are qualification priorities, not product rankings. Claims are based on public material observed on the date above; roadmap capabilities are treated as hypotheses until available through a released or otherwise testable public seam.</p>
@@ -68,19 +72,21 @@ export default function LandscapePage() {
       <h2>Most plausible pivots</h2>
       <ul>
         <li><strong>Projects becomes an adapter.</strong> The durable semantic is accepted work state; GitHub Projects is the first implementation, not necessarily a universal pillar.</li>
-        <li><strong>Maka or goose becomes a reference runtime/host.</strong> Yukh may never need its own agent loop. Maka is the first candidate to test recoverable execution facts; goose is the first candidate to test interoperable host composition. Neither claim is an adoption decision.</li>
+        <li><strong>Yukh never builds an agent host.</strong> goose and Hermes are the first host candidates to qualify; Maka remains the strongest initial durable-execution challenger.</li>
+        <li><strong>Durable orchestration and memory remain external machinery.</strong> OpenHuman tests whether checkpointed graphs, workflows, approvals and memory can be consumed without making a broad personal-AI platform authoritative.</li>
         <li><strong>Buzz becomes a collaborative surface.</strong> Yukh Coordination can remain the semantic kernel while Buzz, Matrix or another workspace carries human-agent interaction.</li>
         <li><strong>OpenHands supplies execution isolation.</strong> Yukh policy can authorize a bounded operation while an external sandbox performs it and returns evidence.</li>
         <li><strong>A Yukh repository can disappear.</strong> Prior investment is not a reason to preserve a component that an external project makes redundant.</li>
       </ul>
 
-      <h2>Qualification order</h2>
+      <h2>Qualification tracks</h2>
       <ol>
-        <li>goose compatibility spike: can Yukh integrate without owning the agent loop?</li>
-        <li>Maka AgentRun mapping: can durable execution facts become vendor-neutral evidence?</li>
-        <li>Buzz coordination mapping: can rooms and identity preserve Yukh handoff and authority boundaries?</li>
-        <li>OpenHands execution-provider spike: can a Yukh capability be executed in an external sandbox with verifiable evidence?</li>
-        <li>Re-evaluate yukh-projects as the GitHub adapter for an abstract accepted-work-state contract.</li>
+        <li><strong>Agent host:</strong> compare goose and Hermes against the same Yukh participant, capability and evidence seam.</li>
+        <li><strong>Durable execution:</strong> map Maka AgentRun semantics and compare them with checkpointed execution from OpenHuman.</li>
+        <li><strong>Orchestration + memory:</strong> test OpenHuman as an external workflow/memory system without granting it Yukh authority.</li>
+        <li><strong>Workspace:</strong> map Buzz rooms and identities onto Yukh Coordination without semantic loss.</li>
+        <li><strong>Execution isolation:</strong> execute one bounded Yukh capability through OpenHands and return correlated evidence.</li>
+        <li><strong>Accepted state:</strong> re-evaluate yukh-projects as the GitHub adapter for an abstract accepted-work-state contract.</li>
       </ol>
 
       <p>The full evidence, comparison matrices, upside and disqualifying conditions live in the dated research record governed by issue #56.</p>
