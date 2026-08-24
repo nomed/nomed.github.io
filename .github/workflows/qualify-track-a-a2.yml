@@ -10,7 +10,7 @@ on:
       - 'tests/qualification/track-a/a2-config.json'
       - 'tests/qualification/track-a/a2-public-seam-probe.mjs'
       - 'tests/qualification/track-a/verify-a2-public-seam.mjs'
-      - 'tests/qualification/track-a/a2-native-controls.mjs'
+      - 'tests/qualification/track-a/a2-native-controls-v2.mjs'
       - 'tests/qualification/track-a/verify-a2-native-controls.mjs'
       - 'tests/qualification/track-a/fixture/hello.txt'
       - 'tests/qualification/track-a/fixture/forbidden.txt'
@@ -80,12 +80,9 @@ jobs:
       - name: Execute A2 candidate-native control slice
         shell: bash
         run: |
-          # The native-control runner deliberately isolates HOME so candidate config/session
-          # state cannot leak from the hosted runner. Preserve only the already-provisioned
-          # Rust toolchain paths so goose does not bootstrap rustup inside that isolated HOME.
           export RUSTUP_HOME="${RUSTUP_HOME:-$HOME/.rustup}"
           export CARGO_HOME="${CARGO_HOME:-$HOME/.cargo}"
-          node tests/qualification/track-a/a2-native-controls.mjs \
+          node tests/qualification/track-a/a2-native-controls-v2.mjs \
             '${{ matrix.candidate }}' \
             '${{ matrix.source_dir }}' \
             'artifacts/track-a-a2'
