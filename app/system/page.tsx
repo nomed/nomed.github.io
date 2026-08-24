@@ -22,7 +22,7 @@ export default function SystemPage() {
       lede="The accepted Yukh reference architecture currently separates execution authority, accepted delivery state and live coordination. The boundaries matter more than preserving any particular repository or implementation."
       accent="#7C3AED"
     >
-      <p>Intent moves through explicit contracts: coordination makes work visible, accepted-state adapters make reviewed delivery state durable, and MCP crosses the execution boundary under policy. Evidence returns through the same system.</p>
+      <p><strong>Three boundaries. One governed flow.</strong> Intent moves through explicit contracts: coordination makes work visible, accepted-state adapters make reviewed delivery state durable, and MCP crosses the execution boundary under policy. Evidence returns through the same system.</p>
       <p>This is the <strong>current reference decomposition, not a promise that all three implementations survive unchanged</strong>. External runtimes and workspaces are being evaluated where they may replace custom machinery without weakening attribution, authority, replay or evidence.</p>
       <ul className="system-index">
         {components.map(([index, name, responsibility, href]) => (
