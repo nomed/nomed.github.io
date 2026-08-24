@@ -4,7 +4,7 @@
   "participant_id": "yukh-participant:track-a:agent-a",
   "candidates": {
     "goose": {
-      "public_entrypoint": "cargo run --quiet -p goose-cli -- acp --help",
+      "public_entrypoint": "cargo run --quiet -p goose-cli --bin goose -- acp --help",
       "entrypoint_kind": "ACP stdio CLI",
       "entrypoint_source": "crates/goose-cli/src/cli.rs",
       "entrypoint_markers": [
