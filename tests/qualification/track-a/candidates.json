@@ -1,0 +1,31 @@
+{
+  "fixture_version": 1,
+  "candidates": {
+    "goose": {
+      "repository": "aaif-goose/goose",
+      "revision": "bd16fbfbbe78cadc2cc3ce6295691772df51d71f",
+      "license": "Apache-2.0",
+      "required_paths": [
+        "crates/goose/src/acp/server.rs",
+        "crates/goose/src/acp/provider.rs",
+        "documentation/docs/guides/managing-tools/goose-permissions.md",
+        "documentation/docs/mcp/developer-mcp.md"
+      ],
+      "runtime_gate": "cargo test -p goose acp --lib"
+    },
+    "hermes": {
+      "repository": "NousResearch/hermes-agent",
+      "revision": "a0ca7c19204e514f9590ce3b812e029b315ab9e9",
+      "license": "MIT",
+      "required_paths": [
+        "acp_adapter/server.py",
+        "hermes_cli/subcommands/acp.py",
+        "tools/approval.py",
+        "tests/acp/test_session.py",
+        "tests/acp/test_edit_approval.py",
+        "tests/acp_adapter/test_acp_mcp_discovery.py"
+      ],
+      "runtime_gate": "python -m pytest -q tests/acp/test_session.py tests/acp/test_edit_approval.py tests/acp_adapter/test_acp_mcp_discovery.py"
+    }
+  }
+}
