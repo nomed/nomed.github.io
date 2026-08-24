@@ -12,7 +12,7 @@ const candidates = [
   ["Yukh Coordination", "Keep kernel; integrate surfaces", "Claims, conflict, handoff, attribution and replay", "An external protocol proves equivalent semantics with less custom code"],
   ["Yukh Projects", "Narrow", "First accepted-state adapter for GitHub Projects", "Treating GitHub Projects itself as a universal Yukh layer"],
   ["Apache Maka", "Evaluate deeply", "Durable AgentRun and execution evidence", "Authority model cannot compose or required records leak private reasoning"],
-  ["goose", "Evaluate first as reference host", "Vendor-neutral host; MCP + ACP; composable agent loop direction", "Requires internal patching or makes Yukh goose-specific"],
+  ["goose", "First qualification candidate for reference host", "Vendor-neutral host; MCP + ACP; composable agent-loop direction", "Requires internal patching or makes Yukh goose-specific"],
   ["OpenHands", "Evaluate as execution provider", "Sandboxed and remote execution infrastructure", "Must adopt the whole platform just to obtain isolation"],
   ["Buzz", "Evaluate as workspace adapter", "Human-agent rooms, attribution and signed event experience", "Its event substrate changes Yukh authority or handoff semantics"],
 ];
@@ -22,7 +22,7 @@ const semantics = [
   ["Claim / conflict / handoff", "Yes", "Yukh Coordination; external transport/workspace adapters"],
   ["Capability policy / decision", "Yes", "Yukh MCP composed with runtime-native permissions"],
   ["Agent loop", "No", "Maka, goose, OpenHands, Codex, Claude Code"],
-  ["Sandbox execution", "No", "OpenHands, Maka and runtime-native sandboxes"],
+  ["Sandbox execution", "No", "OpenHands and runtime-native sandboxes; Maka isolation requires qualification"],
   ["Durable AgentRun facts", "Probably", "Maka is the first qualification candidate"],
   ["Accepted work state", "Yes, abstractly", "GitHub Projects through yukh-projects; other adapters later"],
   ["Human collaborative workspace", "No", "Buzz, Matrix, IDEs, web clients"],
@@ -41,6 +41,9 @@ export default function LandscapePage() {
 
       <h2>The architectural test</h2>
       <p>The working hypothesis is that Yukh should own only the governance and interoperability semantics that must survive a change of model, runtime, workspace or vendor. Agent loops, sandboxes and human interfaces should be reused when an external implementation preserves those semantics better than custom code.</p>
+
+      <h2>How to read the assessment</h2>
+      <p>Postures are qualification priorities, not product rankings. Claims are based on public material observed on the date above; roadmap capabilities are treated as hypotheses until available through a released or otherwise testable public seam.</p>
 
       <h2>Current adoption posture</h2>
       <table>
@@ -65,7 +68,7 @@ export default function LandscapePage() {
       <h2>Most plausible pivots</h2>
       <ul>
         <li><strong>Projects becomes an adapter.</strong> The durable semantic is accepted work state; GitHub Projects is the first implementation, not necessarily a universal pillar.</li>
-        <li><strong>Maka or goose becomes a reference runtime/host.</strong> Yukh may never need its own agent loop. Maka is strongest on recoverable execution facts; goose is strongest on interoperability and host composition.</li>
+        <li><strong>Maka or goose becomes a reference runtime/host.</strong> Yukh may never need its own agent loop. Maka is the first candidate to test recoverable execution facts; goose is the first candidate to test interoperable host composition. Neither claim is an adoption decision.</li>
         <li><strong>Buzz becomes a collaborative surface.</strong> Yukh Coordination can remain the semantic kernel while Buzz, Matrix or another workspace carries human-agent interaction.</li>
         <li><strong>OpenHands supplies execution isolation.</strong> Yukh policy can authorize a bounded operation while an external sandbox performs it and returns evidence.</li>
         <li><strong>A Yukh repository can disappear.</strong> Prior investment is not a reason to preserve a component that an external project makes redundant.</li>
@@ -81,7 +84,7 @@ export default function LandscapePage() {
       </ol>
 
       <p>The full evidence, comparison matrices, upside and disqualifying conditions live in the dated research record governed by issue #56.</p>
-      <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/editorial/YUKH-AGENT-LANDSCAPE-2026-08-24.md">Read the landscape record <ArrowIcon direction="external" /></a>
+      <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/review/yukh-agent-landscape-56/docs/editorial/YUKH-AGENT-LANDSCAPE-2026-08-24.md">Read the landscape record <ArrowIcon direction="external" /></a>
     </EditorialPage>
   );
 }
