@@ -1,0 +1,52 @@
+name: Qualify Track C2 OpenViking
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-c2-openviking.yml'
+      - 'tests/qualification/track-c2/openviking/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track-c2-openviking-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  ov1-public-substrate-seam:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout qualification harness
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Checkout pinned OpenViking
+        uses: actions/checkout@v7
+        with:
+          repository: volcengine/OpenViking
+          ref: 234a2d9fe778a9512fd7ebe9807198e847c647ec
+          path: external/openviking
+          persist-credentials: false
+
+      - name: Execute OV-1 public substrate preflight
+        run: >-
+          node tests/qualification/track-c2/openviking/ov1-public-seam.mjs
+          external/openviking
+          artifacts/track-c2-openviking
+
+      - name: Verify OV-1 evidence
+        run: >-
+          node tests/qualification/track-c2/openviking/verify-ov1.mjs
+          artifacts/track-c2-openviking/openviking-ov1.json
+
+      - name: Upload OV-1 evidence
+        uses: actions/upload-artifact@v6
+        with:
+          name: track-c2-openviking-ov1-234a2d9f
+          path: artifacts/track-c2-openviking/openviking-ov1.json
+          if-no-files-found: error
+          retention-days: 30
