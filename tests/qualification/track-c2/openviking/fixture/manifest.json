@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "class": "synthetic-track-c2-fixture",
+  "artifacts": [
+    {"path": "adr/ADR-001.md", "revision": "git-fixture-v1", "class": "canonical"},
+    {"path": "rfcs/RFC-001.md", "revision": "git-fixture-v1", "class": "canonical"},
+    {"path": "golden-path/java.md", "revision": "git-fixture-v1", "class": "canonical"},
+    {"path": "src/example.py", "revision": "git-fixture-v1", "class": "canonical"}
+  ]
+}
