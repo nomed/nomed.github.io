@@ -54,14 +54,14 @@ jobs:
           cat > runtime/openviking/ov.conf <<'JSON'
           {
             "embedding": {
+              "max_retries": 0,
               "dense": {
                 "provider": "openai",
                 "model": "yukh-ov23-noop-embedding",
                 "api_base": "http://127.0.0.1:21934/v1",
                 "api_key": "qualification-only",
                 "dimension": 3,
-                "input": "text",
-                "max_retries": 0
+                "input": "text"
               }
             },
             "retrieval": {
