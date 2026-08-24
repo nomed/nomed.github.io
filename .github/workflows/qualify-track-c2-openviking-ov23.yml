@@ -47,6 +47,13 @@ jobs:
           set -o pipefail
           mkdir -p artifacts/track-c2-openviking runtime/wheels
           python -m pip install --upgrade pip 2>&1 | tee artifacts/track-c2-openviking/bootstrap-pip.log
+          # OpenViking declares maturin in its PEP 517 build requirements, but setup.py
+          # launches `sys.executable -m maturin` from inside the isolated build. At the
+          # pinned revision that subprocess cannot see the build-overlay installation.
+          # setup.py explicitly documents `pip install maturin` as the supported
+          # prerequisite/workaround, so install the same declared range into the host
+          # interpreter rather than patching the candidate or copying native artifacts.
+          python -m pip install 'maturin>=1.0,<2.0' 2>&1 | tee artifacts/track-c2-openviking/maturin-prerequisite.log
           # A wheel build is the candidate-supported path that fail-closed builds
           # and packages the required ov CLI + ragfs_python native runtime artifacts.
           python -m pip wheel --no-deps external/openviking -w runtime/wheels 2>&1 | tee artifacts/track-c2-openviking/wheel-build.log
