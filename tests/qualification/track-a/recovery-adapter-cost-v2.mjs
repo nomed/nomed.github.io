@@ -35,11 +35,23 @@ const checkpoint = Object.freeze({
 });
 await writeFile(join(tempRoot, "yukh-checkpoint.json"), `${JSON.stringify(checkpoint, null, 2)}\n`);
 
+const checkpointFieldNames = ["participant_id", "work_uri", "capability_id", "evidence_run_id"];
+
 function flatten(value) {
   if (typeof value === "string") return value;
   if (Array.isArray(value)) return value.map(flatten).join("\n");
   if (value && typeof value === "object") return Object.values(value).map(flatten).join("\n");
   return "";
+}
+function checkpointFieldsObserved(value) {
+  const text = flatten(value);
+  return Object.fromEntries(checkpointFieldNames.map((field) => [field, text.includes(checkpoint[field])]));
+}
+function summarizeCheckpointEvents(events) {
+  const fields = Object.fromEntries(
+    checkpointFieldNames.map((field) => [field, events.some((event) => event.checkpoint_fields_observed?.[field] === true)]),
+  );
+  return { fields, complete: checkpointFieldNames.every((field) => fields[field] === true) };
 }
 function toolMessages(body) {
   return (Array.isArray(body.messages) ? body.messages : []).filter((m) => m?.role === "tool");
@@ -75,10 +87,12 @@ const provider = createServer(async (req, res) => {
   const tools = (Array.isArray(body.tools) ? body.tools : []).map((t) => t?.function?.name).filter(Boolean);
   const results = toolMessages(body);
   const hasToolResult = results.length > 0;
+  const observedCheckpointFields = checkpointFieldsObserved(body.messages);
   providerEvents.push({
     has_tool_result: hasToolResult,
     marker_observed: flatten(results).includes(marker),
-    checkpoint_observed: flatten(body.messages).includes(checkpoint.work_uri) && flatten(body.messages).includes(checkpoint.participant_id),
+    checkpoint_fields_observed: observedCheckpointFields,
+    checkpoint_observed: checkpointFieldNames.every((field) => observedCheckpointFields[field] === true),
     tools,
   });
 
@@ -233,7 +247,7 @@ class AcpClient {
     }
   }
   async initialize() {
-    return this.request("initialize", { protocolVersion: 1, clientCapabilities: {}, clientInfo: { name: "yukh-track-a-recovery", version: "2" } });
+    return this.request("initialize", { protocolVersion: 1, clientCapabilities: {}, clientInfo: { name: "yukh-track-a-recovery", version: "3" } });
   }
   async newSession() { return this.request("session/new", { cwd: workspace, mcpServers: [] }); }
   async loadSession(sessionId) { return this.request("session/load", { sessionId, cwd: workspace, mcpServers: [] }, 45000); }
@@ -277,12 +291,14 @@ async function runNew(phase) {
   await new Promise((r) => setTimeout(r, 200));
   client.stop();
   const events = providerEvents.slice(before);
+  const checkpointObservation = summarizeCheckpointEvents(events);
   return {
     session_id: sessionId,
     failure,
     elapsed_ms: elapsed,
     marker_observed: events.some((e) => e.marker_observed),
-    checkpoint_observed: events.some((e) => e.checkpoint_observed),
+    checkpoint_observed: checkpointObservation.complete,
+    checkpoint_fields_observed: checkpointObservation.fields,
     permissions: client.permissions,
     external_provider_attempt: externalProviderAttempt(client.stderr),
     tirith_bootstrap_observed: tirithBootstrap(client.stderr),
@@ -306,13 +322,15 @@ async function runLoad(originalSessionId) {
   await new Promise((r) => setTimeout(r, 200));
   client.stop();
   const events = providerEvents.slice(before);
+  const checkpointObservation = summarizeCheckpointEvents(events);
   return {
     session_id: originalSessionId,
     load_response: loadResponse,
     failure,
     elapsed_ms: elapsed,
     marker_observed: events.some((e) => e.marker_observed),
-    checkpoint_observed: events.some((e) => e.checkpoint_observed),
+    checkpoint_observed: checkpointObservation.complete,
+    checkpoint_fields_observed: checkpointObservation.fields,
     permissions: client.permissions,
     external_provider_attempt: externalProviderAttempt(client.stderr),
     tirith_bootstrap_observed: tirithBootstrap(client.stderr),
@@ -338,7 +356,7 @@ const providerLocal = !measured.some((x) => x.external_provider_attempt);
 const bootstrapExcluded = !measured.some((x) => x.tirith_bootstrap_observed);
 
 const report = {
-  schema_version: 2,
+  schema_version: 3,
   track: "A",
   gate: "restart-recovery-adapter-cost",
   candidate: candidateName,
