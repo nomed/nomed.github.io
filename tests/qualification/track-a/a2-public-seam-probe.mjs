@@ -18,7 +18,7 @@ const reportDir = resolve(reportDirArg);
 
 function runEntrypoint() {
   if (candidateName === "goose") {
-    return spawnSync("cargo", ["run", "--quiet", "-p", "goose-cli", "--", "acp", "--help"], {
+    return spawnSync("cargo", ["run", "--quiet", "-p", "goose-cli", "--bin", "goose", "--", "acp", "--help"], {
       cwd: sourceDir,
       encoding: "utf8",
       timeout: 15 * 60 * 1000,
