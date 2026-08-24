@@ -10,6 +10,8 @@ test("defines a global editorial data-grid treatment", async () => {
   assert.match(css, /\.editorial-body > table\s*\{/);
   assert.match(css, /border-top:\s*6px solid var\(--ink\)/);
   assert.match(css, /\.editorial-body > table th:first-child[\s\S]*width:\s*24%/);
+  assert.match(css, /\.editorial-body > table th:first-child[\s\S]*border-right:\s*1px solid var\(--line\)/);
+  assert.match(css, /\.editorial-body > table th:nth-child\(2\)[\s\S]*padding-left:\s*1\.5rem/);
   assert.match(css, /\.editorial-body > table td:first-child[\s\S]*font-weight:\s*720/);
   assert.match(css, /tbody tr:hover/);
   assert.match(css, /color-mix\(in srgb, var\(--page-accent\) 7%, var\(--paper\)\)/);
