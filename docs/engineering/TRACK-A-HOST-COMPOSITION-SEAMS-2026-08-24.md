@@ -8,11 +8,13 @@
 
 The first runtime gate proved that both candidates have executable ACP/MCP/permission substrate. A2 requires a stricter result: Yukh must enter through a supported public entrypoint and preserve native security. Source visibility is evidence, not automatically an integration contract.
 
-For each candidate this record therefore separates:
+For each candidate this record separates:
 
 1. **supported/invokable entrypoints** — eligible for an A2 adapter;
 2. **documented configuration/protocol surfaces** — eligible inputs to the adapter;
 3. **implementation evidence** — source/tests that explain behavior but MUST NOT be imported as private integration hooks.
+
+A2 also requires **observed native controls**. A configured allow/deny is not sufficient: the candidate seam must emit or directly expose behavior proving the host ALLOW/DENY used in the composition claim.
 
 ## goose
 
@@ -38,21 +40,14 @@ The A2 implementation MUST name the exact command/protocol endpoint/configuratio
 
 ### Implementation evidence only — non-contractual
 
-The following are useful to understand the behavior but are NOT themselves public integration contracts:
+The following are useful to understand behavior but are NOT themselves public integration contracts:
 
 - `crates/goose/src/acp/` implementation files;
 - permission-decision mapping tests;
 - ACP new/load/resume/replay tests;
 - MCP conversion/server tests.
 
-Useful evidence from substrate run `32705914861`:
-
-- 320 ACP-filtered Rust tests passed;
-- permission decisions map allow-once/always and reject-once/always/cancel outcomes;
-- approve/smart-approve defer rather than automatically allow in the tested mapping;
-- chat rejects and auto allows in the tested mapping;
-- ACP MCP configuration is additive/replacement-aware and disabled defaults remain disabled in tested server cases;
-- session load/resume/replay behavior exists and is tested.
+Useful substrate evidence from run `32705914861`: 320 ACP-filtered Rust tests passed, including permission mappings, approval-mode behavior, MCP conversion and session/replay behavior.
 
 ### A2 seam hypothesis
 
@@ -60,14 +55,14 @@ Useful evidence from substrate run `32705914861`:
 
 Open questions before adapter implementation:
 
-1. What exact supported command/API starts the ACP server profile used by the qualification?
+1. What exact supported command/API starts the ACP server profile?
 2. Can the test supply a deterministic ACP client permission response while keeping goose in `approve` or `smart-approve` semantics?
-3. Can Yukh deny a resource while the host profile would otherwise allow it?
-4. Can goose independently deny a resource explicitly allowed by Yukh, through a supported native permission/sandbox/configuration boundary?
+3. Can a host-only control for `forbidden.txt` be executed through the same profile and produce an observable native ALLOW reference before the Yukh-denied composed probe?
+4. Can goose independently deny `host-denied.txt`, explicitly allowed by Yukh, and emit an observable native DENY reference through a supported boundary?
 5. Can denial happen before file content enters tool output?
-6. Can ACP session identifiers and Yukh participant/work/capability IDs be correlated without embedding identity only in prompt text?
+6. Can ACP session identifiers and Yukh participant/work/capability IDs be correlated without prompt-only identity?
 
-If (4) cannot be expressed through a supported public entrypoint/configuration, A2 cannot be `PASS`; record `PARTIAL` or `NO PUBLIC COMPOSITION SEAM` rather than implementing host denial in the Yukh adapter.
+If (3) or (4) cannot be observed through a supported public entrypoint/configuration, A2 cannot be `PASS`; record `PARTIAL` or `NO PUBLIC COMPOSITION SEAM` rather than inferring the host decision.
 
 ## Hermes Agent
 
@@ -82,31 +77,27 @@ Candidate public surfaces observed at the pinned revision include:
 - documented programmatic integration surface;
 - supported MCP configuration/discovery surfaces.
 
-The A2 implementation MUST invoke one of these supported entrypoints. Directly importing arbitrary internal objects from `acp_adapter/` or `tools/approval.py` is not sufficient to claim a public seam unless the project documents that import/API as supported programmatic integration.
+The A2 implementation MUST invoke one of these supported entrypoints. Directly importing arbitrary internal objects from `acp_adapter/` or `tools/approval.py` is insufficient unless the project documents that API as supported programmatic integration.
 
 ### Documented/configuration surfaces
 
 - ACP launch/configuration through Hermes CLI;
 - programmatic integration documentation;
-- approval configuration/behavior exposed through supported runtime paths;
+- approval behavior exposed through supported runtime paths;
 - MCP discovery/configuration.
 
-The first A2 execution profile remains local. Docker/SSH/serverless execution are separate trust profiles and cannot be silently substituted.
+The first A2 execution profile remains local. Docker/SSH/serverless execution are separate trust profiles.
 
 ### Implementation evidence only — non-contractual
 
-The following are evidence of implementation behavior but not integration contracts by themselves:
+The following are evidence of behavior but not integration contracts by themselves:
 
 - `acp_adapter/server.py`;
 - `tools/approval.py`;
 - ACP/session/edit-approval/MCP-discovery tests;
-- internal runtime helper modules.
+- internal runtime helpers.
 
-Useful evidence from substrate run `32705914861`:
-
-- repository `.[all,dev]` profile installed successfully on Python 3.11;
-- selected ACP/session/approval/MCP corpus passed: 27 tests;
-- candidate-neutral evidence generation and verification passed.
+Useful substrate evidence from run `32705914861`: the `.[all,dev]` profile installed on Python 3.11 and the selected ACP/session/approval/MCP corpus passed 27 tests.
 
 ### A2 seam hypothesis
 
@@ -114,39 +105,40 @@ Useful evidence from substrate run `32705914861`:
 
 Open questions before adapter implementation:
 
-1. What exact supported command/API starts the local ACP profile and returns or exposes a stable host session identifier?
-2. Can the public ACP/programmatic path accept one bounded Yukh tool/capability without bypassing native approval?
-3. Can Yukh deny a resource while the Hermes local profile would otherwise allow it?
-4. Can Hermes independently deny a resource explicitly allowed by Yukh through a supported native permission/execution profile?
-5. Does the denial surface enough candidate-native identifiers for stable causation without exporting conversation memory?
+1. What exact supported command/API starts the local ACP profile and exposes a stable host session identifier?
+2. Can the public ACP/programmatic path accept one bounded Yukh capability without bypassing native approval?
+3. Can a host-only control for `forbidden.txt` produce an observable native ALLOW reference through the same profile before Yukh denies it in the composed probe?
+4. Can Hermes independently deny `host-denied.txt`, allowed by Yukh, and emit an observable native DENY reference through a supported permission/execution profile?
+5. Does the candidate-native observation surface enough IDs for causation without conversation-memory export?
 6. Can persistent memory be disabled or ignored so it cannot become evidence authority?
 
-If the approval/tool routing needed for (4) is available only through an undocumented internal import, A2 cannot be `PASS`; record `PARTIAL` or `NO PUBLIC COMPOSITION SEAM`.
+If (3) or (4) is available only through an undocumented import, A2 cannot be `PASS`; record `PARTIAL` or `NO PUBLIC COMPOSITION SEAM`.
 
-## Two-sided policy proof required
+## Two-sided policy proof with controls
 
-The executable adapter for each candidate MUST demonstrate all three operations from the gate contract:
+The executable adapter for each candidate MUST demonstrate the following through candidate-native observations:
 
-| Probe | Yukh | Host | Effective | Required enforcement source |
+| Probe | Yukh | Observed host | Effective | Required source |
 | --- | --- | --- | --- | --- |
 | positive | ALLOW | ALLOW | ALLOW | none |
-| Yukh-denial | DENY | ALLOW | DENY | yukh |
-| host-denial | ALLOW | DENY | DENY | host |
+| host-only control for forbidden | neutral/absent resource restriction | ALLOW | host ALLOW observed | host control |
+| Yukh-denial composed probe | DENY | ALLOW from control | DENY | yukh |
+| host-denial control/composed probe | ALLOW | DENY | DENY | host |
 
-This distinction prevents a Yukh-side resource filter from masquerading as host/Yukh policy composition.
+Every host observation must carry a `candidate_native_ref` directly attributable to the supported candidate seam. Documentation or configuration alone cannot populate `host_native_decision`.
 
-The adapter MUST record its translation separately and `adapter_decision_made=false`. If the adapter itself decides whether an operation is authorized, the candidate fails the composition design regardless of the operation outcome.
+The adapter records translation separately and `adapter_decision_made=false`. If it decides authorization itself, the candidate fails the composition design.
 
 ## Common implementation rule
 
 The next executable artifact MUST NOT:
 
 - monkey-patch candidate code;
-- edit the checked-out external repositories;
-- import undocumented internal APIs as if they were supported integration seams;
-- set goose to global auto/no-approval merely to make the operation succeed;
+- edit checked-out external repositories;
+- import undocumented internal APIs as supported seams;
+- set goose to global auto/no-approval merely to pass;
 - disable Hermes approval machinery;
-- implement host-native denial inside the Yukh adapter;
+- implement or infer host-native denial/allow inside the Yukh adapter;
 - call a paid model provider;
 - infer PASS from upstream unit tests alone.
 
@@ -154,11 +146,11 @@ The adapter may configure candidates only through supported public configuration
 
 ## Current seam verdict
 
-| Candidate | Supported public entrypoint identified? | Permission machinery exists | Two-sided A2 composition proven? |
-| --- | --- | --- | --- |
-| goose | **CANDIDATE ENTRYPOINTS IDENTIFIED; exact invocation to pin in adapter** | **YES** | **NOT EXECUTED** |
-| Hermes | **CANDIDATE ENTRYPOINTS IDENTIFIED; exact invocation to pin in adapter** | **YES** | **NOT EXECUTED** |
+| Candidate | Supported public entrypoint identified? | Permission machinery exists | Native controls observed for A2? | Two-sided A2 proven? |
+| --- | --- | --- | --- | --- |
+| goose | **CANDIDATE ENTRYPOINTS IDENTIFIED; exact invocation to pin in adapter** | **YES** | **NOT EXECUTED** | **NOT EXECUTED** |
+| Hermes | **CANDIDATE ENTRYPOINTS IDENTIFIED; exact invocation to pin in adapter** | **YES** | **NOT EXECUTED** | **NOT EXECUTED** |
 
-This record intentionally no longer says `Public seam exists = YES` merely because implementation source is visible. A2 adapter implementation must pin and execute the actual supported entrypoint before that dimension can receive `PASS`.
+This record intentionally does not say `Public seam exists = YES` merely because source is visible. A2 must pin the actual supported entrypoint and observe its native controls before PASS.
 
 Neither candidate is preferred by this discovery record.
