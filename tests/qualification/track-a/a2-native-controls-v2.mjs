@@ -303,7 +303,7 @@ class AcpClient {
 }
 
 function externalProviderAttempt(stderr) {
-  return /openrouter|nous client|PAID lane|api\.openrouter|portal\.nous/i.test(stderr);
+  return /PAID lane engaged|trying fallback|marking openrouter unhealthy|Auxiliary Nous client unavailable|api\.openrouter\.ai|portal\.nous/i.test(stderr);
 }
 function tirithBootstrap(stderr) {
   return /tirith not found|downloading latest release|tirith installed/i.test(stderr);
