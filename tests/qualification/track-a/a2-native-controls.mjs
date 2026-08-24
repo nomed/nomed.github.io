@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { createServer } from "node:http";
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
 import { spawn } from "node:child_process";
 import readline from "node:readline";
 
@@ -29,9 +29,9 @@ await cp(join(harnessRoot, "fixture", "forbidden.txt"), join(workspace, "forbidd
 await cp(join(harnessRoot, "fixture", "host-denied.txt"), join(workspace, "host-denied.txt"));
 
 const expected = {
-  "fixture/hello.txt": (await readFile(join(workspace, "fixture", "hello.txt"))).toString("utf8"),
-  "forbidden.txt": (await readFile(join(workspace, "forbidden.txt"))).toString("utf8"),
-  "host-denied.txt": (await readFile(join(workspace, "host-denied.txt"))).toString("utf8"),
+  "fixture/hello.txt": await readFile(join(workspace, "fixture", "hello.txt"), "utf8"),
+  "forbidden.txt": await readFile(join(workspace, "forbidden.txt"), "utf8"),
+  "host-denied.txt": await readFile(join(workspace, "host-denied.txt"), "utf8"),
 };
 
 function flattenContent(value) {
@@ -44,32 +44,54 @@ function flattenContent(value) {
   return "";
 }
 
+function collectStrings(value, out = []) {
+  if (typeof value === "string") {
+    out.push(value);
+    const trimmed = value.trim();
+    if ((trimmed.startsWith("{") && trimmed.endsWith("}")) || (trimmed.startsWith("[") && trimmed.endsWith("]"))) {
+      try { collectStrings(JSON.parse(value), out); } catch { /* ordinary string */ }
+    }
+    return out;
+  }
+  if (Array.isArray(value)) {
+    for (const entry of value) collectStrings(entry, out);
+    return out;
+  }
+  if (value && typeof value === "object") {
+    for (const entry of Object.values(value)) collectStrings(entry, out);
+  }
+  return out;
+}
+
 function findTarget(body) {
   const messages = Array.isArray(body.messages) ? body.messages : [];
   for (let i = messages.length - 1; i >= 0; i -= 1) {
     if (messages[i]?.role !== "user") continue;
-    const text = flattenContent(messages[i]?.content);
-    const match = text.match(/A2_TARGET=([^\s]+)/);
+    const match = flattenContent(messages[i]?.content).match(/A2_TARGET=([^\s]+)/);
     if (match) return match[1];
   }
   return null;
 }
 
-function hasToolResult(body) {
-  const messages = Array.isArray(body.messages) ? body.messages : [];
-  return messages.some((message) => message?.role === "tool");
+function toolMessages(body) {
+  return (Array.isArray(body.messages) ? body.messages : []).filter((message) => message?.role === "tool");
+}
+
+function observeExpectedToolBytes(body, target) {
+  if (!target || !(target in expected)) return { observed: false, evidence: [] };
+  const wanted = expected[target];
+  const strings = toolMessages(body).flatMap((message) => collectStrings(message));
+  const matches = strings.filter((value) => value === wanted || value.includes(wanted));
+  return { observed: matches.length > 0, evidence: matches.slice(0, 3) };
 }
 
 function selectCommandTool(body) {
-  const tools = Array.isArray(body.tools) ? body.tools : [];
-  const functions = tools
+  const functions = (Array.isArray(body.tools) ? body.tools : [])
     .map((tool) => tool?.function)
     .filter((fn) => fn && typeof fn.name === "string");
-  return (
-    functions.find((fn) => /terminal|shell/i.test(fn.name)) ??
-    functions.find((fn) => fn.parameters?.properties?.command) ??
-    null
-  );
+  return functions.find((fn) => /terminal|shell/i.test(fn.name))
+    ?? functions.find((fn) => fn.parameters?.properties?.command)
+    ?? null;
 }
 
 function toolArguments(tool, target) {
@@ -100,60 +122,70 @@ const provider = createServer(async (req, res) => {
   for await (const chunk of req) raw += chunk;
   const body = JSON.parse(raw || "{}");
   const target = findTarget(body);
-  const tool = selectCommandTool(body);
-  const toolResult = hasToolResult(body);
-  const observation = {
+  const offeredToolNames = (Array.isArray(body.tools) ? body.tools : []).map((entry) => entry?.function?.name).filter(Boolean);
+  const resultEvidence = observeExpectedToolBytes(body, target);
+  const hasToolResult = toolMessages(body).length > 0;
+  providerObservations.push({
     target,
-    tool_result_request: toolResult,
-    offered_tool_names: Array.isArray(body.tools) ? body.tools.map((entry) => entry?.function?.name).filter(Boolean) : [],
-    request_contains_expected_bytes: target ? raw.includes(expected[target] ?? "__never__") : false,
-  };
-  providerObservations.push(observation);
+    tool_result_request: hasToolResult,
+    offered_tool_names: offeredToolNames,
+    expected_tool_bytes_observed: resultEvidence.observed,
+    expected_tool_byte_evidence: resultEvidence.evidence,
+  });
 
   completionCounter += 1;
   const id = `a2-chat-${completionCounter}`;
   const model = body.model || "a2-model";
   const streaming = body.stream !== false;
 
-  let chunks;
-  if (!toolResult) {
+  // Hermes performs auxiliary title-generation calls against the same provider with no tools.
+  // Return inert text so those calls do not interfere with the deterministic tool-call sequence.
+  if (!hasToolResult && offeredToolNames.length === 0) {
+    const message = { role: "assistant", content: "A2 qualification" };
+    if (streaming) {
+      res.writeHead(200, { "content-type": "text/event-stream", "cache-control": "no-cache" });
+      res.write(`data: ${JSON.stringify({ id, object: "chat.completion.chunk", created: 0, model, choices: [{ index: 0, delta: message, finish_reason: null }] })}\n\n`);
+      res.write(`data: ${JSON.stringify({ id, object: "chat.completion.chunk", created: 0, model, choices: [{ index: 0, delta: {}, finish_reason: "stop" }] })}\n\n`);
+      res.end("data: [DONE]\n\n");
+    } else {
+      res.writeHead(200, { "content-type": "application/json" });
+      res.end(JSON.stringify({ id, object: "chat.completion", created: 0, model, choices: [{ index: 0, message, finish_reason: "stop" }] }));
+    }
+    return;
+  }
+
+  let delta;
+  let finishReason;
+  if (!hasToolResult) {
+    const tool = selectCommandTool(body);
     if (!target || !tool) {
       res.writeHead(400, { "content-type": "application/json" });
-      res.end(JSON.stringify({ error: { message: `A2 provider could not resolve target/tool; target=${target}, tools=${observation.offered_tool_names.join(",")}` } }));
+      res.end(JSON.stringify({ error: { message: `A2 provider could not resolve target/tool; target=${target}, tools=${offeredToolNames.join(",")}` } }));
       return;
     }
-    const call = {
-      index: 0,
-      id: `call-${completionCounter}`,
-      type: "function",
-      function: { name: tool.name, arguments: JSON.stringify(toolArguments(tool, target)) },
+    delta = {
+      role: "assistant",
+      tool_calls: [{
+        index: 0,
+        id: `call-${completionCounter}`,
+        type: "function",
+        function: { name: tool.name, arguments: JSON.stringify(toolArguments(tool, target)) },
+      }],
     };
-    chunks = [
-      { id, object: "chat.completion.chunk", created: 0, model, choices: [{ index: 0, delta: { role: "assistant", tool_calls: [call] }, finish_reason: null }] },
-      { id, object: "chat.completion.chunk", created: 0, model, choices: [{ index: 0, delta: {}, finish_reason: "tool_calls" }] },
-    ];
+    finishReason = "tool_calls";
   } else {
-    chunks = [
-      { id, object: "chat.completion.chunk", created: 0, model, choices: [{ index: 0, delta: { role: "assistant", content: "A2_DONE" }, finish_reason: null }] },
-      { id, object: "chat.completion.chunk", created: 0, model, choices: [{ index: 0, delta: {}, finish_reason: "stop" }] },
-    ];
+    delta = { role: "assistant", content: "A2_DONE" };
+    finishReason = "stop";
   }
 
   if (streaming) {
     res.writeHead(200, { "content-type": "text/event-stream", "cache-control": "no-cache" });
-    for (const chunk of chunks) res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+    res.write(`data: ${JSON.stringify({ id, object: "chat.completion.chunk", created: 0, model, choices: [{ index: 0, delta, finish_reason: null }] })}\n\n`);
+    res.write(`data: ${JSON.stringify({ id, object: "chat.completion.chunk", created: 0, model, choices: [{ index: 0, delta: {}, finish_reason: finishReason }] })}\n\n`);
     res.end("data: [DONE]\n\n");
   } else {
-    const first = chunks[0];
-    const delta = first.choices[0].delta;
     res.writeHead(200, { "content-type": "application/json" });
-    res.end(JSON.stringify({
-      id,
-      object: "chat.completion",
-      created: 0,
-      model,
-      choices: [{ index: 0, message: delta, finish_reason: delta.tool_calls ? "tool_calls" : "stop" }],
-    }));
+    res.end(JSON.stringify({ id, object: "chat.completion", created: 0, model, choices: [{ index: 0, message: delta, finish_reason: finishReason }] }));
   }
 });
 
@@ -182,7 +214,6 @@ async function writeCandidateConfig() {
   }
 
   if (candidateName === "hermes") {
-    await mkdir(home, { recursive: true });
     await writeFile(join(home, "config.yaml"), [
       "model:",
       "  default: a2-model",
@@ -198,7 +229,6 @@ async function writeCandidateConfig() {
     await writeFile(join(home, ".env"), "OPENAI_API_KEY=a2-test-key\n");
     return;
   }
-
   throw new Error(`unsupported candidate ${candidateName}`);
 }
 await writeCandidateConfig();
@@ -251,9 +281,7 @@ class AcpConnection {
     child.stderr.on("data", (chunk) => { this.stderr = `${this.stderr}${chunk}`.slice(-12000); });
   }
 
-  send(payload) {
-    this.child.stdin.write(`${JSON.stringify(payload)}\n`);
-  }
+  send(payload) { this.child.stdin.write(`${JSON.stringify(payload)}\n`); }
 
   request(method, params, timeoutMs = 45000) {
     const id = this.nextId++;
@@ -278,19 +306,20 @@ class AcpConnection {
   onLine(line) {
     let message;
     try { message = JSON.parse(line); } catch { return; }
+
     if (message.id != null && message.method) {
       const params = message.params ?? {};
       if (Array.isArray(params.options) && params.toolCall) {
         const option = this.choosePermission(params.options);
-        const toolCallId = params.toolCall.toolCallId ?? params.toolCall.id ?? null;
         const observation = {
           jsonrpc_method: message.method,
           request_id: message.id,
           session_id: params.sessionId ?? null,
-          tool_call_id: toolCallId,
+          tool_call_id: params.toolCall.toolCallId ?? params.toolCall.id ?? null,
           tool_call: params.toolCall,
           option_kinds: params.options.map((entry) => entry.kind),
           selected_option_id: option?.optionId ?? null,
+          selected_option_kind: option?.kind ?? null,
           scripted_host_decision: this.hostDecision,
         };
         this.permissionRequests.push(observation);
@@ -318,17 +347,14 @@ class AcpConnection {
   }
 
   async initialize() {
-    const result = await this.request("initialize", {
+    return this.request("initialize", {
       protocolVersion: 1,
       clientCapabilities: {},
       clientInfo: { name: "yukh-a2-qualification", version: "1" },
     });
-    return result;
   }
 
-  async newSession() {
-    return this.request("session/new", { cwd: workspace, mcpServers: [] });
-  }
+  async newSession() { return this.request("session/new", { cwd: workspace, mcpServers: [] }); }
 
   async prompt(sessionId, target) {
     return this.request("session/prompt", {
@@ -346,8 +372,8 @@ class AcpConnection {
   }
 }
 
-function nativeRef(candidate, permission) {
-  return `${candidate}:acp:${permission.jsonrpc_method}:${permission.request_id}:${permission.tool_call_id ?? "tool"}`;
+function nativeRef(permission) {
+  return `${candidateName}:acp:${permission.jsonrpc_method}:${permission.request_id}:${permission.tool_call_id ?? "tool"}`;
 }
 
 async function executeHostControl(target, hostDecision) {
@@ -370,23 +396,33 @@ async function executeHostControl(target, hostDecision) {
     cx.stop();
   }
 
-  const permissions = cx.permissionRequests;
   const providerSlice = providerObservations.slice(beforeProvider);
-  const resultMaterial = JSON.stringify({ notifications: cx.notifications, provider: providerSlice });
+  const expectedObserved = providerSlice.some((entry) => entry.expected_tool_bytes_observed);
   return {
     target,
     requested_host_decision: hostDecision,
     host_session_id: sessionId,
     prompt_result: promptResult,
     failure,
-    permission_requests: permissions,
-    candidate_native_refs: permissions.map((permission) => nativeRef(candidateName, permission)),
+    permission_requests: cx.permissionRequests,
+    candidate_native_refs: cx.permissionRequests.map(nativeRef),
     provider_observations: providerSlice,
-    expected_content_observed: resultMaterial.includes(expected[target]),
+    expected_content_observed: expectedObserved,
     expected_content: expected[target],
-    notifications: cx.notifications,
     stderr_excerpt: cx.stderr.slice(-4000),
   };
+}
+
+function hostObservation(control, expectedDecision) {
+  const permission = control.permission_requests[0];
+  if (control.failure) return "FAIL";
+  if (!permission) return "NOT_OBSERVED";
+  const kind = permission.selected_option_kind ?? "";
+  const id = permission.selected_option_id ?? "";
+  if (expectedDecision === "ALLOW" && (/allow/.test(kind) || /allow/.test(id))) return "ALLOW";
+  if (expectedDecision === "DENY" && (/reject|deny/.test(kind) || /reject|deny/.test(id))) return "DENY";
+  if (expectedDecision === "DENY" && !id) return "DENY";
+  return "MISMATCH";
 }
 
 const startedAt = new Date().toISOString();
@@ -395,17 +431,6 @@ const forbiddenControl = await executeHostControl("forbidden.txt", "ALLOW");
 const hostDenied = await executeHostControl("host-denied.txt", "DENY");
 const finishedAt = new Date().toISOString();
 
-function hostObservation(control, expectedDecision) {
-  const permission = control.permission_requests[0];
-  if (control.failure) return "FAIL";
-  if (!permission) return "NOT_OBSERVED";
-  const selected = permission.selected_option_id ?? "";
-  if (expectedDecision === "ALLOW" && /allow/.test(selected)) return "ALLOW";
-  if (expectedDecision === "DENY" && /reject|deny/.test(selected)) return "DENY";
-  if (expectedDecision === "DENY" && selected === "") return "DENY";
-  return "MISMATCH";
-}
-
 const positiveHost = hostObservation(positive, "ALLOW");
 const forbiddenHost = hostObservation(forbiddenControl, "ALLOW");
 const deniedHost = hostObservation(hostDenied, "DENY");
@@ -413,8 +438,8 @@ const positivePass = positiveHost === "ALLOW" && positive.expected_content_obser
 const forbiddenControlPass = forbiddenHost === "ALLOW" && forbiddenControl.expected_content_observed;
 const hostDeniedNoLeak = !hostDenied.expected_content_observed;
 const hostDeniedPass = deniedHost === "DENY" && hostDeniedNoLeak;
-
 const positiveDigest = createHash("sha256").update(expected["fixture/hello.txt"]).digest("hex");
+
 const report = {
   schema_version: 1,
   track: "A",
@@ -428,7 +453,6 @@ const report = {
   native_permission_profile: candidateName === "goose" ? "approve" : "manual",
   deterministic_provider: {
     kind: "local OpenAI-compatible qualification stub",
-    base_url: providerBase,
     external_credentials: false,
     permission_authority: false,
   },
@@ -438,12 +462,12 @@ const report = {
       resource: "workspace:/fixture/hello.txt",
       capability_id: "yukh-cap:track-a:read-fixture:v1",
       yukh_decision: "ALLOW",
-      adapter_translation: "capability permits bounded read; operation presented to candidate through normal ACP prompt/tool loop",
+      adapter_translation: "capability permits bounded read; operation presented through normal ACP prompt/tool loop",
       adapter_decision_made: false,
       host_control_observation: positiveHost,
       host_native_decision: positiveHost === "ALLOW" ? "ALLOW" : "NOT_OBSERVED",
       effective_decision: positivePass ? "ALLOW" : "UNPROVEN",
-      enforcement_source: positivePass ? "none" : "none",
+      enforcement_source: "none",
       operation_outcome: positivePass ? "PASS" : "FAIL",
       host_session_id: positive.host_session_id,
       candidate_native_refs: positive.candidate_native_refs,
@@ -477,6 +501,7 @@ const report = {
       operation_outcome: forbiddenControlPass ? "DENIED_BEFORE_CANDIDATE_INVOCATION" : "FAIL",
       candidate_native_refs: forbiddenControl.candidate_native_refs,
       output_digest_if_allowed: null,
+      candidate_invoked: false,
       composed_candidate_output_contains_forbidden_bytes: false,
     },
     yukh_allow_host_deny: {
@@ -484,7 +509,7 @@ const report = {
       resource: "workspace:/host-denied.txt",
       capability_id: "yukh-cap:track-a:host-denial-probe:v1",
       yukh_decision: "ALLOW",
-      adapter_translation: "capability permits bounded read; candidate native approval request is answered with its deny/reject option",
+      adapter_translation: "capability permits bounded read; candidate native approval request is answered with its reject/deny option",
       adapter_decision_made: false,
       host_control_observation: deniedHost,
       host_native_decision: deniedHost === "DENY" ? "DENY" : "NOT_OBSERVED",
@@ -530,6 +555,6 @@ const output = join(reportDir, `${candidateName}-a2-native-controls.json`);
 await writeFile(output, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 console.log(output);
 
-provider.close();
+await new Promise((resolvePromise) => provider.close(resolvePromise));
 await rm(tempRoot, { recursive: true, force: true });
 if (report.gate_status !== "A2_NATIVE_CONTROLS_PASS") process.exitCode = 1;
