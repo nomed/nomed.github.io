@@ -74,8 +74,12 @@ test("keeps landscape non-binding and evidence-qualified", async () => {
   assert.match(html, /not an adoption decision/i);
   assert.match(html, /does not supersede accepted RFCs/i);
   assert.match(html, /qualification priorities, not product rankings/i);
-  assert.match(html, /First qualification candidate for reference host/);
+  assert.match(html, /Reference-host qualification candidate/);
+  assert.match(html, /Hermes Agent/);
+  assert.match(html, /OpenHuman/);
   assert.match(html, /Maka isolation requires qualification/);
+  assert.match(html, /Agent host:/);
+  assert.match(html, /Orchestration \+ memory:/);
 });
 
 test("publishes stable identity and predictable internal navigation", async () => {
