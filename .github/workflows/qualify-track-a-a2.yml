@@ -21,7 +21,7 @@ permissions:
 
 concurrency:
   group: track-a-a2-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   public-seam:
