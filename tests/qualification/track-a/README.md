@@ -24,3 +24,5 @@ A later gate may exercise the complete agent loop only when a deterministic cred
 - `fixture/hello.txt` — deterministic input reserved for the later model-driven common fixture.
 
 The workflow `.github/workflows/qualify-track-a-hosts.yml` can be dispatched manually. It is also path-aware on Track A pull requests and pushes to `main`, so the initial harness merge obtains evidence automatically while ordinary editorial/site changes do not pay the qualification cost. Each candidate produces its own evidence artifact even when bootstrap or the runtime-substrate gate fails.
+
+A Track A pull request is also the preferred review-time observability path: its qualification run is directly attributable to the candidate-neutral harness revision under review, while a push-to-main run remains a bootstrap or post-merge confirmation path.
