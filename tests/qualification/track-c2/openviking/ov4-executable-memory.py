@@ -167,20 +167,30 @@ def outage(server_url: str, accepted_fact_path: str, output: str) -> int:
     accepted = json.loads(accepted_text)
     provider_unavailable = False
     error_class = None
+    client = None
     try:
         client = SyncHTTPClient(url=server_url, timeout=1.0)
         client.initialize()
-        client.health()
-        client.close()
+        # initialize() only constructs the HTTP client at this pin. list_sessions()
+        # performs a real public GET /api/v1/sessions and therefore proves remote
+        # provider availability instead of relying on local SDK observer state.
+        client.list_sessions()
     except Exception as exc:
         provider_unavailable = True
         error_class = type(exc).__name__
+    finally:
+        if client is not None:
+            try:
+                client.close()
+            except Exception:
+                pass
     payload = {
         "stage": "provider-outage",
         "pid": os.getpid(),
         "candidate_revision": CANDIDATE_REVISION,
         "provider_unavailable": provider_unavailable,
         "provider_error_class": error_class,
+        "provider_probe": "public list_sessions GET /api/v1/sessions",
         "accepted_fact": accepted,
         "accepted_fact_sha256": digest(accepted_text),
         "accepted_fact_available_without_provider": accepted.get("value") == "gRPC/protobuf",
@@ -271,6 +281,11 @@ def finalize(stage_a_path: str, stage_b_path: str, outage_path: str, provider_lo
             "request_paths": paths,
         },
         "observations": observations,
+        "outage_evidence": {
+            "probe": o.get("provider_probe"),
+            "error_class": o.get("provider_error_class"),
+            "provider_unavailable": o.get("provider_unavailable"),
+        },
         "result": "PASS" if passed else "FAIL",
         "result_scope": "OV-4 public memory creation, persistence/cross-host reuse, restart persistence, conflicting accepted fact separation, bounded inference path, and outage correctness.",
         "next_gate": "OV-5-visibility-revocation" if passed else None,
