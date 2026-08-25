@@ -1,0 +1,246 @@
+name: Qualify Track C2 OpenViking OV-4 Executable
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-c2-openviking-ov4-exec.yml'
+      - 'tests/qualification/track-c2/openviking/ov4-executable-memory.py'
+      - 'tests/qualification/track-c2/openviking/ov4-local-openai-provider.py'
+      - 'tests/qualification/track-c2/openviking/verify-ov4-executable.py'
+      - 'tests/qualification/track-c2/openviking/fixture/ov4-accepted-fact.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track-c2-openviking-ov4-exec-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  ov4-executable-memory-profile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout qualification harness
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Checkout pinned OpenViking
+        uses: actions/checkout@v7
+        with:
+          repository: volcengine/OpenViking
+          ref: 234a2d9fe778a9512fd7ebe9807198e847c647ec
+          path: external/openviking
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: external/openviking/pyproject.toml
+
+      - name: Build and install pinned OpenViking wheel
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/track-c2-openviking runtime/wheels
+          python -m pip install --upgrade pip 2>&1 | tee artifacts/track-c2-openviking/bootstrap-pip.log
+          python -m pip install 'maturin>=1.0,<2.0' 2>&1 | tee artifacts/track-c2-openviking/maturin-prerequisite.log
+          python -m pip wheel --no-deps external/openviking -w runtime/wheels 2>&1 | tee artifacts/track-c2-openviking/wheel-build.log
+          python -m pip install runtime/wheels/openviking-*.whl 2>&1 | tee artifacts/track-c2-openviking/wheel-install.log
+          python -m pip install --no-deps external/openviking/sdk/python 2>&1 | tee artifacts/track-c2-openviking/sdk-install.log
+          python - <<'PY' 2>&1 | tee artifacts/track-c2-openviking/native-binding.log
+          from openviking.pyagfs import get_binding_client
+          binding, _ = get_binding_client()
+          assert binding is not None
+          print('verified pinned ragfs_python native binding')
+          PY
+
+      - name: Start bounded local OpenAI-compatible provider
+        run: |
+          mkdir -p artifacts/track-c2-openviking runtime/openviking
+          python tests/qualification/track-c2/openviking/ov4-local-openai-provider.py \
+            --port 21935 \
+            --log artifacts/track-c2-openviking/bounded-provider.jsonl \
+            > artifacts/track-c2-openviking/bounded-provider.log 2>&1 &
+          echo $! > runtime/openviking/provider.pid
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:21935/health > artifacts/track-c2-openviking/bounded-provider-health.json; then
+              exit 0
+            fi
+            if ! kill -0 "$(cat runtime/openviking/provider.pid)" 2>/dev/null; then
+              cat artifacts/track-c2-openviking/bounded-provider.log
+              exit 1
+            fi
+            sleep 1
+          done
+          cat artifacts/track-c2-openviking/bounded-provider.log
+          exit 1
+
+      - name: Write bounded OpenViking server configuration
+        run: |
+          cat > runtime/openviking/ov.conf <<'JSON'
+          {
+            "embedding": {
+              "max_retries": 0,
+              "dense": {
+                "provider": "openai",
+                "model": "yukh-ov4-embedding",
+                "api_base": "http://127.0.0.1:21935/v1",
+                "api_key": "qualification-only",
+                "dimension": 4,
+                "input": "text"
+              }
+            },
+            "vlm": {
+              "provider": "openai",
+              "model": "yukh-ov4-fixed",
+              "api_base": "http://127.0.0.1:21935/v1",
+              "api_key": "qualification-only",
+              "temperature": 0,
+              "max_retries": 0,
+              "thinking": false
+            },
+            "query_planner": null,
+            "retrieval": {
+              "enable_intent": false
+            },
+            "storage": {
+              "workspace": "./runtime/openviking/data",
+              "agfs": {"backend": "local"},
+              "vectordb": {"backend": "local", "dimension": 4}
+            },
+            "server": {
+              "host": "127.0.0.1",
+              "port": 21933,
+              "workers": 1,
+              "auth_mode": "dev"
+            },
+            "memory": {
+              "extraction_enabled": true,
+              "session_skill_extraction_enabled": false,
+              "link_enabled": false
+            },
+            "telemetry": {}
+          }
+          JSON
+
+      - name: Start pinned OpenViking server for host A
+        env:
+          OPENVIKING_CONFIG_FILE: ${{ github.workspace }}/runtime/openviking/ov.conf
+          OPENAI_API_KEY: ''
+          ANTHROPIC_API_KEY: ''
+          VOLCENGINE_ACCESS_KEY: ''
+          VOLCENGINE_SECRET_KEY: ''
+        run: |
+          openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/server-a.log 2>&1 &
+          echo $! > runtime/openviking/server.pid
+          for i in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:21933/health > artifacts/track-c2-openviking/health-a.json; then
+              exit 0
+            fi
+            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then
+              cat artifacts/track-c2-openviking/server-a.log
+              exit 1
+            fi
+            sleep 1
+          done
+          cat artifacts/track-c2-openviking/server-a.log
+          exit 1
+
+      - name: Execute OV-4 host A session commit and memory extraction
+        run: >-
+          python tests/qualification/track-c2/openviking/ov4-executable-memory.py
+          host-a
+          http://127.0.0.1:21933
+          artifacts/track-c2-openviking/ov4-stage-a.json
+
+      - name: Restart pinned OpenViking server on same storage
+        env:
+          OPENVIKING_CONFIG_FILE: ${{ github.workspace }}/runtime/openviking/ov.conf
+          OPENAI_API_KEY: ''
+          ANTHROPIC_API_KEY: ''
+          VOLCENGINE_ACCESS_KEY: ''
+          VOLCENGINE_SECRET_KEY: ''
+        run: |
+          kill "$(cat runtime/openviking/server.pid)"
+          for i in $(seq 1 30); do
+            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then break; fi
+            sleep 1
+          done
+          openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/server-b.log 2>&1 &
+          echo $! > runtime/openviking/server.pid
+          for i in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:21933/health > artifacts/track-c2-openviking/health-b.json; then
+              exit 0
+            fi
+            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then
+              cat artifacts/track-c2-openviking/server-b.log
+              exit 1
+            fi
+            sleep 1
+          done
+          cat artifacts/track-c2-openviking/server-b.log
+          exit 1
+
+      - name: Execute OV-4 host B persistence read
+        run: >-
+          python tests/qualification/track-c2/openviking/ov4-executable-memory.py
+          host-b
+          http://127.0.0.1:21933
+          artifacts/track-c2-openviking/ov4-stage-a.json
+          artifacts/track-c2-openviking/ov4-stage-b.json
+
+      - name: Stop OpenViking for outage gate
+        run: |
+          kill "$(cat runtime/openviking/server.pid)"
+          for i in $(seq 1 30); do
+            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+
+      - name: Execute OV-4 outage correctness
+        run: >-
+          python tests/qualification/track-c2/openviking/ov4-executable-memory.py
+          outage
+          http://127.0.0.1:21933
+          tests/qualification/track-c2/openviking/fixture/ov4-accepted-fact.json
+          artifacts/track-c2-openviking/ov4-outage.json
+
+      - name: Finalize OV-4 executable evidence
+        run: >-
+          python tests/qualification/track-c2/openviking/ov4-executable-memory.py
+          finalize
+          artifacts/track-c2-openviking/ov4-stage-a.json
+          artifacts/track-c2-openviking/ov4-stage-b.json
+          artifacts/track-c2-openviking/ov4-outage.json
+          artifacts/track-c2-openviking/bounded-provider.jsonl
+          artifacts/track-c2-openviking/openviking-ov4-exec.json
+
+      - name: Verify OV-4 executable evidence
+        run: >-
+          python tests/qualification/track-c2/openviking/verify-ov4-executable.py
+          artifacts/track-c2-openviking/openviking-ov4-exec.json
+
+      - name: Stop bounded services
+        if: always()
+        run: |
+          if [ -f runtime/openviking/server.pid ]; then
+            kill "$(cat runtime/openviking/server.pid)" 2>/dev/null || true
+          fi
+          if [ -f runtime/openviking/provider.pid ]; then
+            kill "$(cat runtime/openviking/provider.pid)" 2>/dev/null || true
+          fi
+
+      - name: Upload OV-4 executable evidence and logs
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: track-c2-openviking-ov4-exec-234a2d9f
+          path: artifacts/track-c2-openviking/
+          if-no-files-found: error
+          retention-days: 30
