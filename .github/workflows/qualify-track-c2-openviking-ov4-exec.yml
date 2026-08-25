@@ -136,13 +136,13 @@ jobs:
           VOLCENGINE_ACCESS_KEY: ''
           VOLCENGINE_SECRET_KEY: ''
         run: |
-          openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/server-a.log 2>&1 &
-          echo $! > runtime/openviking/server.pid
+          setsid openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/server-a.log 2>&1 &
+          echo $! > runtime/openviking/server.pgid
           for i in $(seq 1 60); do
             if curl --fail --silent http://127.0.0.1:21933/health > artifacts/track-c2-openviking/health-a.json; then
               exit 0
             fi
-            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then
+            if ! kill -0 "$(cat runtime/openviking/server.pgid)" 2>/dev/null; then
               cat artifacts/track-c2-openviking/server-a.log
               exit 1
             fi
@@ -166,18 +166,24 @@ jobs:
           VOLCENGINE_ACCESS_KEY: ''
           VOLCENGINE_SECRET_KEY: ''
         run: |
-          kill "$(cat runtime/openviking/server.pid)"
+          kill -- -"$(cat runtime/openviking/server.pgid)" 2>/dev/null || true
           for i in $(seq 1 30); do
-            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then break; fi
+            if ! curl --fail --silent --max-time 1 http://127.0.0.1:21933/health >/dev/null 2>&1; then
+              break
+            fi
             sleep 1
           done
-          openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/server-b.log 2>&1 &
-          echo $! > runtime/openviking/server.pid
+          if curl --fail --silent --max-time 1 http://127.0.0.1:21933/health >/dev/null 2>&1; then
+            echo 'OpenViking health remained reachable after restart shutdown' >&2
+            exit 1
+          fi
+          setsid openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/server-b.log 2>&1 &
+          echo $! > runtime/openviking/server.pgid
           for i in $(seq 1 60); do
             if curl --fail --silent http://127.0.0.1:21933/health > artifacts/track-c2-openviking/health-b.json; then
               exit 0
             fi
-            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then
+            if ! kill -0 "$(cat runtime/openviking/server.pgid)" 2>/dev/null; then
               cat artifacts/track-c2-openviking/server-b.log
               exit 1
             fi
@@ -196,11 +202,16 @@ jobs:
 
       - name: Stop OpenViking for outage gate
         run: |
-          kill "$(cat runtime/openviking/server.pid)"
+          kill -- -"$(cat runtime/openviking/server.pgid)" 2>/dev/null || true
           for i in $(seq 1 30); do
-            if ! kill -0 "$(cat runtime/openviking/server.pid)" 2>/dev/null; then exit 0; fi
+            if ! curl --fail --silent --max-time 1 http://127.0.0.1:21933/health >/dev/null 2>&1; then
+              printf '{"health_unreachable":true,"attempt":%s}\n' "$i" > artifacts/track-c2-openviking/outage-shutdown.json
+              exit 0
+            fi
             sleep 1
           done
+          printf '{"health_unreachable":false}\n' > artifacts/track-c2-openviking/outage-shutdown.json
+          echo 'OpenViking health remained reachable after process-group shutdown' >&2
           exit 1
 
       - name: Execute OV-4 outage correctness
@@ -229,8 +240,8 @@ jobs:
       - name: Stop bounded services
         if: always()
         run: |
-          if [ -f runtime/openviking/server.pid ]; then
-            kill "$(cat runtime/openviking/server.pid)" 2>/dev/null || true
+          if [ -f runtime/openviking/server.pgid ]; then
+            kill -- -"$(cat runtime/openviking/server.pgid)" 2>/dev/null || true
           fi
           if [ -f runtime/openviking/provider.pid ]; then
             kill "$(cat runtime/openviking/provider.pid)" 2>/dev/null || true
