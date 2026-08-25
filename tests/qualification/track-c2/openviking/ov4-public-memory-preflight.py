@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -14,14 +15,21 @@ sessions_doc = (source / "docs/en/api/05-sessions.md").read_text(encoding="utf-8
 sdk_doc = (source / "sdk/python/README.md").read_text(encoding="utf-8")
 flow_doc = (source / "docs/design/session-memory-extraction-flow.md").read_text(encoding="utf-8")
 
+
+def policy_switch(name: str, enabled: bool) -> bool:
+    expected = "true" if enabled else "false"
+    pattern = rf'"{re.escape(name)}"\s*:\s*\{{\s*"enabled"\s*:\s*{expected}\s*\}}'
+    return re.search(pattern, flow_doc, flags=re.IGNORECASE) is not None
+
+
 facts = {
     "public_create_session": "create_session()" in sessions_doc and "client.create_session(" in sdk_doc,
     "public_add_message": ".add_message(" in sdk_doc,
     "public_commit": ".commit(" in sdk_doc,
     "memory_policy_public": "memory_policy" in sessions_doc and '"memory_types": ["profile", "preferences"]' in flow_doc,
-    "memory_targets_self_peer": '"self": { "enabled": true }' in flow_doc and '"peer": { "enabled": false }' in flow_doc,
-    "working_memory_can_be_disabled": '"working_memory": { "enabled": false }' in flow_doc,
-    "commit_runs_memory_extraction": "commit still archives messages and runs configured memory extraction" in flow_doc,
+    "memory_targets_self_peer": policy_switch("self", True) and policy_switch("peer", False),
+    "working_memory_can_be_disabled": policy_switch("working_memory", False),
+    "commit_runs_memory_extraction": "commit still archives messages and\nruns configured memory extraction" in flow_doc,
     "public_extraction_entry_documented": "extract_long_term_memories` is the only public extraction" in flow_doc,
     "memory_storage_user_namespace": "viking://user/<user_id>/..." in flow_doc,
     "peer_storage_namespace": "viking://user/<user_id>/peers/<peer_id>/..." in flow_doc,
