@@ -36,10 +36,22 @@ def collect_uris(value):
     return list(dict.fromkeys(found))
 
 
-def find_memory(client: SyncHTTPClient):
+def canonical_memory_root(session_info: dict) -> str:
+    session_uri = session_info.get("uri") if isinstance(session_info, dict) else None
+    if not isinstance(session_uri, str) or "/sessions/" not in session_uri:
+        raise AssertionError(f"session response lacks canonical user-scoped URI: {session_info!r}")
+    user_root = session_uri.split("/sessions/", 1)[0]
+    if not user_root.startswith("viking://user/"):
+        raise AssertionError(f"unexpected canonical user root derived from session: {user_root!r}")
+    return f"{user_root}/memories"
+
+
+def find_memory(client: SyncHTTPClient, memory_root: str):
+    if "~/" in memory_root:
+        raise AssertionError(f"memory root must be canonical, got alias: {memory_root}")
     result = client.find(
         query="service transport HTTP JSON",
-        target_uri="viking://~/memories",
+        target_uri=memory_root,
         limit=10,
         options={"context_type": ["memory"], "read_content": True},
     )
@@ -56,7 +68,7 @@ def find_memory(client: SyncHTTPClient):
         candidates.append((uri, content))
 
     try:
-        tree = client.tree(uri="viking://~/memories")
+        tree = client.tree(uri=memory_root)
     except Exception:
         tree = []
     for uri in collect_uris(tree):
@@ -69,7 +81,7 @@ def find_memory(client: SyncHTTPClient):
         if REMEMBERED_TEXT in content or "service_transport" in uri:
             return uri, content, result
         candidates.append((uri, content))
-    raise AssertionError(f"remembered memory not found; result={result!r}; candidates={candidates!r}")
+    raise AssertionError(f"remembered memory not found; root={memory_root!r}; result={result!r}; candidates={candidates!r}")
 
 
 def host_a(server_url: str, output: str) -> int:
@@ -82,10 +94,11 @@ def host_a(server_url: str, output: str) -> int:
         "working_memory": {"enabled": False},
         "memory_types": ["preferences"],
     }
-    client.create_session(
+    session_info = client.create_session(
         session_id=session_id,
         options={"memory_policy": memory_policy, "auto_commit_policy": None},
     )
+    memory_root = canonical_memory_root(session_info)
     session = client.session(session_id=session_id)
     session.add_message(
         role="user",
@@ -106,12 +119,14 @@ def host_a(server_url: str, output: str) -> int:
     if not task or task.get("status") != "completed":
         raise AssertionError(f"session commit did not complete: {task!r}")
 
-    memory_uri, memory_content, find_result = find_memory(client)
+    memory_uri, memory_content, find_result = find_memory(client, memory_root)
     payload = {
         "stage": "host-a",
         "pid": os.getpid(),
         "candidate_revision": CANDIDATE_REVISION,
         "session_id": session_id,
+        "session_uri": session_info.get("uri"),
+        "memory_root": memory_root,
         "task_id": task_id,
         "task_status": task.get("status"),
         "memory_uri": memory_uri,
@@ -119,7 +134,7 @@ def host_a(server_url: str, output: str) -> int:
         "memory_sha256": digest(memory_content),
         "remembered_claim_present": REMEMBERED_TEXT in memory_content,
         "find_total": find_result.get("total") if isinstance(find_result, dict) else None,
-        "public_seams": ["create_session", "add_message", "commit", "get_task", "find", "read"],
+        "public_seams": ["create_session", "add_message", "commit", "get_task", "find", "tree", "read"],
     }
     write_json(output, payload)
     client.close()
@@ -189,6 +204,7 @@ def finalize(stage_a_path: str, stage_b_path: str, outage_path: str, provider_lo
     observations = {
         "host_processes_distinct": a["pid"] != b["pid"],
         "commit_completed": a["task_status"] == "completed",
+        "canonical_memory_root_used": a.get("memory_root", "").startswith("viking://user/") and "~/" not in a.get("memory_root", ""),
         "remembered_claim_persisted": a["remembered_claim_present"],
         "cross_host_reuse": b["same_memory_as_host_a"],
         "restart_persistence": b["same_memory_as_host_a"] and b["remembered_claim_present"],
@@ -207,6 +223,7 @@ def finalize(stage_a_path: str, stage_b_path: str, outage_path: str, provider_lo
         for key in (
             "host_processes_distinct",
             "commit_completed",
+            "canonical_memory_root_used",
             "remembered_claim_persisted",
             "cross_host_reuse",
             "restart_persistence",
@@ -233,6 +250,7 @@ def finalize(stage_a_path: str, stage_b_path: str, outage_path: str, provider_lo
             "external_egress_basis": "all configured model/embedding endpoints are loopback; production provider credentials are blank",
             "host_isolation": "host A and host B are separate Python processes and fresh SyncHTTPClient lifetimes",
             "server_restart": "same local storage workspace reused across pinned OpenViking restart",
+            "memory_target_resolution": "canonical user namespace derived from public create_session response; no home alias or hard-coded user ID",
         },
         "provider_memory": {
             "uri": a["memory_uri"],
