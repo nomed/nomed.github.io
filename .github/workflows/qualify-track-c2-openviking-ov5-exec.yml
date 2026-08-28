@@ -1,0 +1,97 @@
+name: Qualify Track C2 OpenViking OV-5 Executable
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/qualify-track-c2-openviking-ov5-exec.yml'
+      - 'tests/qualification/track-c2/openviking/ov5-executable-governance.py'
+      - 'tests/qualification/track-c2/openviking/verify-ov5-executable.py'
+      - 'tests/qualification/track-c2/openviking/ov4-local-openai-provider.py'
+
+permissions:
+  contents: read
+
+jobs:
+  ov5-executable-governance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: volcengine/OpenViking
+          ref: 234a2d9fe778a9512fd7ebe9807198e847c647ec
+          path: external/openviking
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Build and install pinned OpenViking
+        run: |
+          mkdir -p artifacts/track-c2-openviking runtime/wheels runtime/openviking
+          python -m pip install --upgrade pip
+          python -m pip install 'maturin>=1.0,<2.0'
+          python -m pip wheel --no-deps external/openviking -w runtime/wheels
+          python -m pip install runtime/wheels/openviking-*.whl
+          python -m pip install --no-deps external/openviking/sdk/python
+      - name: Start bounded model provider
+        run: |
+          python tests/qualification/track-c2/openviking/ov4-local-openai-provider.py --port 21935 --log artifacts/track-c2-openviking/ov5-provider.jsonl > artifacts/track-c2-openviking/ov5-provider.log 2>&1 &
+          echo $! > runtime/openviking/provider.pid
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:21935/health >/dev/null && exit 0; sleep 1; done; exit 1
+      - name: Write api-key OpenViking config
+        run: |
+          cat > runtime/openviking/ov5.conf <<'JSON'
+          {
+            "embedding":{"max_retries":0,"dense":{"provider":"openai","model":"yukh-ov5-embedding","api_base":"http://127.0.0.1:21935/v1","api_key":"qualification-only","dimension":4,"input":"text"}},
+            "vlm":{"provider":"openai","model":"yukh-ov5-fixed","api_base":"http://127.0.0.1:21935/v1","api_key":"qualification-only","temperature":0,"max_retries":0,"thinking":false},
+            "query_planner":null,
+            "retrieval":{"enable_intent":false},
+            "storage":{"workspace":"./runtime/openviking/ov5-data","agfs":{"backend":"local"},"vectordb":{"backend":"local","dimension":4}},
+            "server":{"host":"127.0.0.1","port":21933,"workers":1,"auth_mode":"api_key","root_api_key":"9f1f5ed0f7f94f8d8fb7554011f5bdb02f3d37a6a6d94b2f8c0df4beaa61a7e"},
+            "memory":{"extraction_enabled":true,"session_skill_extraction_enabled":false,"link_enabled":false},
+            "telemetry":{}
+          }
+          JSON
+      - name: Start OpenViking
+        env:
+          OPENVIKING_CONFIG_FILE: ${{ github.workspace }}/runtime/openviking/ov5.conf
+        run: |
+          setsid openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/ov5-server-a.log 2>&1 &
+          echo $! > runtime/openviking/server.pgid
+          for i in $(seq 1 60); do curl -fsS http://127.0.0.1:21933/health >/dev/null && exit 0; sleep 1; done; cat artifacts/track-c2-openviking/ov5-server-a.log; exit 1
+      - name: Create identities and prove isolation
+        run: python tests/qualification/track-c2/openviking/ov5-executable-governance.py setup http://127.0.0.1:21933 artifacts/track-c2-openviking/ov5-before.json
+      - name: Revoke user A and wait cleanup
+        run: python tests/qualification/track-c2/openviking/ov5-executable-governance.py revoke http://127.0.0.1:21933 artifacts/track-c2-openviking/ov5-before.json artifacts/track-c2-openviking/ov5-revoke.json
+      - name: Restart same storage
+        env:
+          OPENVIKING_CONFIG_FILE: ${{ github.workspace }}/runtime/openviking/ov5.conf
+        run: |
+          kill -- -"$(cat runtime/openviking/server.pgid)" 2>/dev/null || true
+          for i in $(seq 1 30); do ! curl -fsS --max-time 1 http://127.0.0.1:21933/health >/dev/null 2>&1 && break; sleep 1; done
+          setsid openviking-server --config "$OPENVIKING_CONFIG_FILE" > artifacts/track-c2-openviking/ov5-server-b.log 2>&1 &
+          echo $! > runtime/openviking/server.pgid
+          for i in $(seq 1 60); do curl -fsS http://127.0.0.1:21933/health >/dev/null && exit 0; sleep 1; done; cat artifacts/track-c2-openviking/ov5-server-b.log; exit 1
+      - name: Prove revocation persists after restart
+        run: python tests/qualification/track-c2/openviking/ov5-executable-governance.py after-restart http://127.0.0.1:21933 artifacts/track-c2-openviking/ov5-before.json artifacts/track-c2-openviking/ov5-restart.json
+      - name: Finalize evidence
+        run: python tests/qualification/track-c2/openviking/ov5-executable-governance.py finalize artifacts/track-c2-openviking/ov5-before.json artifacts/track-c2-openviking/ov5-revoke.json artifacts/track-c2-openviking/ov5-restart.json artifacts/track-c2-openviking/openviking-ov5-exec.json
+      - name: Verify PARTIAL decision
+        run: python tests/qualification/track-c2/openviking/verify-ov5-executable.py artifacts/track-c2-openviking/openviking-ov5-exec.json
+      - name: Stop services
+        if: always()
+        run: |
+          [ ! -f runtime/openviking/server.pgid ] || kill -- -"$(cat runtime/openviking/server.pgid)" 2>/dev/null || true
+          [ ! -f runtime/openviking/provider.pid ] || kill "$(cat runtime/openviking/provider.pid)" 2>/dev/null || true
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: track-c2-openviking-ov5-exec-234a2d9f
+          path: artifacts/track-c2-openviking
+          if-no-files-found: error
+          retention-days: 30
