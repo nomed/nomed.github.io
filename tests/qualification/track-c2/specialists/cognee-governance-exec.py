@@ -27,8 +27,10 @@ def visible_ids(c,key):
 
 def setup(out):
     with TestClient(app) as c:
-        a,ak=register_and_key(c,"ov89-alice@example.invalid")
-        b,bk=register_and_key(c,"ov89-bob@example.invalid")
+        # Use the same syntactically ordinary email domain as Cognee's pinned
+        # backend-auth integration test. The qualification remains fully synthetic.
+        a,ak=register_and_key(c,"ov89-alice@example.com")
+        b,bk=register_and_key(c,"ov89-bob@example.com")
         aid=str(a["id"]); bid=str(b["id"])
         tenants=c.get("/api/v1/permissions/tenants/me",headers=hdr(ak)); assert tenants.status_code==200,tenants.text
         tlist=tenants.json(); assert tlist,tlist
