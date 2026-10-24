@@ -39,6 +39,7 @@ export default function ResearchPage() {
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/README.md">Research charter <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/COMPARISON-2026-10-24.md">First candidate comparison / 24 Oct <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/EXPERIMENT-001.md">Neutral benchmark protocol / EXP-001 <ArrowIcon direction="external" /></a>
+      <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/DEEP-DIVE-001-paperclip-superset.md">Paperclip vs Superset / technical deep dive <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/BACKLOG.md">Research backlog <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/GITHUB-WATCH.md">GitHub trends and candidate radar <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/EVIDENCE.md">Evidence ledger <ArrowIcon direction="external" /></a>
