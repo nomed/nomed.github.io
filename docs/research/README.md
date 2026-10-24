@@ -1,50 +1,46 @@
-# Yukh Research — independent discovery
+# Yukh Research — clean-sheet discovery
 
-- **Status:** Active discovery, not an adopted architecture
+- **Status:** Independent discovery, no architecture selected
 - **Started:** 2026-10-24
-- **Owner:** @nomed
-- **Public entry:** /research/
-- **Scope:** team-scale agentic engineering across multiple projects and cost centers
+- **Publication:** https://nomed.github.io/research/
 
-## Mandate
+> Yukh is the name of the exploration, not the architecture we intend to preserve.
 
-Investigate how teams of humans and AI agents can plan, execute, coordinate, review and account for work across projects, repositories and organizations. Yukh is **a subject of this research, not an architectural constraint**. Legitimate outcomes include retaining, shrinking, replacing, merging or deleting existing Yukh components, including a complete redesign.
+## Mission
 
-This research does not supersede [RFC-0003](../rfcs/RFC-0003-yukh-reference-architecture-and-minimum-runtime.md) or authorize implementation. Any accepted change requires a later, explicitly reviewed, superseding RFC. Follow the documentation ownership model in [RFC-0004](../rfcs/RFC-0004-yukh-documentation-architecture.md) and the evidence discipline of [YUKH-SEMP](../engineering/YUKH-SEMP.md).
+Discover how organizations can combine people and AI agents to deliver work across teams, projects and customer engagements: planning, issue/task management, coding, orchestration, review, remote and local execution, security, and cost allocation.
 
-## Questions and scope
+**This is a genuine restart.** No existing Yukh code, decomposition, RFC, design principle, protocol, service boundary or technology is an input requirement. Complete replacement, no custom software, SaaS, open-source integration, or a total refactor are equally legitimate outcomes.
 
-1. **Work delivery:** GitHub Issues/Projects, Jira, automatic task decomposition, cross-project dependencies, PR workflows, acceptance and escalation.
-2. **Agent runtimes:** Codex, Claude Code and alternatives; IDE, CLI, SDK, App Server, API, local and headless execution; provider authentication, subscriptions, terms and limits.
-3. **Orchestration:** durable workflows, agent teams, delegation, retries, checkpoints, approvals and error recovery.
-4. **Infrastructure:** developer workstation, remote VPS, Docker/Kubernetes, sandbox isolation, secrets, identity and capacity.
-5. **FinOps:** individual and service identity, session/run correlation, token usage, actual billed vs imputed subscription cost, project/cost-center allocation, budgets, audit and privacy.
-6. **Governance:** authority boundaries, policy composition, evidence, independent validation, human review and vendor portability.
-7. **Scale:** 10/50/200 developer scenarios, multiple clients and repositories, concurrent agent runs, operational support.
+Existing Yukh repositories and decisions are historical material to evaluate **after** defining needs, market landscape, independent alternatives and evaluation criteria. Existing RFCs govern the *currently deployed/accepted system only*, not the research conclusion. This corpus must not silently alter those RFCs or imply adoption.
 
-## Method
+## Research method
 
-For every candidate, record primary-source URL, version/date checked, deployment mode, license, auth model, limitations, integration surface, findings and disqualifiers. Mark each assertion as **verified documentation**, **experimentally observed**, **inference** or **open**. An upstream feature claim is never equivalent to demonstrated Yukh integration. Do not claim a test, production readiness, or supported subscription use without evidence.
+1. Derive scenarios from real work, independently of the current solution.
+2. Continuously discover relevant open-source and commercial projects, including trending GitHub repositories.
+3. Classify candidates by problem solved, not hype, stars or resemblance to Yukh.
+4. Evaluate deployment, licensing, CLI/SDK/API integration, authentication, work tracking, cost accounting, governance, and security using dated primary sources.
+5. Run independent reproducible experiments, including adversarial and failure cases.
+6. Compare build, buy, integrate, replace, and do-nothing alternatives on the same criteria.
+7. Design greenfield architecture candidates first; inspect the existing Yukh system against the winning alternatives only afterward.
 
-Study **build / buy / integrate / eliminate** without preserving sunk costs. Compare against explicit scenarios and measurable acceptance criteria. Separate work acceptance from transient execution state; do not assume that current Yukh boundaries are optimal.
+Every claim is tagged as **source-verified**, **observed in experiment**, **inferred**, or **open**. A GitHub trending appearance is a discovery signal, *not* proof of production readiness, security, maintained quality, or functional support.
 
-## Initial investigations
+## Domains
 
-- Runtime licensing and automation matrix (Codex/Claude/OpenCode/other hosts)
-- GitHub Issues + Jira adapters and event-driven PR delivery
-- Orchestration: OpenHands, Temporal, agent-specific frameworks and hosted coding agents
-- Worker deployments: local IDE, VPS, containers, cloud
-- FinOps: telemetry, attribution, reconciliation, estimated versus invoiced spend
-- Existing Yukh component inventory, replaceability and total-refactor scenario
+- Human/agent team organization and operational models
+- Multi-project work, issue/task/PR automation, GitHub and Jira
+- Agent runtimes, CLI/IDE/SDK/API, authentication and subscription constraints
+- Local workstations, headless VPS, containers, managed agents
+- Multi-agent orchestration, durable workflows, coordination and failure recovery
+- FinOps by organization, customer engagement, project, user and work item
+- Governance, evidence, permissions, security, quality and accountability
+- Scale scenarios for 10, 50 and 200 developers
 
-## Records
+## Living research documents
 
-- [Research backlog](BACKLOG.md)
-- [Evidence ledger](EVIDENCE.md)
-- [Existing architecture review #56](https://github.com/nomed/nomed.github.io/issues/56)
-- [Existing host qualification #58](https://github.com/nomed/nomed.github.io/issues/58)
-- [Shared-memory qualification #63](https://github.com/nomed/nomed.github.io/issues/63)
+- [GitHub project watchlist and scouting protocol](GITHUB-WATCH.md)
+- [Open questions and experiment backlog](BACKLOG.md)
+- [Evidence register](EVIDENCE.md)
 
-## Decision gates
-
-**D0:** research scope and questions published. **D1:** source-backed landscape and comparable requirements. **D2:** isolated reproducible experiments with security/FinOps evidence. **D3:** ranked architecture alternatives including full replacement. **D4:** reviewed superseding RFC, if warranted. No implementation preference is accepted at D0.
+Research notes are published incrementally. Accepted architectural changes, if any, require a separate review, not a retrospective rewrite of this research.
