@@ -37,6 +37,7 @@ export default function ResearchPage() {
       <h2>Living records</h2>
       <p>The canonical research files live in this repository. This page is the public entry point; detailed evidence and decisions remain versioned in Git.</p>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/README.md">Research charter <ArrowIcon direction="external" /></a>
+      <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/INCREMENT-002-ORCHESTRATION.md">Increment 002 / Multi-agent orchestration <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/COMPARISON-2026-10-24.md">First candidate comparison / 24 Oct <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/EXPERIMENT-001.md">Neutral benchmark protocol / EXP-001 <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/DEEP-DIVE-001-paperclip-superset.md">Paperclip vs Superset / technical deep dive <ArrowIcon direction="external" /></a>
