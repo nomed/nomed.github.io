@@ -40,6 +40,7 @@ Every claim is tagged as **source-verified**, **observed in experiment**, **infe
 ## Living research documents
 
 - [GitHub project watchlist and scouting protocol](GITHUB-WATCH.md)
+- [Paperclip vs Superset technical deep dive](DEEP-DIVE-001-paperclip-superset.md)
 - [Open questions and experiment backlog](BACKLOG.md)
 - [Evidence register](EVIDENCE.md)
 
