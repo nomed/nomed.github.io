@@ -22,10 +22,10 @@ export default function ResearchPage() {
       index="06"
       label="Research"
       title="Investigate the system. Do not defend the implementation."
-      lede="An open, evidence-led exploration of agentic engineering at team scale. Yukh is the umbrella for the research, not the predetermined solution."
+      lede="A clean-sheet investigation of team-scale agentic engineering, market trends and emerging GitHub projects. No Yukh component, principle or architecture is protected."
       accent="#CCFF00"
     >
-      <p><strong>Started 24 October 2026 · Discovery / no architecture selected.</strong> A valid outcome is to refactor, replace or remove every existing Yukh implementation. RFC-0003 remains accepted until a separately reviewed successor changes it.</p>
+      <p><strong>Started 24 October 2026 · Discovery / no architecture selected.</strong> A valid outcome is to refactor, replace or remove every existing Yukh implementation. Existing Yukh RFCs document the previous system; they are not design constraints for this research.</p>
       <h2>Research mission</h2>
       <p>Understand how humans and multiple AI agents deliver governed work across organizations, projects and repositories, with automated issue-to-PR chains, replaceable execution environments and attributable costs per commessa.</p>
       <h2>Tracks</h2>
@@ -38,6 +38,7 @@ export default function ResearchPage() {
       <p>The canonical research files live in this repository. This page is the public entry point; detailed evidence and decisions remain versioned in Git.</p>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/README.md">Research charter <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/BACKLOG.md">Research backlog <ArrowIcon direction="external" /></a>
+      <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/GITHUB-WATCH.md">GitHub trends and candidate radar <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/blob/main/docs/research/EVIDENCE.md">Evidence ledger <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/issues/56">Existing architecture review / #56 <ArrowIcon direction="external" /></a>
     </EditorialPage>
