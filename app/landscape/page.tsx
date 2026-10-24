@@ -96,6 +96,7 @@ export default function LandscapePage() {
       </ol>
 
       <p>The dated research record and governing issues carry the evidence. External projects are never considered selected merely because they appear on this page.</p>
+      <a className="editorial-cta internal-cta" href="/research/">Yukh Research / independent discovery <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/issues/56">Architecture review / #56 <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/issues/58">Host qualification / #58 <ArrowIcon direction="external" /></a>
       <a className="editorial-cta internal-cta" href="https://github.com/nomed/nomed.github.io/issues/63">Shared memory qualification / #63 <ArrowIcon direction="external" /></a>
